@@ -34,6 +34,30 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
+                    <ul class="navbar-nav header-right">
+                    <li class="nav-item">
+                        <div class="dropdown header-profile2">
+                            <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="header-info2 d-flex align-items-center">
+                                    <div class="d-flex align-items-center sidebar-info">
+                                        <a class="d-flex " href="{{ route('user.tokenReport') }}"><i class="fas fa-chart-pie me-2"></i><h4 style="color: white !important;">@lang('Report')</h4></a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown header-profile2">
+                            <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="header-info2 d-flex align-items-center">
+                                    <div class="d-flex align-items-center sidebar-info">
+                                        <a class="d-flex" href="{{ route('user.minning') }}"><i class="fas fa-server me-2"></i><h4 style="color: white !important;">@lang('Mining')</h4></a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
                 </div>
                 <ul class="navbar-nav header-right">
                     <li class="nav-item">
@@ -90,7 +114,6 @@
             </div>
         </nav>
     </div>
-    
 </div>
 <!--**********************************
     Header end ti-comment-alt

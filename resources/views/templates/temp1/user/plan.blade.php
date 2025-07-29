@@ -14,7 +14,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @foreach ($plans as $data)
+                        @foreach ($boosters as $data)
                             <div class="col-md-12 col-sm-12 mt-3">
                                 <div class="pricingTable">
                                     <div class="pricingTable-header">

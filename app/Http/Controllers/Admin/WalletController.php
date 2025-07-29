@@ -14,6 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use Web3p\EthereumUtil\Util;
+use Illuminate\Support\Facades\Auth;
+
+use kornrunner\Keccak;
+use kornrunner\Secp256k1;
+use kornrunner\Ethereum\Address;
+use Elliptic\EC;
+
+
 class WalletController extends Controller
 {
     public function wallet()
@@ -257,5 +268,18 @@ class WalletController extends Controller
 
         $notify[] = ['success', 'Epin Updated Successfully.'];
         return back()->withNotify($notify);
+    }
+
+    public function checkPackagePaymentStatus(Request $request){
+         $data = $request->validate([
+            'user_wallet' => 'required|string',
+            'amount_usd' => 'required|numeric',
+            'tx_hash' => 'nullable|string',
+        ]);
+
+        // Save in DB
+        // Payment::create($data);
+
+        return response()->json(['message' => 'Payment recorded']);
     }
 }

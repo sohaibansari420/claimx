@@ -499,6 +499,17 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::middleware(['checkStatus'])->group(function () {
             Route::get('dashboard', 'UserController@home')->name('home');
 
+            Route::get('/token/minning', 'Admin\MinningController@minning')->name('minning');
+            Route::post('/token/stake', 'Admin\MinningController@stakeToken')->name('stakeToken');
+            Route::post('/minning/history', 'Admin\MinningController@minningHistory')->name('minningHistory');
+
+            Route::get('/staking/history', 'Admin\MinningController@stakingHistory')->name('stakingHistory');
+
+            Route::get('token/report','Admin\MinningController@tokenReport')->name('tokenReport');
+
+            Route::get('/payment-success', 'Admin\WalletController@checkPackagePaymentStatus')->name('checkPackagePaymentStatus');
+            Route::post('/verify-wallet','Admin\WalletController@verifySignature')->name('metamask-verify_wallet');
+
             Route::get('profile-setting', 'UserController@profile')->name('profile-setting');
             Route::post('profile-setting', 'UserController@submitProfile');
             Route::get('change-password', 'UserController@changePassword')->name('change-password');
@@ -518,9 +529,9 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('/media', 'PlanController@mediaIndex')->name('media.index');
 
             //plan
-            Route::get('/plan', 'PlanController@planIndex')->name('plan.index');
-            Route::get('/plan/details', 'PlanController@planDetails')->name('plan.details');
-            Route::post('/plan', 'PlanController@planStore')->name('plan.purchase');
+            Route::get('/booster', 'PlanController@planIndex')->name('plan.index');
+            Route::get('/booster/details', 'PlanController@planDetails')->name('plan.details');
+            Route::post('/booster/store', 'PlanController@boosterStore')->name('booster.purchase');
             Route::post('/plan-upgrade', 'PlanController@planUpgrade')->name('plan.upgrade.purchase');
             Route::post('/plan-renew', 'PlanController@planRenew')->name('plan.renew');
             Route::get('/referral-log', 'UserController@referralCom')->name('referral.log');

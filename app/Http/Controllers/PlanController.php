@@ -8,8 +8,8 @@ use App\Models\CronUpdate;
 use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Media;
-use App\Models\Plan;
-use App\Models\PurchasedPlan;
+use App\Models\Booster;
+use App\Models\PurchasedBooster;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserExtra;
@@ -27,151 +27,74 @@ class PlanController extends Controller
         $this->activeTemplate = activeTemplate();
     }
 
-    function planIndex()
+    function planIndex(Request $request)
     {
-        $data['page_title'] = "Packages";
-        $data['plans'] = Plan::whereStatus(1)->orderBy('price')->distinct()->pluck('title');
-        $data['myPlans'] = PurchasedPlan::where('user_id', Auth::id())->get();
-        $data['myPlansAmounts'] = PurchasedPlan::where('user_id', Auth::id())->pluck('amount')->toArray();
+        $data['page_title'] = "Boosters";
+        $data['plans'] = Booster::whereStatus(1)->orderBy('price')->get();
+        $data['myPlans'] = PurchasedBooster::where('user_id', Auth::id())->get();
+        $data['myPlansAmounts'] = PurchasedBooster::where('user_id', Auth::id())->pluck('amount')->toArray();
         $data['planCount']=count($data['plans']);
-        return view($this->activeTemplate . '.user.plan', $data);
+        return view($this->activeTemplate . 'Booster.detail', $data);
 
     }
 
     public function planDetails(Request $request){
-        $data['page_title'] = ($request->title == "Card")? "Card Details":"Packages Details";
-        $data['plans'] = Plan::whereStatus(1)->where('title',$request->title)->orderBy('price')->get();
-        $data['myPlans'] = PurchasedPlan::where('user_id', Auth::id())->get();
-        $data['myPlansAmounts'] = PurchasedPlan::where('user_id', Auth::id())->pluck('amount')->toArray();
+        $data['page_title'] = "Booster Details";
+        $data['plans'] = Booster::whereStatus(1)->where('title',$request->title)->orderBy('price')->get();
+        $data['myPlans'] = PurchasedBooster::where('user_id', Auth::id())->get();
+        $data['myPlansAmounts'] = PurchasedBooster::where('user_id', Auth::id())->pluck('amount')->toArray();
         $data['planCount']=count($data['plans']);
-        return view($this->activeTemplate . '.user.plan_details', $data);
+        return view($this->activeTemplate . 'Booster.detail', $data);
     }
 
-    function planStore(Request $request)
+    function boosterStore(Request $request)
     {
 
-        $this->validate($request, ['plan_id' => 'required|integer']);
+        $this->validate($request, ['booster_id' => 'required|integer']);
         
-        $package = Plan::where('id', $request->plan_id)->where('status', 1)->firstOrFail();
+        $package = Booster::where('id', $request->booster_id)->where('status', 1)->firstOrFail();
         $user = User::find(Auth::id());
 
-        if($package->title == "Card"){
-   
-        };
         $ref_id = getReferenceId(Auth::id());
         $trx = getTrx();
         
-        $type = 1;
         $auto_renew = 0;
        
-        if($type == 1){
-            $balance = UserWallet::where('user_id', $user->id)->where('wallet_id', 1)->first()->balance;
-    
-            if ($balance < $package->price) {
-                $notify[] = ['error', 'Insufficient Balance'];
-                return back()->withNotify($notify);
-            }
-            $details = $user->username . ' Subscribed to ' . $package->name . ' plan';
-            if($package->title == "Card"){
-                $details = $user->username . ' Buy ' . $package->name . ' card';
-            };
-        
-            $notify[] = updateWallet($user->id, $trx, 1, NULL, '-', getAmount($package->price), $details, 0, 'purchased_plan', NULL,'');
-            if($package->title != "Card"){
-                $oldPlan = $user->plan_purchased;
-                $user->plan_purchased = 1;
-                $user->save();
-                
-                if ($oldPlan == 0){
-                    updatePaidCount($user->id);
-                }
-            };
-    
-    
-            PurchasedPlan::create([
-                'user_id' => $user->id,
-                'plan_id' => $package->id,
-                'trx' => $trx,
-                'amount' => $package->price,
-                'compounding' => 0,
-                'roi_limit' => 0,
-                'limit_consumed' => 0,
-                'roi_return' => 0,
-                'auto_renew' => $auto_renew,
-            ]);
-    
-            CronUpdate::create([
-                'user_id' => $user->id,
-                'type' => 'purchased_plan',
-                'amount' => $package->price,
-                'details' => $details,
-                'status' => 0,
-            ]);
+        $balance = UserWallet::where('user_id', $user->id)->where('wallet_id', 1)->first()->balance;
 
-            if ($package->price >= 25000) {
-                $user_founder=User::find($user->id);
-                $user_founder->is_founder = 'yes';
-                $user_founder->update();
-            }
-    
-            return redirect()->route('user.home')->withNotify($notify);
+        if ($balance < $package->price) {
+            $notify[] = ['error', 'Insufficient Balance'];
+            return back()->withNotify($notify);
         }
-        elseif($type == 2){
-            $epin = $request->epin;
-            
-            $epins = Epin::where('epin', $epin)->where('status', 0)->count();
-            
-            if ($epins != 1) {
-                $notify[] = ['error', 'Invalid E-Pin'];
-                return back()->withNotify($notify);
-            }
-
-            $pin = Epin::where('epin', $epin)->where('status', 0)->firstOrFail();
-     
-            $pin->updated_by = $user->id;
-            $pin->status = 2;
-            $pin->save();
-            
-            $notify[] = ['success', 'Plan Subscribed With Epin Successfully, Will Be Activated After Admin Approval.'];
-            
-            /*$package = Plan::where('price', $pin->amount)->where('status', 1)->firstOrFail();
-            
-            $details = $user->username . ' Subscribed to ' . $package->name . ' plan with Epin: ' . $epin;
+        $details = $user->username . ' Subscribed to ' . $package->name . ' booster';
+    
+        $notify[] = updateWallet($user->id, $trx, 1, NULL, '-', getAmount($package->price), $details, 0, 'purchased_booster', NULL,'');
         
-            $notify[] = updateTransaction($user->id, $trx, 1, NULL, '*', getAmount($package->price), $details, 0, 'purchased_plan', 'plan_purchased');
-
-            $oldPlan = $user->plan_purchased;
-            $user->plan_purchased = 1;
-            $user->save();
-
-            if ($oldPlan == 0){
-                updatePaidCount($user->id);
-            }
-
-            PurchasedPlan::create([
-                'user_id' => $user->id,
-                'plan_id' => $package->id,
-                'type' => 'epin',
-                'trx' => $trx,
-                'amount' => $package->price,
-                'compounding' => 0,
-                'roi_limit' => 0,
-                'limit_consumed' => 0,
-                'roi_return' => 0,
-                'auto_renew' => $auto_renew,
-            ]);
-
-            CronUpdate::create([
-                'user_id' => $user->id,
-                'type' => 'purchased_plan',
-                'amount' => $package->price,
-                'details' => $details,
-                'status' => 0,
-            ]);*/
-
+        $oldPlan = $user->plan_purchased;
+        $user->plan_purchased = 1;
+        $user->save();
             
-            return redirect()->route('user.home')->withNotify($notify);
+        if ($oldPlan == 0){
+            updatePaidCount($user->id);
         }
+
+
+        PurchasedBooster::create([
+            'user_id' => $user->id,
+            'booster_id' => $package->id,
+            'trx' => $trx,
+            'amount' => $package->price,
+        ]);
+
+        CronUpdate::create([
+            'user_id' => $user->id,
+            'type' => 'purchased_booster',
+            'amount' => $package->price,
+            'details' => $details,
+            'status' => 0,
+        ]);
+
+        return redirect()->route('user.home')->withNotify($notify);
     }
     function planUpgrade(Request $request){
         $upgrade_id=0;
@@ -219,7 +142,7 @@ class PlanController extends Controller
             if ($oldPlan == 0){
                 updatePaidCount($user->id);
             }
-            $purchased_plans=PurchasedPlan::find($plan_id);
+            $purchased_plans=PurchasedBooster::find($plan_id);
             $purchased_plans->amount = $package->price;
             $purchased_plans->plan_id = $upgrade_id;
             $purchased_plans->update();
@@ -240,7 +163,7 @@ class PlanController extends Controller
 
         $this->validate($request, ['plan_id' => 'required|integer', 'wallet_id' => 'required']);
         
-        $package = PurchasedPlan::where('id', $request->plan_id)->where('is_expired', 1)->firstOrFail();
+        $package = PurchasedBooster::where('id', $request->plan_id)->where('is_expired', 1)->firstOrFail();
         $user = User::find(Auth::id());
         $ref_id = getReferenceId(Auth::id());
         $trx = getTrx();
@@ -291,7 +214,7 @@ class PlanController extends Controller
 
         CronUpdate::create([
             'user_id' => $user->id,
-            'type' => 'purchased_plan',
+            'type' => 'purchased_booster',
             'amount' => $package->plan->price,
             'details' => $details,
             'status' => 0,
@@ -405,14 +328,14 @@ class PlanController extends Controller
 
     public function roi(Request $request){
         $data['page_title'] = "ROI Operations";
-        $data['myPLans'] = PurchasedPlan::where('user_id', auth()->id())->get();
+        $data['myPLans'] = PurchasedBooster::where('user_id', auth()->id())->get();
         $data['transactions'] = Transaction::where(['commission_id' => 1, 'user_id' => Auth::id()])->orderBy('created_at', 'desc')->get();
 
         return view($this->activeTemplate . '.user.roi.list', $data);
     }
 
     public function roiPlanDetails(Request $request){
-        $plan = PurchasedPlan::with('plan')->where('user_id', auth()->id())->where('id',$request->planId)->first();
+        $plan = PurchasedBooster::with('plan')->where('user_id', auth()->id())->where('id',$request->planId)->first();
         $endRangePer = unserialize($plan->plan->features)[0];
         preg_match('/([\d\.]+)%/', $endRangePer, $matches);
         $dailyIncome = isset($matches[1]) ? floatval($matches[1]) : 0.0;

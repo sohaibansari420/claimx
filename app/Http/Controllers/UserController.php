@@ -93,39 +93,16 @@ class UserController extends Controller
             $data['speedDays'] = (carbon::parse($check_fairy))->diffInDays(carbon::parse($now));
             if (@$data['same_direct']->user_count >= $data['commissions'][3]->commissionDetail[0]->direct && $rem_days >= 0 && $data['isSpeedDone'] == 0) {
                 cashbackCommission(Auth::user());
-            } 
-
-            // if ($rem_days < 0) {
-
-            //     $user = Auth::user();
-            //     $user->check_fairy = $now;
-            //     $user->save();
-            // }
-
-            // $direct_sales    = UserFamily::whereRaw('user_id = ' . Auth::id() . ' and level = 1 ')
-            //                             ->where('created_at','>=',Carbon::parse(Auth::user()->check_car)->subDays(1))
-            //                             ->get();
-            // $total_direct_sale = 0;
-            // foreach($direct_sales as $direct_sale){
-            //     if ($direct_sale->plan_id != 0) {
-            //         $total_direct_sale += Plan::where('id', $direct_sale->plan_id)->firstOrFail()->price;
-            //     }
-            // }
-
-            // $data['direct_sale'] =  $total_direct_sale;
-
-            // $car_days = $data['commissions'][6]->commissionDetail[0]->days;
-            // $car_days_date = Carbon::parse(Auth::user()->check_car)->addDays($car_days);
-            // $now = Carbon::now();
-
-            // if($car_days_date->lte($now)){
-            //     carShare(Auth::id(), $total_direct_sale,$car_days_date);
-            // }
+            }
         }
-        
-        //updateRankStatus(Auth::id());
-        
-        // Check New Team Users
+    
+        $data['tokenHistory'] = collect(range(1, 100))->map(function ($i) {
+                return [
+                    'date' => now()->subDays(30 - $i)->format('M d'),
+                    'earned' => rand(0, 3) // replace with real data from DB
+                ];
+            });
+
         $currentUser = Auth::user();
         $targetUser = 715;
         if (isUserInTree($targetUser, $currentUser->id)) {

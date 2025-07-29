@@ -1,6 +1,21 @@
 <!--**********************************
         Sidebar start
 ***********************************-->
+<style>
+    .dlabnav .dlabnav-scroll .metismenu > li > a{
+            color: black !important;
+            transform: translateX(5px);
+    }
+    .dlabnav .dlabnav-scroll .metismenu >li.mm-active>a{
+        color: white !important;
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+    }
+    .dlabnav .dlabnav-scroll .metismenu > li > a:hover {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+            color: white !important;
+            transform: translateX(5px) !important;
+    }
+</style>
 <div class="dlabnav">
     <div class="dlabnav-scroll">	
         <ul class="metismenu" id="menu">
@@ -13,15 +28,10 @@
                 <li>
                     <a href="{{ route('user.plan.index') }}" aria-expanded="false">
                         <i class="material-icons">insert_drive_file</i>
-                        <span class="nav-text">Packages</span>
+                        <span class="nav-text">Boosters</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('user.plan.roi.index') }}" aria-expanded="false">
-                        <i class="material-icons">insert_drive_file</i>
-                        <span class="nav-text">ROI Operations</span>
-                    </a>
-                </li>
+                
                 <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <i class="material-icons">table_chart</i>	
                     <span class="nav-text">Networking</span>
@@ -29,18 +39,7 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('user.my.tree') }}">@lang('Binary Tree')</a></li>
                     <li><a href="{{ route('user.my.ref') }}">@lang('Direct Team')</a></li>	
-                    <li><a href="{{ route('user.bv.log') }}">@lang('Business Volume')</a></li>	
                 </ul>
-                </li>
-                <!--<li><a href="{{ route('user.ewallet') }}" aria-expanded="false">-->
-                <!--        <i class="material-icons">wallet</i>-->
-                <!--        <span class="nav-text">E-Wallet</span>-->
-                <!--    </a>-->
-                <!--</li>-->
-                <li><a href="{{ route('user.ranks') }}" aria-expanded="false">
-                        <i class="material-icons">favorite</i>
-                        <span class="nav-text">Ranks &amp; Rewards</span>
-                    </a>
                 </li>
                 <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <i class="material-icons">assessment</i>	
@@ -55,19 +54,8 @@
                     </li>
                     <li><a href="{{ route('user.report.withdraw') }}" >
                             @lang('Withdrawals')</a></li>
-                    <li><a href="{{ route('user.report.invest') }}" > @lang('Packages')</a>
+                    <li><a href="{{ route('user.report.invest') }}" > @lang('Booster')</a>
                     </li>
-                    <li><a href="{{ route('user.bv.log') }}" >
-                            @lang('Business Volume')</a>
-                    </li>
-                    @php $cs = App\Models\Commission::where('status', 1)->get(); @endphp
-                    @foreach ($cs as $c)
-                        @if($c->id != 7)
-                            <li><a href="{{ route('user.report.commission') }}?commissionID={{ $c->id }}">
-                                    {{ $c->name }}</a>
-                            </li>
-                        @endif
-                    @endforeach
                     @php $wls = App\Models\Wallet::where('status', 1)->where('id', '<=', 4)->get(); @endphp
                     @foreach ($wls as $wl)
                         <li><a href="{{ route('user.report.wallet') }}?walletID={{ $wl->id }}">
@@ -76,11 +64,11 @@
                     @endforeach	
                 </ul>
                 </li>
-                <li><a href="{{ route('user.twofactor') }}" aria-expanded="false">
+                {{-- <li><a href="{{ route('user.twofactor') }}" aria-expanded="false">
                         <i class="material-icons">shield</i>
                         <span class="nav-text">Security</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
             
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -96,11 +84,11 @@
                 </li>			
             </ul>
             </li>
-            <li><a href="{{ route('user.media.index') }}" aria-expanded="false">
+            {{-- <li><a href="{{ route('user.media.index') }}" aria-expanded="false">
                     <i class="material-icons">extension</i>
                     <span class="nav-text">Media</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         <div class="support-box">
             <div class="media"> 

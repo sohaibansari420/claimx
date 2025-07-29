@@ -22,7 +22,6 @@
                                     <th scope="col">@lang('Date')</th>
                                     <th scope="col">@lang('TRX')</th>
                                     <th scope="col">@lang('Wallet')</th>
-                                    <th scope="col">@lang('Commission')</th>
                                     <th scope="col">@lang('Amount')</th>
                                     <th scope="col">@lang('Charge')</th>
                                     <th scope="col">@lang('Detail')</th>
@@ -39,8 +38,6 @@
                                         <td data-label="@lang('Wallet')" class="font-weight-bold">
                                             {{ @$trx->wallet->name }}
                                         </td>
-                                        <td data-label="@lang('Commission')" class="font-weight-bold">
-                                            {{ @$trx->commission->name }}</td>
                                         <td data-label="@lang('Amount')" class="budget">
                                             <strong
                                                 @if ($trx->trx_type == '+') class="text-success"

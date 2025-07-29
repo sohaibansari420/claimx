@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Gateway\PaymentController;
+use App\Models\Booster;
 use App\Models\BvLog;
 use App\Models\Commission;
 use App\Models\CommissionDetail;
@@ -11,6 +12,7 @@ use App\Models\Extension;
 use App\Models\Frontend;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
+use App\Models\PurchasedBooster;
 use App\Models\PurchasedPlan;
 use App\Models\Rank;
 use App\Models\RankAchiever;
@@ -1391,16 +1393,16 @@ function familyTreeAdjust($user_id = '')
     }
 }
 
-function referralCommission($user_id, $wallet_id, $percent, $commission_id, $name, $limit, $plan_id = '')
+function referralCommission($user_id, $wallet_id, $percent, $commission_id, $name, $limit, $booster_id = '')
 {
 
     $user = User::find($user_id);
-    $plan = Plan::find($plan_id);
+    $booster = Booster::find($booster_id);
     $refer = User::find($user->ref_id);
 
     if ($refer && $refer->status) {
-        $ref_plan = getUserHigherPlan($refer->id);
-        $amount = ($percent / 100) * $plan->bv;
+        $ref_plan = getUserHigherBooster($refer->id);
+        $amount = ($percent / 100) * $booster->price;
         if ($ref_plan) {
             updateCommissionWithLimit($refer->id, $amount, $wallet_id, $commission_id, $user->username, $limit, $ref_plan->trx);
         } else {
@@ -1637,10 +1639,20 @@ function getUserHigherPlan($user_id)
     return PurchasedPlan::where('user_id', $user_id)->where('is_expired', 0)->orderBy('plan_id', 'desc')->first();
 }
 
+function getUserHigherBooster($user_id)
+{
+    return PurchasedBooster::where('user_id', $user_id)->where('is_expired', 0)->orderBy('booster_id', 'desc')->first();
+}
+
 function getPlanWithAmount($user_id, $amount)
 {
     $plan = Plan::where('price', $amount)->where('id', '!=', 0)->first();
     return PurchasedPlan::where('user_id', $user_id)->where('plan_id', $plan->id)->orderBy('id', 'desc')->first();
+}
+function getBoosterWithAmount($user_id, $amount)
+{
+    $booster = Booster::where('price', $amount)->where('id', '!=', 0)->first();
+    return PurchasedBooster::where('user_id', $user_id)->where('booster_id', $booster->id)->orderBy('id', 'desc')->first();
 }
 
 function getUserLowerPlan($user_id)
@@ -1912,8 +1924,6 @@ function updateWallet($user_id = '', $trx = '', $wallet_id = '', $commission_id 
     $transaction->plan_trx = $plan_trx;
     $transaction->country = User::where('id', $user_id)->first()->address->country;
     $transaction->remark = $remarks;
-    $transaction->commission_id = $commission_id;
-    $transaction->roi_percent = $percentROI;
 
     $wallet = UserWallet::where(['user_id' => $user_id, 'wallet_id' => $wallet_id])->first();
 
@@ -1929,7 +1939,7 @@ function updateWallet($user_id = '', $trx = '', $wallet_id = '', $commission_id 
 
     $transaction->post_balance = getAmount($wallet->balance);
 
-
+    
     if ($opration == '+') {
         if ($wallet->wallet->passive > 0) {
             $commission_ammount = ($amount * $wallet->wallet->passive) / 100;
@@ -1949,11 +1959,9 @@ function updateWallet($user_id = '', $trx = '', $wallet_id = '', $commission_id 
             $transaction2->plan_trx = $plan_trx;
             $transaction2->country = User::where('id', $user_id)->first()->address->country;
             $transaction2->remark = 'passive_income';
-            $transaction2->commission_id = $commission_id;
             $transaction2->post_balance = getAmount($passive_wallet->balance);
             $transaction2->trx_type = '+';
             $transaction2->wallet_id = 9;
-            $transaction2->roi_percent = $percentROI ?? 0;
             $transaction2->save();
 
             $transaction->amount = $amount;
@@ -2129,14 +2137,14 @@ function limitRemaining($id = '', $amount = '', $wallet_id = '', $commission_id 
 
 function updateCommissionWithLimit($id = '', $amount = '', $wallet_id = '', $commission_id = '', $from = '', $network_limit = '', $trx = '' ,$percentROI = '')
 {
-    $plan = PurchasedPlan::where('trx', $trx)->firstOrFail();
+    $plan = PurchasedBooster::where('trx', $trx)->firstOrFail();
     $nl = $network_limit;
     if ($amount != 0) {
         if ($network_limit != 0) {
             $limit = checkLimit($amount, $network_limit, $plan);
             if ($limit <= 100) {
-                $plan->limit_consumed = $limit;
-                $plan->save();
+                // $plan->limit_consumed = $limit;
+                // $plan->save();
 
                 //update commission
                 $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;

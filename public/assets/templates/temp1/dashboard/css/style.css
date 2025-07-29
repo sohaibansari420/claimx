@@ -3995,7 +3995,7 @@ textarea.form-control-lg {
   --bs-badge-padding-y: 0.35em;
   --bs-badge-font-size: 0.75em;
   --bs-badge-font-weight: 700;
-  --bs-badge-color: #fff;
+  --bs-badge-color: #000000;
   --bs-badge-border-radius: 0.25rem;
   display: inline-block;
   padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
@@ -9775,7 +9775,7 @@ label {
   height: 5rem;
   width: var(--width);
   display: inline-block;
-  background-color: var(--nav-headbg);
+  background-color: #5a48e9;
   text-align: left;
   position: absolute;
   top: 0;
@@ -10001,7 +10001,7 @@ label {
   z-index: 1;
   position: relative;
   padding: 0rem;
-  background: var(--headerbg);
+  background: #6c5ce7;
   z-index: 3;
   padding-left: 17rem;
   transition: all .2s ease;
@@ -10959,10 +10959,12 @@ svg.pulse-svg {
   top: 5rem;
   padding-top: 0;
   z-index: 6;
-  background-color: var(--sidebar-bg);
+      background-color: white;
+    height: calc(100vh- 70px);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
   border-top: none;
   transition: all .2s ease;
-  box-shadow: 0rem 0.9375rem 1.875rem 0rem rgba(0, 0, 0, 0.02);
+  /* box-shadow: 0rem 0.9375rem 1.875rem 0rem rgba(0, 0, 0, 0.02); */
   border-right: 1px solid #D5DFE7; }
   @media only screen and (max-width: 87.5rem) {
     .dlabnav {
@@ -11067,7 +11069,8 @@ svg.pulse-svg {
         color: #fff;
         background: var(--primary);
         font-weight: 600;
-        box-shadow: none; }
+        box-shadow: none; 
+      }
         .dlabnav .metismenu > li.mm-active > a i {
           font-weight: 900; }
         .dlabnav .metismenu > li.mm-active > a svg path {
@@ -14007,7 +14010,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebarbg="color_2"] .dlabnav .metismenu li ul a:hover,
   [data-sidebarbg="color_2"] .dlabnav .metismenu li ul a:focus,
   [data-sidebarbg="color_2"] .dlabnav .metismenu li ul a.mm-active {
-    color: #fff; }
+    color: #fff; 
+  }
   [data-sidebarbg="color_2"][data-theme-version="dark"] .dlabnav .metismenu > li > a,
   [data-sidebarbg="color_2"] .dlabnav .metismenu > li > a {
     color: rgba(255, 255, 255, 0.85) !important; }
@@ -18481,7 +18485,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   background-color: rgba(255, 255, 255, 0.1); }
 
 [data-theme-version="dark"] .dlabnav .metismenu ul a:hover, [data-theme-version="dark"] .dlabnav .metismenu ul a:focus, [data-theme-version="dark"] .dlabnav .metismenu ul a.mm-active {
-  color: #fff !important; }
+  color: #fff !important; 
+
+}
 
 [data-theme-version="dark"] .dlabnav .metismenu ul a:before {
   background-color: #fff; }
@@ -23751,13 +23757,15 @@ button {
   fill: #fff; }
 
 .card {
-  margin-bottom: 1.875rem;
-  background-color: #ffffff;
-  transition: all .5s ease-in-out;
-  position: relative;
-  border: 0rem solid transparent;
-  border-radius: 0.625rem;
-  height: calc(100% - 30px); }
+    margin-bottom: 1.875rem;
+    background-color: #ffffff;
+    transition: all .5s ease-in-out;
+    position: relative;
+    border: 2px solid #a29bfe;
+    border-radius: 0.625rem;
+    height: calc(100% - 30px);
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 15px; }
   @media only screen and (max-width: 35.9375rem) {
     .card {
       margin-bottom: 0.938rem;
@@ -23770,7 +23778,7 @@ button {
   .card-title {
     font-size: 1.375rem;
     font-weight: 600;
-    color: #2A353A;
+    color: #2A353A !important;
     text-transform: capitalize; }
     .card-title--large {
       font-size: 1.5rem; }
@@ -23790,7 +23798,7 @@ button {
       .card-header {
         padding: 1.25rem 1rem 1.25rem; } }
     [data-theme-version="dark"] .card-header {
-      border-color: rgba(255, 255, 255, 0.1); }
+      border-color: rgb(10 10 10 / 24%); }
     .card-header .card-title {
       margin-bottom: 0rem; }
     .card-header .subtitle {
@@ -26252,12 +26260,14 @@ table.dataTable tfoot th {
         width: 40px;
         line-height: 40px; } }
     .dataTables_wrapper .dataTables_paginate span .paginate_button.current, .dataTables_wrapper .dataTables_paginate span .paginate_button:hover {
-      color: #fff !important;
-      background: var(--primary) !important;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); }
+      color: black !important;
+      background: white !important;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); 
+      border: 1px solid #6c5ce7 !important;
+    }
       .dataTables_wrapper .dataTables_paginate span .paginate_button.current:hover, .dataTables_wrapper .dataTables_paginate span .paginate_button:hover:hover {
         color: #fff !important;
-        background: var(--primary) !important; }
+        background: white !important; }
 
 .dataTables_wrapper input[type="search"], .dataTables_wrapper input[type="text"], .dataTables_wrapper select {
   border: 1px solid #DDDDDD !important;
@@ -26266,7 +26276,7 @@ table.dataTable tfoot th {
   border-radius: 0.625rem  !important;
   margin-left: 14px; }
   [data-theme-version="dark"] .dataTables_wrapper input[type="search"], [data-theme-version="dark"] .dataTables_wrapper input[type="text"], [data-theme-version="dark"] .dataTables_wrapper select {
-    background: #1E1E25;
+    background: #6c5ce7;
     border-color: rgba(255, 255, 255, 0.1) !important;
     color: #fff; }
 
@@ -26353,7 +26363,7 @@ table.dataTable.display tbody td {
   padding: 0.625rem 1rem; }
 
 .table-responsive thead {
-  background-color: var(--primary); }
+  background-color:#6c5ce7; }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.previous, .dataTables_wrapper .dataTables_paginate .paginate_button.next {
   height: 40px;
@@ -27662,7 +27672,7 @@ body > * {
     margin-bottom: 14px; } }
 
 .support-box {
-  background-color: var(--primary);
+  background-color: #6c5ce7;
   padding: 1.5rem;
   border-radius: 0.625rem;
   position: relative;
@@ -30948,7 +30958,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   [data-theme-version="dark"] .h5,
   [data-theme-version="dark"] h6,
   [data-theme-version="dark"] .h6 {
-    color: #fff !important; }
+    color: #1a1414b3 !important; }
   [data-theme-version="dark"] a.link {
     color: #ddd; }
   [data-theme-version="dark"] a.link:focus,
@@ -30968,7 +30978,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 0.0625rem solid rgba(255, 255, 255, 0.1) !important; }
 
 [data-theme-version="dark"] .card {
-  background-color: #2D2D37;
+  background-color: #ffffff7d;
   box-shadow: none; }
 
 [data-theme-version="dark"] .dropdown-menu {
@@ -31314,15 +31324,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e"); }
 
 [data-theme-version="dark"] .paging_simple_numbers.dataTables_paginate {
-  background: rgba(255, 255, 255, 0.1); }
+  background: rgb(108 92 231); }
 
 [data-theme-version="dark"] .dataTables_info {
-  color: #fff; }
+  color: #090808; }
 
 [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate span .paginate_button.current,
 [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate span .paginate_button:hover {
   background: var(--primary);
-  color: #fff !important; }
+  color: black !important; }
 
 [data-theme-version="dark"] .dashboard-select {
   background: #2D2D37;
@@ -31528,16 +31538,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent; }
 
 [data-theme-version="dark"] .list-group-item {
-  color: #fff; }
+  color: #090909; }
 
 [data-theme-version="dark"] .form-control-plaintext {
   color: #fff; }
 
 [data-theme-version="dark"] label {
-  color: #fff; }
+  color: #0c0c0c; }
 
 [data-theme-version="dark"] .form-control.custom-image-select-2 .filter-option-inner-inner {
-  color: #fff; }
+  color: black; }
 
 [data-theme-version="dark"] .table tbody tr td {
   color: #7e8dbf; }
@@ -31723,7 +31733,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: #1E1E25; }
 
 [data-theme-version="dark"] .card .card-box-icon {
-  border-color: rgba(255, 255, 255, 0.1); }
+  border-color: rgb(11 10 10 / 25%); }
 
 [data-theme-version="dark"] .toggle-btn .check {
   background-color: #1E1E25; }
@@ -31981,7 +31991,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-color: rgba(255, 255, 255, 0.1); }
 
 [data-theme-version="dark"] p {
-  color: rgba(255, 255, 255, 0.6); }
+  color: rgb(24 21 21 / 83%); }
 
 [data-theme-version="dark"] .header-profile2 span {
   color: rgba(255, 255, 255, 0.6); }
@@ -32038,7 +32048,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 [data-theme-version="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
   background: #1e1e25;
-  color: white !important; }
+  color: black !important; }
 
 [data-theme-version="dark"] .header-right .notification_dropdown .nav-link i {
   color: #fff; }
@@ -32225,13 +32235,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: rgba(255, 255, 255, 0.1); }
 
 [data-theme-version="dark"] .dlabnav .metismenu ul a:hover, [data-theme-version="dark"] .dlabnav .metismenu ul a:focus, [data-theme-version="dark"] .dlabnav .metismenu ul a.mm-active {
-  color: #fff !important; }
+  color: #fff !important; 
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+  border-radius: 0.625rem;
+}
 
 [data-theme-version="dark"] .dlabnav .metismenu ul a:before {
   background-color: #fff; }
 
 [data-theme-version="dark"] .dlabnav .metismenu a {
-  color: rgba(255, 255, 255, 0.6) !important; }
+  /* color: rgba(255, 255, 255, 0.6) !important;  */
+  color: black !important;
+}
 
 [data-theme-version="dark"] .dlabnav .metismenu .has-arrow:after {
   border-top: 0.3125rem solid #b3b3b3;
@@ -32261,7 +32276,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: #fff; }
 
 [data-theme-version="dark"] .footer {
-  background-color: #2D2D37; }
+  background-color: #5a48e9; }
   [data-theme-version="dark"] .footer .copyright {
     background-color: transparent; }
     [data-theme-version="dark"] .footer .copyright p {
