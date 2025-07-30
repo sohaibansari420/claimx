@@ -3,7 +3,7 @@
     ***********************************-->
 <div class="nav-header">
     <a href="{{ route('user.home') }}">
-        <img class="brand-logo" src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" alt="@lang('Logo')">
+        <img class="brand-logo" src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" style="height:70%;" alt="@lang('Logo')">
     </a>
     <div class="nav-control">
         <div class="hamburger">

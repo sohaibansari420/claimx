@@ -106,7 +106,7 @@
 <div class="row">
     <div class="col-xl-4 wow fadeInUp" data-wow-delay="1.5s">
         <div class="card overflow-hidden">
-            <div class="text-center p-3 overlay-box" style="background-image: url({{ asset($activeTemplateTrue) }}/dashboard/images/big/img2.png);">
+            <div class="text-center p-3 overlay-box" style="background-image: url({{ asset($activeTemplateTrue) }}/dashboard/images/big/img2.jpg);">
                 <h3 class="mt-3 mb-1 text-white">Referral Program</h3>
                 <p class="text-white mb-0">Invite friends and earn 10% of their mining rewards!</p>
             </div>
@@ -149,7 +149,7 @@
         @endphp
         
         <div class="card overflow-hidden">
-            <div class="text-center p-3 overlay-box" style="background-image: url({{ asset($activeTemplateTrue) }}/dashboard/images/big/img4.png);">
+            <div class="text-center p-3 overlay-box" style="background-image: url({{ asset($activeTemplateTrue) }}/dashboard/images/big/img4.jpg);">
                 <h3 class="mt-3 mb-1 text-white">Sponser Bonus</h3>
                 <p class="text-white mb-2">Founder's Club Bonus from The Stealth Trade Bot based on higher plan purchase. Get 1% of the Profit from Stealth Trade Bot.</p>
             </div>
