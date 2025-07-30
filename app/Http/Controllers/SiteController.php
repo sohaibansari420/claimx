@@ -179,6 +179,7 @@ class SiteController extends Controller
     }
 
     public function index(){
+        return redirect()->route('user.login');
         $count = Page::where('tempname',$this->activeTemplate)->where('slug','home')->count();
         if($count == 0){
             $page = new Page();

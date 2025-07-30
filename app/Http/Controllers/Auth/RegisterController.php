@@ -197,11 +197,13 @@ class RegisterController extends Controller
                 return back()->withNotify($notify)->withInput();
             }
         }
-
+        
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
-
+        $trx = getTrx();
+        $details = 'Registered Bonus (100CX are added to your token wallet)';
+        updateWallet($user->id, $trx, 3, NULL, '+', '100', $details, 0, 'registered_free_token', NULL,'');
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }
