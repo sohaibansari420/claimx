@@ -45,7 +45,7 @@
         <div class="container">
             <div id="site-header-inner">
                 <div class="header_logo">
-                    <a href="{{ url('/') }}"><img src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" width="231" height="44" alt="Stealth Trade Bot Logo"></a>
+                    <a href="{{ url('/') }}"><img src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" width="231" height="44" alt="Claim X Logo"></a>
                 </div>
                
                 <nav id="main-nav" class="main-nav">
@@ -92,7 +92,7 @@
                                 <div class="col-md-12">
                                     <div class="box-slider">
                                         <div class="content-box">
-                                            <h1 class="title" >Discover The <br/>Stealth Trade Bot</h1>
+                                            <h1 class="title" >Discover The <br/>Claim X</h1>
                                             <p class="sub-title">Join our innovative platform today and explore the limitless possibilities of the multiverse</p>
                                             <div class="wrap-btn">
                                                 <a href="{{route('user.register')}}" class="tf-button style2">
@@ -158,7 +158,7 @@
                             </div>
                             <div class="content">
                                 <h5>Start Earning</h5>
-                                <p class="desc">Start earning and exploring the limitless potential of the multiverse with The Stealth Trade Bot.</p>
+                                <p class="desc">Start earning and exploring the limitless potential of the multiverse with The Claim X.</p>
                                 <p class="number">03</p>
                             </div>
                             <a href="#" class="btn_project">
@@ -191,10 +191,10 @@
                     <div class="content_technology" data-aos="fade-up" data-aos-duration="800">
                         <div class="tf-title left">
                             <h2 class="title mb20">
-                                Explore the Limitless Possibilities of Stealth Trade Bot
+                                Explore the Limitless Possibilities of Claim X
                             </h2>
                         </div>
-                        <p class="sub_technology">Stealth Trade Bot is a blockchain-powered platform that offers an immersive and seamless experience across a range of applications. Our ecosystem includes an OTT platform, 3D NFT game, Online shopping mall application, and Crypto Currency Exchange. Our goal is to create a unique and inclusive entertainment experience that is accessible to everyone. We have a team of experts in gaming, blockchain, and entertainment, who are passionate about innovation and pushing the boundaries of what is possible in the Multiverse. Whether you want to play a 3D NFT game, shop for physical goods using cryptocurrency, or exchange cryptocurrencies with other users, Stealth Trade Bot has exciting applications that are sure to keep you engaged and entertained. Join us on our journey to redefine the future of entertainment in the Multiverse. With Stealth Trade Bot, the possibilities are endless.
+                        <p class="sub_technology">Claim X is a blockchain-powered platform that offers an immersive and seamless experience across a range of applications. Our ecosystem includes an OTT platform, 3D NFT game, Online shopping mall application, and Crypto Currency Exchange. Our goal is to create a unique and inclusive entertainment experience that is accessible to everyone. We have a team of experts in gaming, blockchain, and entertainment, who are passionate about innovation and pushing the boundaries of what is possible in the Multiverse. Whether you want to play a 3D NFT game, shop for physical goods using cryptocurrency, or exchange cryptocurrencies with other users, Claim X has exciting applications that are sure to keep you engaged and entertained. Join us on our journey to redefine the future of entertainment in the Multiverse. With Claim X, the possibilities are endless.
                         </p>
                         {{-- <img class="move4 mt-4 mb-4" src="{{ asset($activeTemplateTrue . 'frontend/assets/images/site/legal.png') }}" alt="Legal Document"> --}}
                         <div class="swiper-container slider-6">
@@ -259,9 +259,9 @@
                         <h2 class="title">
                             CEO
                         </h2>
-                        <h6>Dear Stealth Trader Community,</h6>
-                        <p>Welcome to Stealth Traderbot—where innovation meets opportunity in the world of automated trading. Our mission is to empower you with cutting-edge technology that enhances your trading experience, maximizes profitability, and simplifies the complexities of the market.</p>
-                        <p>In today’s fast-paced financial landscape, success requires agility, precision, and the right tools. That’s why we’ve developed a robust ecosystem of AI-driven trading bots designed to help you capitalize on opportunities 24/7. Whether you’re a seasoned trader or just starting out, Stealth Traderbot provides the resources you need to grow and thrive.</p>
+                        <h6>Dear Claim X Trader Community,</h6>
+                        <p>Welcome to Claim X Traderbot—where innovation meets opportunity in the world of automated trading. Our mission is to empower you with cutting-edge technology that enhances your trading experience, maximizes profitability, and simplifies the complexities of the market.</p>
+                        <p>In today’s fast-paced financial landscape, success requires agility, precision, and the right tools. That’s why we’ve developed a robust ecosystem of AI-driven trading bots designed to help you capitalize on opportunities 24/7. Whether you’re a seasoned trader or just starting out, Claim X provides the resources you need to grow and thrive.</p>
                         <p>But beyond technology, what truly sets us apart is our community. We are a collective of visionaries, entrepreneurs, and traders who believe in financial freedom through smart, automated solutions. Your success is our success, and we are committed to continuously improving our platform to serve you better.</p>
                         <p>Thank you for being part of this journey. We’re excited for what the future holds, and together, we will redefine the way trading is done.</p>
                         <div class="wrap-btn">
@@ -292,10 +292,10 @@
                         <h2 class="title">
                             Anderson Chester
                         </h2>
-                        <h6>Director of Business Development | Stealth Traderbot</h6>
-                        <p>As the Director of Business Development at Stealth Traderbot, Anderson Chester is at the forefront of driving growth, strategic partnerships, and market expansion. With a keen eye for emerging opportunities, he is committed to positioning Stealth Traderbot as a leader in automated trading solutions.</p>
-                        <p>Anderson brings a wealth of experience in business growth, cryptocurrency trading, and financial technology, leveraging innovative strategies to scale operations and enhance user engagement. His focus is on developing strong industry relationships, optimizing revenue streams, and ensuring that Stealth Traderbot delivers cutting-edge trading solutions to its clients.</p>
-                        <p>Passionate about empowering traders and investors, Anderson is dedicated to making automated trading more accessible, efficient, and profitable. Under his leadership, Stealth Traderbot continues to evolve, offering advanced trading tools that redefine market possibilities.</p>
+                        <h6>Director of Business Development | Claim X</h6>
+                        <p>As the Director of Business Development at Claim X, Anderson Chester is at the forefront of driving growth, strategic partnerships, and market expansion. With a keen eye for emerging opportunities, he is committed to positioning Claim X as a leader in automated trading solutions.</p>
+                        <p>Anderson brings a wealth of experience in business growth, cryptocurrency trading, and financial technology, leveraging innovative strategies to scale operations and enhance user engagement. His focus is on developing strong industry relationships, optimizing revenue streams, and ensuring that Claim X delivers cutting-edge trading solutions to its clients.</p>
+                        <p>Passionate about empowering traders and investors, Anderson is dedicated to making automated trading more accessible, efficient, and profitable. Under his leadership, Claim X continues to evolve, offering advanced trading tools that redefine market possibilities.</p>
                         <div class="wrap-btn">
                             <a href="{{route('user.register')}}" class="tf-button style3">
                                 Join Now
@@ -313,10 +313,10 @@
                         <h2 class="title">
                             Clive Williams
                         </h2>
-                        <h6>Vice President of Sales, StealthBotTrader</h6>
-                        <p>Clive Williams serves as the Vice President of Sales at StealthBotTrader, bringing a wealth of experience in strategic sales, business development, and leadership. With a strong background in financial technology and trading, Clive plays a pivotal role in expanding StealthBotTrader’s reach, driving growth, and empowering individuals to capitalize on arbitrage trading opportunities.</p>
+                        <h6>Vice President of Sales, Claim X</h6>
+                        <p>Clive Williams serves as the Vice President of Sales at Claim X, bringing a wealth of experience in strategic sales, business development, and leadership. With a strong background in financial technology and trading, Clive plays a pivotal role in expanding Claim X reach, driving growth, and empowering individuals to capitalize on arbitrage trading opportunities.</p>
                         <p>His expertise in sales strategy, client relations, and market expansion has positioned him as a key figure in the company’s mission to revolutionize automated trading solutions. Clive is passionate about helping people achieve financial success, leveraging cutting-edge technology to create new income streams.</p>
-                        <p>Under his leadership, StealthBotTrader continues to thrive as a premier platform for traders looking to maximize profits with precision and efficiency.</p>
+                        <p>Under his leadership, Claim X continues to thrive as a premier platform for traders looking to maximize profits with precision and efficiency.</p>
                         <div class="wrap-btn">
                             <a href="{{route('user.register')}}" class="tf-button style3">
                                 Join Now
@@ -341,7 +341,7 @@
                 <div class="col-md-12">
                     <div class="tf-title center" data-aos="fade-up" data-aos-duration="800">
                         <h2 class="title">
-                            Stealth Trade Bot Products
+                            Claim X Products
                         </h2>
                     </div>
                 </div>
@@ -358,7 +358,7 @@
                                 <h5 class="heading"><a href="#">S Token</a></h5>
                             </div>
                             <div class="content">
-                                <p>S Token is a cryptocurrency built on the Binance Smart Chain using the BEP-20 token protocol. As the native token of the Stealth Trade Bot ecosystem, it serves as a medium of exchange and store of value for users within the platform. S can be used to purchase virtual land, goods, and services within the Multiverse, as well as participate in community governance and decision-making processes. The token is designed to be deflationary, with a maximum supply of 100 million and regular burn events to decrease the circulating supply over time. S Token also offers staking and yield farming opportunities, allowing users to earn rewards for providing liquidity and participating in the ecosystem.</p>
+                                <p>CX Token is a cryptocurrency built on the Binance Smart Chain using the BEP-20 token protocol. As the native token of the Claim X ecosystem, it serves as a medium of exchange and store of value for users within the platform. S can be used to purchase virtual land, goods, and services within the Multiverse, as well as participate in community governance and decision-making processes. The token is designed to be deflationary, with a maximum supply of 100 million and regular burn events to decrease the circulating supply over time. S Token also offers staking and yield farming opportunities, allowing users to earn rewards for providing liquidity and participating in the ecosystem.</p>
                             </div>
                         </div>
                         {{-- <div class="project-box-style3" data-aos="fade-in" data-aos-duration="800">
@@ -372,7 +372,7 @@
                                 <h5 class="heading"><a href="#">Online Shopping Mall</a></h5>
                             </div>
                             <div class="content">
-                                <p>The online shopping mall application in Stealth Trade Bot is a state-of-the-art e-commerce platform that allows users to browse and purchase products from a wide range of merchants. The platform is designed to be user-friendly and intuitive, with features like personalized recommendations, easy checkout, and secure payment processing. The application is integrated with the S Token, allowing users to make purchases using the cryptocurrency.</p>
+                                <p>The online shopping mall application in Claim X is a state-of-the-art e-commerce platform that allows users to browse and purchase products from a wide range of merchants. The platform is designed to be user-friendly and intuitive, with features like personalized recommendations, easy checkout, and secure payment processing. The application is integrated with the S Token, allowing users to make purchases using the cryptocurrency.</p>
                             </div>
                         </div> --}}
                         {{-- <div class="project-box-style3" data-aos="fade-in" data-aos-duration="800">
@@ -386,7 +386,7 @@
                                 <h5 class="heading"><a href="#">OTT Platform</a></h5>
                             </div>
                             <div class="content">
-                                <p>The OTT (Over-The-Top) platform in Stealth Trade Bot is a streaming service that provides users with access to a wide range of movies, TV shows, and other video content. It uses advanced streaming technology to deliver high-quality video content to users, and it is designed to be fast, reliable, and easy to use. The platform also includes features like personalized recommendations, user profiles, and social sharing, making it a truly immersive entertainment experience.</p>
+                                <p>The OTT (Over-The-Top) platform in Claim X is a streaming service that provides users with access to a wide range of movies, TV shows, and other video content. It uses advanced streaming technology to deliver high-quality video content to users, and it is designed to be fast, reliable, and easy to use. The platform also includes features like personalized recommendations, user profiles, and social sharing, making it a truly immersive entertainment experience.</p>
                             </div>
                         </div> --}}
                         <div class="project-box-style3" data-aos="fade-in" data-aos-duration="800">
@@ -400,7 +400,7 @@
                                 <h5 class="heading"><a href="#">3D NFT Multiverse Game</a></h5>
                             </div>
                             <div class="content">
-                                <p>The 3D NFT Multiverse Game in Stealth Trade Bot is a cutting-edge gaming platform that allows users to enter a fully immersive virtual world where they can interact with other players, explore new environments, and complete quests and challenges. The game uses NFTs (Non-Fungible Tokens) to provide unique and collectible in-game items, such as weapons, armor, and special abilities, which players can use to enhance their gaming experience. The game is built on the latest blockchain technology, providing users with a secure and transparent gaming environment.</p>
+                                <p>The 3D NFT Multiverse Game in Claim X is a cutting-edge gaming platform that allows users to enter a fully immersive virtual world where they can interact with other players, explore new environments, and complete quests and challenges. The game uses NFTs (Non-Fungible Tokens) to provide unique and collectible in-game items, such as weapons, armor, and special abilities, which players can use to enhance their gaming experience. The game is built on the latest blockchain technology, providing users with a secure and transparent gaming environment.</p>
                             </div>
                         </div>
                         <div class="project-box-style3" data-aos="fade-in" data-aos-duration="800">
@@ -414,7 +414,7 @@
                                 <h5 class="heading"><a href="#">Crypto Currency Exchange</a></h5>
                             </div>
                             <div class="content">
-                                <p>The crypto currency exchange in Stealth Trade Bot is a platform that allows users to buy, sell, and trade cryptocurrencies like Bitcoin, Ethereum, and MM. The exchange is built on the latest blockchain technology, providing users with a secure and transparent trading environment. It is designed to be user-friendly, with features like advanced charting, real-time market data, and customizable trading interfaces. The exchange is integrated with the S Token, allowing users to trade cryptocurrencies using the Stealth Trade Bot's native cryptocurrency.</p>
+                                <p>The crypto currency exchange in Claim X is a platform that allows users to buy, sell, and trade cryptocurrencies like Bitcoin, Ethereum, and MM. The exchange is built on the latest blockchain technology, providing users with a secure and transparent trading environment. It is designed to be user-friendly, with features like advanced charting, real-time market data, and customizable trading interfaces. The exchange is integrated with the S Token, allowing users to trade cryptocurrencies using the Claim X's native cryptocurrency.</p>
                             </div>
                         </div>
                     </div>
@@ -447,7 +447,7 @@
                                                 <h6 class="date">Q3, 2023</h6>
                                                 <ul>
                                                     <li><h6>Launching</h6></li>
-                                                    <li>Launch of Stealth Trade Bot</li>
+                                                    <li>Launch of Claim X</li>
                                                     <li>Expansion of network marketing team/li>
                                                     <li>Launch of new promotional campaigns and incentives for network marketers</li>
                                                     <li>Continued expansion and growth of the network marketing team</li>
@@ -481,7 +481,7 @@
                                                 <ul>
                                                     <li><h6>OTT Platform</h6></li>
                                                     <li>Release of the</li>
-                                                    <li>Stealth Trade Botl</li>
+                                                    <li>Claim X</li>
                                                     <li>OTT platform</li>
                                                 </ul>
                                             </div>
@@ -513,7 +513,7 @@
                                                     <li><h6>Crypto Currency Exchange</h6></li>
                                                     <li>Launch of the dedicated crypto</li>
                                                     <li>currency exchange within</li>
-                                                    <li>Stealth Trade Bot</li>
+                                                    <li>Claim X</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -561,9 +561,9 @@
                 <div class="col-md-6">
                     <div class="tf-title left mt58" data-aos="fade-up" data-aos-duration="800">
                         <h2 class="title">
-                            Join The <br/>Stealth Trade Bot Community Today!
+                            Join The <br/>Claim X Community Today!
                         </h2>
-                        <p class="sub">Take the first step towards financial freedom in the Multiverse. Join Stealth Trade Bot or contact us to learn more about our innovative products and earning opportunities.</p>
+                        <p class="sub">Take the first step towards financial freedom in the Multiverse. Join Claim X or contact us to learn more about our innovative products and earning opportunities.</p>
                         <div class="wrap-btn">
                             <a href="{{route('user.register')}}" class="tf-button style3">
                                 Join Now
@@ -588,7 +588,7 @@
                         <div class="logo_footers">
                             <img src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" width="231" height="44" alt="Millionaires Metvrse Logo">
                         </div>
-                        <p class="mt-4">The Stealth Trade Bot is a cutting-edge ecosystem that offers innovative digital asset products and limitless earning opportunities. Join us to explore the potential of the Multiverse and achieve financial freedom.</p>
+                        <p class="mt-4">The Claim X is a cutting-edge ecosystem that offers innovative digital asset products and limitless earning opportunities. Join us to explore the potential of the Multiverse and achieve financial freedom.</p>
                     </div>
                     <div class="widget">
                         
@@ -609,7 +609,7 @@
                             </li>
                             <li class="email">
                                 <p>Email</p>
-                                <a href="#">admin@stealthtradebot.com</a>
+                                <a href="#">admin@claimxnetwork.com</a>
                             </li>
                         </ul>
                     </div>
@@ -620,7 +620,7 @@
             <div class="container">
                 <div class="wrap-fx">
                     <div class="Copyright">
-                        Copyright © Stealth Trade Bot. All Rights Reserved.
+                        Copyright © Claim X. All Rights Reserved.
                     </div>
                 </div>
             </div>

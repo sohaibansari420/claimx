@@ -151,7 +151,7 @@
         <div class="card overflow-hidden">
             <div class="text-center p-3 overlay-box" style="background-image: url({{ asset($activeTemplateTrue) }}/dashboard/images/big/img4.jpg);">
                 <h3 class="mt-3 mb-1 text-white">Sponser Bonus</h3>
-                <p class="text-white mb-2">Founder's Club Bonus from The Stealth Trade Bot based on higher plan purchase. Get 1% of the Profit from Stealth Trade Bot.</p>
+                <p class="text-white mb-2">Founder's Club Bonus from The Claim X based on higher plan purchase. Get 1% of the Profit from Claim X.</p>
             </div>
             <div class="card-body">
                 <div class="row text-center">

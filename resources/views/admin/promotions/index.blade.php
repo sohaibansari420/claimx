@@ -367,7 +367,7 @@
                         }
                         if (data.image) {
 
-                            var baseUrl = "https://stealthtradebot.com/";
+                            var baseUrl = "https://claimxnetwork.com/";
                             // var baseUrl = "http://127.0.0.1:8000/";
                             var imagePath = "assets/images/promotions/";
                             var link = baseUrl + imagePath + data.image;
