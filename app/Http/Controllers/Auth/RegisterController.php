@@ -63,7 +63,7 @@ class RegisterController extends Controller
 
         if ($info['code'] == null) {
             $notify[] = ['error', 'Please wait a while.'];
-            if ($request->ref && $request->position) {
+            if ($request->ref) {
                 return redirect()->route('user.register' , ['ref'=>$request->ref , 'position'=> $request->position])->withNotify($notify);
             }
             else{
@@ -73,22 +73,13 @@ class RegisterController extends Controller
 
         $country_code = @implode(',', $info['code']);
 
-        if ($request->ref && $request->position) {
+        if ($request->ref) {
             $ref_user = User::where('username', $request->ref)->first();
             if ($ref_user == null) {
                 $notify[] = ['error', 'Invalid Referral link.'];
                 return redirect()->route('home')->withNotify($notify);
             }
-
-            if ($request->position == 'left') {
-
-                $position = 1;
-            } elseif ($request->position == 'right') {
-                $position = 2;
-            } else {
-                $notify[] = ['error', 'Invalid referral position'];
-                return redirect()->route('home')->withNotify($notify);
-            }
+            $position = 2;
             
             $pos = getPosition($ref_user->id, $position);
 

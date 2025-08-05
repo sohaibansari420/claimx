@@ -1,7 +1,7 @@
 @extends($activeTemplate . 'user.layouts.app')
 @section('panel')
 
-<div class="text-center mt-3">
+<div class="text-center mt-3 d-none" id="connect-metamask">
     <h2>Connect Your Wallet</h2>
     <button id="connect-wallet" class="btn btn-primary">Connect MetaMask</button>
 </div>
@@ -94,14 +94,15 @@
 </div>
 <div class="swiper mySwiper-counter py-4">
     <div class="swiper-wrapper row">
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="mb-3 text-xl font-semibold">Claim X Token Earning History (100 Days)</h5>
-                <canvas id="claimxChart" style="height: 300px;"></canvas>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="mb-3 text-xl font-semibold">Claim X Token Earning History (30 Days)</h5>
+            <div style="height: 300px;"> <!-- Fixed height container -->
+                <canvas id="claimxChart"></canvas>
             </div>
         </div>
-
     </div>
+</div>
 </div>
 <div class="row">
     <div class="col-xl-4 wow fadeInUp" data-wow-delay="1.5s">
@@ -121,7 +122,7 @@
                             <div class="mining-referral">
                             <h5><i class="fas fa-link me-2"></i>Your Referral Link</h5>
                             <div class="mining-referral-code text-dark">
-                                https://tokenminer.com/ref/user123
+                                http://www.claimxnetwork.com/register?ref=ClaimX
                             </div>
                         </div>
                         </div>
@@ -131,7 +132,7 @@
             <div class="card-footer border-0 mt-0 text-center">		
                 <div class="row">
                     <div class="col-12">
-                        <input value="{{ route('user.register') }}?ref={{ auth()->user()->username }}&position=left" type="hidden" id="left" class="form-control">
+                        <input value="{{ route('user.register') }}?ref={{ auth()->user()->username }}" type="hidden" id="left" class="form-control">
                         <button class="btn btn-primary btn-block p-3" onclick="copy('left')">Copy Link</button>
                     </div>	
                 </div>						
@@ -178,34 +179,47 @@
 
 <div class="swiper mySwiper-counter py-4">
     <div class="swiper-wrapper row">
-        <div class="col-lg-12">
-            <div class="card b-radius--10 ">
-                <div class="card-body p-0">
-
-                    <div class="table-responsive--sm table-responsive">
-                        <table class="table table--light style--two">
-                            <thead>
-                            <tr>
-                                <th scope="col">@lang('Date')</th>
-                                <th scope="col">@lang('Username')</th>
-                                <th scope="col">@lang('IP')</th>
-                                <th scope="col">@lang('Location')</th>
-                                <th scope="col">@lang('Browser')</th>
-                                <th scope="col">@lang('OS')</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-muted text-center" colspan="100%"></td>
-                                </tr>
-
-                            </tbody>
-                        </table><!-- table end -->
+        <div class="">
+            <div class="wow fadeInUp" data-wow-delay="1.2s">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title text-white">User Staking History</div>
+                        <div class="card-options ">
+                            <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i
+                                    class="fe fe-chevron-up"></i></a>
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="table table-striped table-bordered w-100 text-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">@lang('Date')</th>
+                                        <th scope="col">@lang('Username')</th>
+                                        <th scope="col">@lang('Detail')</th>
+                                        <th scope="col">@lang('TRX')</th>
+                                        <th scope="col">@lang('Amount')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($transactions as $trans)  
+                                        <tr>
+                                            <td class="text-muted" >{{ $trans->created_at }}</td>
+                                            <td class="text-muted" >{{ $trans->user->username }}</td>
+                                            <td class="text-muted" >{{ $trans->details }}</td>
+                                            <td class="text-muted" >{{ $trans->trx }}</td>
+                                            <td class="text-muted" >${{ number_format($trans->amount,2) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- table-wrapper -->
                 </div>
-                <div class="card-footer py-4">
-                </div>
-            </div><!-- card end -->
+                <!-- section-wrapper -->
+
+            </div>
         </div>
     </div>
 </div>
@@ -217,7 +231,16 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script>
         let userAddress = "";
-
+        async function isMetaMaskConnected() {
+            if (typeof window.ethereum !== 'undefined') {
+                const accounts = await ethereum.request({ method: 'eth_accounts' });
+                $("#connect-metamask").addClass('d-none');
+                return accounts.length > 0; // ✅ true if connected
+            }
+            $("#connect-metamask").removeClass('d-none');
+            return false; // ❌ MetaMask not installed
+        }
+        isMetaMaskConnected();
         document.getElementById("connect-wallet").onclick = async () => {
             if (typeof window.ethereum !== 'undefined') {
             try {
@@ -325,6 +348,8 @@
                     },
                     y: {
                         beginAtZero: true,
+                        min: 0,
+                        max: 1,
                         title: {
                             display: true,
                             text: 'Tokens Earned',
@@ -335,4 +360,14 @@
             }
         });
     </script>
+@endpush
+@push('script-lib')
+    <!-- Datatable -->
+    <script src="{{ asset($activeTemplateTrue) }}/dashboard/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset($activeTemplateTrue) }}/dashboard/js/plugins-init/datatables.init.js"></script>
+@endpush
+
+@push('style-lib')
+    <!-- Datatable -->
+    <link href="{{ asset($activeTemplateTrue) }}/dashboard/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
 @endpush

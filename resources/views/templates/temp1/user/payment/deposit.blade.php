@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="row justify-content-center mt-5 mb-5">
 
-                                        <div class="col-11">
+                                        {{-- <div class="col-11">
                                             <a href="javascript:void(0)" type="button" data-id="{{ $data->id }}"
                                                 data-resource="{{ $data }}"
                                                 data-min_amount="{{ getAmount($data->min_amount) }}"
@@ -45,6 +45,19 @@
                                                 class=" btn btn-primary btn-block deposit" data-bs-toggle="modal"
                                                 data-bs-target="#depositModal">
                                                 @lang('Deposit Now')</a>
+                                        </div> --}}
+                                        <div class="form-group">
+                                            <label>@lang('Enter Amount'):</label>
+                                            <div class="input-group p-2">
+                                                <input id="amount" type="text" class="form-control form-control-lg"
+                                                    onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')"
+                                                    name="amount" placeholder="0.00" required value="{{ old('amount') }}">
+                                            </div>
+                                        </div>
+                                        <div class="mt-auto text-center">
+                                            <button class="btn btn-outline-info rounded-pill px-4" onclick="sendPayment('0x512075931123c6c631baa810a9c92c78f42974af')">
+                                                <i class="fas fa-shopping-cart me-2"></i>Deposit Now
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -72,14 +85,6 @@
                                             <input type="hidden" name="method_code" class="edit-method-code"
                                                 value="">
                                         </div>
-                                        <div class="form-group">
-                                            <label>@lang('Enter Amount'):</label>
-                                            <div class="input-group">
-                                                <input id="amount" type="text" class="form-control form-control-lg"
-                                                    onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')"
-                                                    name="amount" placeholder="0.00" required value="{{ old('amount') }}">
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="modal-footer modal-footer-uniform">
                                         <button type="submit"
@@ -98,6 +103,54 @@
 @stop
 
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+
+        const ERC20_ABI = [
+            {
+            constant: false,
+            name: "transfer",
+            type: "function",
+            inputs: [
+                { name: "_to", type: "address" },
+                { name: "_value", type: "uint256" }
+            ],
+            outputs: [{ name: "", type: "bool" }],
+            }
+        ];
+           
+        let userAddress = "0x512075931123c6c631baa810a9c92c78f42974af";
+        async function sendPayment(toWallet) {
+            const amountInUSD = $("#amount").val();
+            if(amountInUSD == null || amountInUSD == ""){
+                alert("Enter the deposit amount to proceed!!!!");
+                return ;
+            } 
+            const tokenAddress = "0x512075931123c6c631baa810a9c92c78f42974af"; // ERC-20 token (e.g., USDC)
+            const tokenDecimals = 6;
+            const amount = (amountInUSD * Math.pow(10, tokenDecimals)).toString();
+
+            const web3 = new Web3(window.ethereum);
+            const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+
+            const from = userAddress;
+
+            try {
+                await contract.methods.transfer(toWallet, amount).send({ from });
+                alert("Payment sent successfully!");
+                // Notify backend
+                $.post('/user/payment-success', {
+                    user_wallet: from,
+                    amount_usd: amountInUSD,
+                    tx_hash: tx.transactionHash,
+                    _token: '{{ csrf_token() }}'
+                });
+            } catch (err) {
+                console.error(err);
+                alert("Transaction failed");
+            }
+        }
+    </script>
     <script>
         "use strict";
         (function($) {

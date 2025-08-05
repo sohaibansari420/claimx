@@ -32,6 +32,7 @@ use Illuminate\Support\Str;
 use Image;
 use Validator;
 use App\Models\Promotion;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -96,12 +97,17 @@ class UserController extends Controller
             }
         }
     
-        $data['tokenHistory'] = collect(range(1, 100))->map(function ($i) {
-                return [
-                    'date' => now()->subDays(30 - $i)->format('M d'),
-                    'earned' => rand(0, 3) // replace with real data from DB
-                ];
-            });
+        $data['tokenHistory'] = collect(range(1, 30))->map(function ($i) {
+            $base = $i / 30;
+            $fluctuation = rand(-5, 5) / 100; // ±0.05
+            $earned = round(max(0, min(1, $base + $fluctuation)), 2); // Clamp between 0 and 1
+            return [
+                'date' => now()->subDays(30 - $i)->format('M d'),
+                'earned' => $earned
+            ];
+        });
+
+        $data['transactions'] = Transaction::where('user_id', Auth::id())->get();
 
         $currentUser = Auth::user();
         $targetUser = 715;

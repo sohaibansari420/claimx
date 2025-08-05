@@ -30,17 +30,12 @@
                                         </ul>
                                     @endif
                                     <div class="mt-auto text-center">
-                                        <button class="btn btn-outline-info rounded-pill px-4" onclick="sendPayment('10','0x512075931123c6c631baa810a9c92c78f42974af')">
-                                            <i class="fas fa-shopping-cart me-2"></i>Buy Now
-                                        </button>
-                                    </div>
-                                    {{-- <div class="mt-auto text-center">
                                         <button class="btn btn-outline-info rounded-pill px-4"
                                             data-bs-toggle="modal"
                                             data-bs-target="#confBuyModal{{ $data->id }}">
                                             <i class="fas fa-shopping-cart me-2"></i>Buy Now
                                         </button>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -83,49 +78,7 @@
 </div>
 @endsection
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-<script>
 
-    const ERC20_ABI = [
-        {
-        constant: false,
-        name: "transfer",
-        type: "function",
-        inputs: [
-            { name: "_to", type: "address" },
-            { name: "_value", type: "uint256" }
-        ],
-        outputs: [{ name: "", type: "bool" }],
-        }
-    ];
-
-    let userAddress = "0x512075931123c6c631baa810a9c92c78f42974af";
-    async function sendPayment(amountInUSD, toWallet) {
-    const tokenAddress = "0x512075931123c6c631baa810a9c92c78f42974af"; // ERC-20 token (e.g., USDC)
-    const tokenDecimals = 6;
-    const amount = (amountInUSD * Math.pow(10, tokenDecimals)).toString();
-
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
-
-    const from = userAddress;
-
-    try {
-        await contract.methods.transfer(toWallet, amount).send({ from });
-        alert("Payment sent successfully!");
-        // Notify backend
-        $.post('/user/payment-success', {
-            user_wallet: from,
-            amount_usd: amountInUSD,
-            tx_hash: tx.transactionHash,
-            _token: '{{ csrf_token() }}'
-        });
-    } catch (err) {
-        console.error(err);
-        alert("Transaction failed");
-    }
-    }
-</script>
 @endpush
 @push('style-lib')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
