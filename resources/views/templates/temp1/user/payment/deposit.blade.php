@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-auto text-center">
-                                            <button class="btn btn-outline-info rounded-pill px-4" onclick="sendPayment('0x512075931123c6c631baa810a9c92c78f42974af')">
+                                            <button class="btn btn-outline-info rounded-pill px-4" onclick="sendPayment();">
                                                 <i class="fas fa-shopping-cart me-2"></i>Deposit Now
                                             </button>
                                         </div>
@@ -119,24 +119,43 @@
             }
         ];
            
-        let userAddress = "0x512075931123c6c631baa810a9c92c78f42974af";
-        async function sendPayment(toWallet) {
+        async function sendPayment() {
+            const tokenAddress = "0x55d398326f99059fF775485246999027B3197955";
+            const toWallet = '0x8dadfd41dA68d59B6ff6d50F282183235B6C367b';
+            const tokenDecimals = 18;
+
             const amountInUSD = $("#amount").val();
+
             if(amountInUSD == null || amountInUSD == ""){
                 alert("Enter the deposit amount to proceed!!!!");
                 return ;
             } 
-            const tokenAddress = "0x512075931123c6c631baa810a9c92c78f42974af"; // ERC-20 token (e.g., USDC)
-            const tokenDecimals = 6;
-            const amount = (amountInUSD * Math.pow(10, tokenDecimals)).toString();
+
+             if (!window.ethereum) {
+                alert("Please install MetaMask");
+                return;
+            }
+
+            if (!toWallet || !Web3.utils.isAddress(toWallet)) {
+                alert("Please enter a valid recipient wallet address.");
+                return;
+            }
+            
 
             const web3 = new Web3(window.ethereum);
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+            const accounts = await web3.eth.getAccounts();
+            const from = accounts[0];
+           
+            const amount = (amountInUSD * Math.pow(10, tokenDecimals)).toString();
+            console.log("Token Address:", tokenAddress);
+            console.log("Recipient Address:", toWallet);
+            
             const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
 
-            const from = userAddress;
-
             try {
-                await contract.methods.transfer(toWallet, amount).send({ from });
+                const tx = await contract.methods.transfer(toWallet, amount).send({ from });
                 alert("Payment sent successfully!");
                 // Notify backend
                 $.post('/user/payment-success', {

@@ -502,12 +502,13 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('/token/minning', 'Admin\MinningController@minning')->name('minning');
             Route::post('/token/stake', 'Admin\MinningController@stakeToken')->name('stakeToken');
             Route::post('/minning/history', 'Admin\MinningController@minningHistory')->name('minningHistory');
+            Route::post('/swapToken','Admin\MinningController@swapToken')->name('swapToken');
 
             Route::get('/staking/history', 'Admin\MinningController@stakingHistory')->name('stakingHistory');
 
             Route::get('token/report','Admin\MinningController@tokenReport')->name('tokenReport');
 
-            Route::get('/payment-success', 'Admin\WalletController@checkPackagePaymentStatus')->name('checkPackagePaymentStatus');
+            Route::post('/payment-success', 'Admin\WalletController@checkPackagePaymentStatus')->name('checkPackagePaymentStatus');
             Route::post('/verify-wallet','Admin\WalletController@verifySignature')->name('metamask-verify_wallet');
 
             Route::get('profile-setting', 'UserController@profile')->name('profile-setting');

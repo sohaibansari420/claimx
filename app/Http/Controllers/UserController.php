@@ -107,7 +107,7 @@ class UserController extends Controller
             ];
         });
 
-        $data['transactions'] = Transaction::where('user_id', Auth::id())->get();
+        $data['transactions'] = Transaction::where('user_id', Auth::id())->orderBy('id','desc')->get();
 
         $currentUser = Auth::user();
         $targetUser = 715;

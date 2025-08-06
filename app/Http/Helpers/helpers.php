@@ -1782,7 +1782,7 @@ function showSingleUserinTreeUser($user)
         $res .= " </div>";
 
     } else {
-        $img = getImage('assets/images/user/profile/no_user.png', '120x120');
+        $img = getImage('assets/images/user/profile/no_user.jpg', '120x120');
 
         $res .= "<div class=\"person\" type=\"button\" >";
         $res .= "<img src=\"$img\" alt=\"*\"  class=\"no-user\">";

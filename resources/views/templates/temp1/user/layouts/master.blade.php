@@ -10,7 +10,7 @@
 	<title>{{ $general->sitename($page_title ?? '') }}</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.jpg') }}">
 
 	<link href="{{ asset($activeTemplateTrue) }}/dashboard/vendor/wow-master/css/libs/animate.css" rel="stylesheet">
 	<link href="{{ asset($activeTemplateTrue) }}/dashboard/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">

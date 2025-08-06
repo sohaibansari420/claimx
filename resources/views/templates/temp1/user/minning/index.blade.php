@@ -247,6 +247,12 @@
 
     <!-- Main Content -->
     <div class="container">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         <div class="row">
             <!-- Mining Control Panel -->
             <div class="col-lg-8">
@@ -376,7 +382,7 @@
                     </div>
 
                         <div class="text-center mt-3">
-                            <a href="{{ route('user.stakingHistory') }}" class="btn btn-outline-info">
+                            <a href="{{ route('user.stakingHistory') }}" class="btn btn-success">
                                 <i class="fas fa-history me-2"></i> View History
                             </a>
                             {{-- <button class="btn btn-outline-success ms-2">
@@ -385,6 +391,52 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Token Swap Panel -->
+                <div class="minning-card shadow-sm border-0 mt-4">
+                    <div class="card-header bg-dark text-white d-flex align-items-center">
+                        <i class="fas fa-exchange-alt me-2"></i>
+                        <strong>Swap Token to USDT</strong>
+                    </div>
+                    <div class="card-body p-4">
+
+                        <form method="POST" action="{{ route('user.swapToken') }}" id="swapForm">
+                            @csrf
+
+                            <!-- Token Info (Optional) -->
+                            {{-- <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <small class="text-muted">Your CX Balance:</small><br>
+                                    <strong>1,234.5678 CX</strong> <!-- Replace with dynamic -->
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">Current Rate:</small><br>
+                                    <strong>1 CX = 0.75 USDT</strong> <!-- Replace with dynamic -->
+                                </div>
+                            </div> --}}
+
+                            <!-- Input -->
+                            <div class="form-floating mb-3">
+                                <input type="number" step="0.0001" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
+                                <label for="swapAmount">Amount to Swap (CX)</label>
+                            </div>
+
+                            <!-- Estimated Output -->
+                            <div class="form-floating mb-3 position-relative">
+                                <input type="text" id="usdtEstimate" class="form-control bg-light" placeholder="USDT estimate" readonly>
+                                <label for="usdtEstimate">You will receive (estimated USDT)</label>
+                                <div id="loadingEstimate" class="spinner-border spinner-border-sm text-primary position-absolute end-0 top-50 translate-middle-y me-3 d-none" role="status"></div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center">
+                                <i class="fas fa-sync-alt me-2"></i> Swap Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+
                 
                 <!-- Referral Program -->
                 {{-- <div class="mining-card mt-4">
@@ -517,6 +569,28 @@ $(document).ready(function () {
             miningTimer.text("Mining session completed.");
         }
     }
+});
+
+const amountInput = document.getElementById('swapAmount');
+const loader = document.getElementById('loadingEstimate');
+const estimateOutput = document.getElementById('usdtEstimate');
+
+amountInput.addEventListener('input', () => {
+    if (amountInput.value.length === 0) {
+        loader.classList.add('d-none');
+        estimateOutput.value = '';
+        return;
+    }
+
+    loader.classList.remove('d-none');
+
+    // Fake a delay (simulate API fetch)
+    setTimeout(() => {
+        const rate = 1; // replace this with actual rate dynamically
+        const est = (parseFloat(amountInput.value) * rate).toFixed(2);
+        estimateOutput.value = est;
+        loader.classList.add('d-none');
+    }, 800);
 });
 </script>
 

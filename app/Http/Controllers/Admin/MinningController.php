@@ -190,4 +190,30 @@ class MinningController extends Controller
 
         return view($this->activeTemplate .'user.minning.token_stake_history', compact('page_title', 'stakeTokenHistory'));
     }
+
+    public function swapToken(Request $request){
+        $request->validate([
+            'amount' => 'required|numeric|min:0.0001',
+        ]);
+
+        $user = Auth::user();
+        $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+        
+        $rate = 1; 
+        $cxAmount = $request->amount;
+        $usdtAmount = $cxAmount * $rate;
+        
+        $trx = getTrx();
+
+        if ($wallet->balance < $cxAmount) {
+            return back()->with('error', 'Insufficient CX balance.');
+        }
+        $wallet->balance -= $cxAmount;
+        $wallet->save();
+        
+        $details = 'CX token is Swapped with USDT...';
+        updateWallet($user->id, $trx, '1', NULL, '+', getAmount($cxAmount), $details , 0, 'Token is Swapped to USDT', NULL,'');
+        
+        return back()->with('success', 'Successfully swapped ' . $cxAmount . ' CX for ' . $usdtAmount . ' USDT.');
+    }
 }

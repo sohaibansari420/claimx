@@ -232,13 +232,29 @@
     <script>
         let userAddress = "";
         async function isMetaMaskConnected() {
-            if (typeof window.ethereum !== 'undefined') {
-                const accounts = await ethereum.request({ method: 'eth_accounts' });
-                $("#connect-metamask").addClass('d-none');
-                return accounts.length > 0; // ✅ true if connected
+            if (typeof window.ethereum === 'undefined') {
+                console.log("MetaMask is not installed");
+                $("#connect-metamask").removeClass('d-none'); // Show "Connect" button
+                return false;
             }
-            $("#connect-metamask").removeClass('d-none');
-            return false; // ❌ MetaMask not installed
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+                if (accounts.length > 0) {
+                    console.log("Connected MetaMask account:", accounts[0]);
+                    $("#connect-metamask").addClass('d-none'); // Hide "Connect" button
+                    return true;
+                } else {
+                    console.log("MetaMask is installed but not connected");
+                    $("#connect-metamask").removeClass('d-none'); // Show "Connect" button
+                    return false;
+                }
+            } catch (error) {
+                console.error("Error checking MetaMask connection:", error);
+                $("#connect-metamask").removeClass('d-none');
+                return false;
+            }
         }
         isMetaMaskConnected();
         document.getElementById("connect-wallet").onclick = async () => {
