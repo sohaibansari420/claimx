@@ -9775,7 +9775,7 @@ label {
   height: 5rem;
   width: var(--width);
   display: inline-block;
-  background-color: #5a48e9;
+  background-color: #2424aa;
   text-align: left;
   position: absolute;
   top: 0;
@@ -10001,7 +10001,7 @@ label {
   z-index: 1;
   position: relative;
   padding: 0rem;
-  background: #6c5ce7;
+  background: blue;
   z-index: 3;
   padding-left: 17rem;
   transition: all .2s ease;
