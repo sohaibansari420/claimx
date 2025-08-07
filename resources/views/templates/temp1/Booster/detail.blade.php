@@ -5,11 +5,11 @@
 
 <div class="row">
     <div class="col-xl-12 wow fadeInUp" data-wow-delay="0.2s">
-        <div class="card bg-dark border-0 shadow rounded-4">
+        <div class="card bg-white border-2 shadow rounded-4">
             <div class="card-header bg-gradient-primary text-white rounded-top d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">{{ $page_title }}</h4>
             </div>
-            <div class="card-body bg-transparent">
+            <div class="card-body bg-transparent" style="background: white !important;">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @forelse ($plans as $data)
                         <div class="col">
@@ -19,16 +19,24 @@
                                     <h2 class="text-success fw-bolder mt-2">${{ getAmount($data->price) }}</h2>
                                 </div>
                                 <div class="card-body px-4 pb-4 pt-2 d-flex flex-column">
-                                    @if (@unserialize($data->features))
-                                        <ul class="list-unstyled mb-4">
-                                            @foreach (@unserialize($data->features) as $feature)
-                                                <li class="d-flex align-items-start mb-2">
-                                                    <i class="fas fa-star text-warning me-2 mt-1"></i>
-                                                    <span class="text-white-50">{{ $feature }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
+                                @php
+                                    $features = is_string($data->features) ? @unserialize($data->features) : [];
+                                    $features = @unserialize($features[0]);
+                                @endphp
+
+                                @if (is_array($features))
+                                    <ul class="list-unstyled mb-4">
+                                        @foreach ($features as $feature)
+                                            <li class="d-flex align-items-start mb-2">
+                                                <i class="fas fa-star text-warning me-2 mt-1"></i>
+                                                <span class="text-white-50">{{ $feature }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    {{-- Debug output if unserialization fails --}}
+                                    <p class="text-danger">Invalid features format</p>
+                                @endif
                                     <div class="mt-auto text-center">
                                         <button class="btn btn-outline-info rounded-pill px-4"
                                             data-bs-toggle="modal"

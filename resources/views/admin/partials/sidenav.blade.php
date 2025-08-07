@@ -20,7 +20,7 @@
                         <span class="menu-title">@lang('Dashboard')</span>
                     </a>
                 </li>
-                <li class="sidebar-menu-item sidebar-dropdown">
+                {{-- <li class="sidebar-menu-item sidebar-dropdown">
                     <a href="javascript:void(0)" class="{{ menuActive('admin*', 3) }}">
                         <i class="menu-icon las la-cash-register"></i>
                         <span class="menu-title">@lang('Booster')</span>
@@ -41,6 +41,12 @@
                             </li>
                         </ul>
                     </div>
+                </li> --}}
+                <li class="sidebar-menu-item {{ menuActive('admin.speed*') }}">
+                    <a href="{{ route('admin.speed') }}" class="nav-link ">
+                        <i class="menu-icon las la-cash-register"></i>
+                        <span class="menu-title">@lang('Booster')</span>
+                    </a>
                 </li>
                 <li class="sidebar-menu-item {{ menuActive('admin.wallet*') }}">
                     <a href="{{ route('admin.wallet') }}" class="nav-link ">

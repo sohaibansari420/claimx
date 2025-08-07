@@ -30978,7 +30978,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 0.0625rem solid rgba(255, 255, 255, 0.1) !important; }
 
 [data-theme-version="dark"] .card {
-  background-color: #ffffff7d;
+  background: linear-gradient(180deg, #6c5ce7, #173875);
   box-shadow: none; }
 
 [data-theme-version="dark"] .dropdown-menu {
@@ -31210,7 +31210,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-color: rgba(255, 255, 255, 0.1); }
 
 [data-theme-version="dark"] .menu-toggle .dlabnav .metismenu li > ul {
-  background: #2D2D37 !important; }
+  background: white !important; }
 
 [data-theme-version="dark"] .header-right .notification_dropdown .nav-link {
   border-color: rgba(255, 255, 255, 0.1); }

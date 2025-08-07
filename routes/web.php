@@ -179,9 +179,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('booster/tap/store', 'BoosterController@tapStore')->name('tap.store');
         Route::post('booster/tap/update', 'BoosterController@tapUpdate')->name('tap.update');
         
-        Route::get('booster/speed', 'BoosterController@speed')->name('speed');
-        Route::post('booster/speed/store', 'BoosterController@speedStore')->name('speed.store');
-        Route::post('booster/speed/update', 'BoosterController@speedUpdate')->name('speed.update');
+        Route::get('booster', 'BoosterController@speed')->name('speed');
+        Route::post('booster/store', 'BoosterController@speedStore')->name('speed.store');
+        Route::post('booster/update', 'BoosterController@speedUpdate')->name('speed.update');
         
         // mlm plan
         Route::get('plans', 'MlmController@plan')->name('plan');

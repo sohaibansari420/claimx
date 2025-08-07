@@ -30,7 +30,7 @@ class PlanController extends Controller
     function planIndex(Request $request)
     {
         $data['page_title'] = "Boosters";
-        $data['plans'] = Booster::whereStatus(1)->orderBy('price')->get();
+        $data['plans'] = Booster::whereStatus(1)->orderBy('id','asc')->get();
         $data['myPlans'] = PurchasedBooster::where('user_id', Auth::id())->get();
         $data['myPlansAmounts'] = PurchasedBooster::where('user_id', Auth::id())->pluck('amount')->toArray();
         $data['planCount']=count($data['plans']);
