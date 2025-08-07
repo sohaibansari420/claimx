@@ -13,7 +13,7 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @forelse ($plans as $data)
                         <div class="col">
-                            <div class="card pricing-card border-0 shadow-lg rounded-4 h-100 glass-card">
+                            <div class="card pricing-card border-0 shadow-lg rounded-4 h-100 glass-card" style="background: linear-gradient(180deg, #6c5ce7, #173875)!important;">
                                 <div class="card-header bg-transparent border-0 text-center pt-4">
                                     <h5 class="fw-bold text-primary text-uppercase">{{ $data->name }}</h5>
                                     <h2 class="text-success fw-bolder mt-2">${{ getAmount($data->price) }}</h2>

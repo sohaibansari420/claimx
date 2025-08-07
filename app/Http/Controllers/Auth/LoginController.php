@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         $page_title = "Sign In";
         $content = Frontend::where('data_keys', 'sign_in.content')->first();
-        return view(activeTemplate() . 'user.auth.login', compact('page_title', 'content'));
+        return view(activeTemplate() . 'user.auth.login_new', compact('page_title', 'content'));
     }
 
 

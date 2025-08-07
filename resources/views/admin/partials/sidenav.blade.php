@@ -159,7 +159,7 @@
                         <span class="menu-title">@lang('Packages')</span>
                     </a>
                 </li> --}}
-                {{-- <li class="sidebar-menu-item sidebar-dropdown">
+                <li class="sidebar-menu-item sidebar-dropdown">
                     <a href="javascript:void(0)" class="{{ menuActive('admin.commission*', 3) }}">
                         <i class="menu-icon las la-cash-register"></i>
                         <span class="menu-title">@lang('Commission')</span>
@@ -186,7 +186,7 @@
                             </li>
                         </ul>
                     </div>
-                </li> --}}
+                </li>
                 {{-- <li class="sidebar-menu-item {{ menuActive('admin.ranks*') }}">
                     <a href="{{ route('admin.ranks') }}" class="nav-link ">
                         <i class="menu-icon las la-shield-alt"></i>

@@ -30978,7 +30978,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 0.0625rem solid rgba(255, 255, 255, 0.1) !important; }
 
 [data-theme-version="dark"] .card {
-  background: linear-gradient(180deg, #6c5ce7, #173875);
+  background: white !important;
   box-shadow: none; }
 
 [data-theme-version="dark"] .dropdown-menu {

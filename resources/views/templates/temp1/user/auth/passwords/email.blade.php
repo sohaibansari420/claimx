@@ -1,55 +1,94 @@
-@extends($activeTemplate . 'layouts.auth')
+@extends($activeTemplate . 'layouts.login_auth')
 
 @section('content')
-    <section class="tf-section project-info">
-        <div class="container"> 
-            <div class="row">
-                <div class="col-md-12">
-                    <form method="post" action="{{ route('user.password.email') }}">
-                    @csrf
-                        <div class="project-info-form forget-form">
-                            <h4 class="title">Forget Password</h4> 
-                            <p>enter your email address or username in the form below and we will send you further instructions on how to reset your password</p>
-                            <div class="form-inner"> 
-                                <fieldset>
-                                    <label >
-                                        Select Type
-                                    </label>
-                                    <select name="type">
+    <section class="tf-section project-info d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="glass-card p-4 text-center w-100" style="max-width: 420px;">
+                        
+                        <form method="post" action="{{ route('user.password.email') }}">
+                            @csrf
+
+                            <h4 class="title mb-2">Forget Password</h4> 
+                            <p class="mb-4 small">Enter your email address or username below and we’ll send you reset instructions.</p>
+
+                            <div class="text-start">
+                                <!-- Select Type -->
+                                <fieldset class="mb-3">
+                                    <label for="type" class="form-label">Select Type</label>
+                                    <select name="type" class="form-select">
                                         <option value="email">@lang('E-Mail Address')</option>
                                         <option value="username">@lang('Username')</option>
                                     </select>
-                                </fieldset> 
+                                </fieldset>
 
-                                <fieldset>
-                                    <label >
-                                        Email / User Name
-                                    </label>
-                                    <input type="text" name="value" value="{{ old('value') }}" placeholder="@lang('Type Here...')" required autofocus="off">
+                                <!-- Email / Username -->
+                                <fieldset class="mb-3">
+                                    <label for="value" class="form-label">Email / Username</label>
+                                    <input type="text" name="value" class="form-control" value="{{ old('value') }}" placeholder="@lang('Type Here...')" required>
                                     @error('value')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="text-danger small d-block mt-1">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                </fieldset> 
+                                </fieldset>
                             </div>
-                            <div class="bottom">
-                                Nevermind. 
-                                <a href="{{route('user.login')}}">Sign in</a>
-                            </div>
-                        </div> 
 
-                        <div class="wrap-btn">
-                            <button type="submit" class="tf-button style1">
-                                Reset password
+                            <div class="text-start mb-3">
+                                Nevermind? <a href="{{ route('user.login') }}" class="text-white-50">Sign in</a>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                Reset Password
                             </button>
-                        </div>
-                    </form>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 @endsection
+
+@push('style')
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: white;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+        }
+
+        .form-control::placeholder, .form-select {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2);
+        }
+
+        a {
+            color: #cbd5e0;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+@endpush
 
 @push('script')
     <script type="text/javascript">
