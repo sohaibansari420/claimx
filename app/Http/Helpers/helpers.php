@@ -1703,6 +1703,36 @@ function showTreePage($id)
     return $res;
 }
 
+function buildTree($userId)
+{
+    $user = User::find($userId);
+
+    if (!$user) {
+        return null; // no user found
+    }
+
+    // Build the node
+    $node = [
+        'user' => $user,
+        'children' => []
+    ];
+
+    // Get left child (position 1)
+    $leftUser = getPositionUser($user->id, 1);
+    if ($leftUser) {
+        $node['children'][] = buildTree($leftUser->id);
+    }
+
+    // Get right child (position 2)
+    $rightUser = getPositionUser($user->id, 2);
+    if ($rightUser) {
+        $node['children'][] = buildTree($rightUser->id);
+    }
+
+    return $node;
+}
+
+
 function getDownlineUsers($id)
 {
     $downlines = [];
