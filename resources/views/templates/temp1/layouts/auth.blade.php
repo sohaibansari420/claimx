@@ -12,7 +12,7 @@
     <title> {{ $general->sitename }} - {{ __(@$page_title) }} </title>
 
     <!-- Fav Icon -->
-    <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.jpg') }}" type="image/x-icon">
 
     
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'frontend/app/bootstrap/css/bootstrap.css') }}">
