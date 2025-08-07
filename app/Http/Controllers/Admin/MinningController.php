@@ -24,7 +24,7 @@ class MinningController extends Controller
         $page_title = 'Token Minning Station';
         $empty_message = 'No Page found';
         $tokenWallet = UserWallet::with('wallet')->where("user_id",Auth::id())->where('wallet_id',3)->first();
-        $token_stake = StakeToken::where('status',"1")->first();
+        $token_stake = StakeToken::where('status',"1")->where("user_id",Auth::id())->first();
 
         $isBoosterPurchase = PurchasedBooster::with("booster")->where("user_id",Auth::id())->where("is_expired","0")->get();
 
@@ -101,6 +101,20 @@ class MinningController extends Controller
         }
 
         $tokenMiningTime .= "{$minutes}Min";
+
+        if($stakeDaysRemaining == 0){
+            $user = Auth::user();
+            $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+             
+            $cxAmount = $totalTokenEarned;
+            
+            $trx = getTrx();
+            
+            $details = 'Token minning id completed...';
+            updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+
+            StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
+        }
 
         
         $data = [
