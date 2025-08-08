@@ -137,35 +137,83 @@ class CronController extends Controller
     public function cron($id){
         $gnl = GeneralSetting::first();
         $gnl->last_cron = Carbon::now()->toDateTimeString();
-		$gnl->save();
+		// $gnl->save();
 
         if($id == "5min"){
+            
             $crons = CronUpdate::where('status', 0)->get();
             foreach($crons as $cron){
                 $cron->status = 1;
                 $cron->save();
                 if($cron->type == 'purchased_booster'){
-                    
-                    $user_families = UserFamily::where('mem_id', $cron->user_id)->get();
-                    foreach($user_families as $user_family){
-                        if($user_family->plan_id < getPlanWithAmount($cron->user_id, $cron->amount)->plan_id){
-                            $user_family->plan_id = getPlanWithAmount($cron->user_id, $cron->amount)->plan_id;
-                            $user_family->created_at = Carbon::now();
-                            $user_family->save();
-                        }
-                        checkBlocks($user_family->user_id);
+
+                    $user = User::find($cron->user_id);
+                    if (!$user) {
+                        return ['status' => 'user not found'];
                     }
+
+                    $purchaseCount = $user->purchasedBooster()->count();
+
+                    if ($purchaseCount == 0) {
+                        return ['status' => 'no purchase'];
+                    }
+                    if ($purchaseCount > 1) {
+                        return ['status' => 'not first purchase'];
+                    }
+
+                    $upliners = [];
+                    $currentRefId = $user->ref_id;
+
+                    for ($level = 1; $level <= 6; $level++) {
+                        if (!$currentRefId) break;
+
+                        $uplineUser = User::find($currentRefId);
+                        if (!$uplineUser) break;
+
+                        $upliners[] = [
+                            'level'   => $level,
+                            'user_id' => $uplineUser->id
+                        ];
+
+                        $currentRefId = $uplineUser->ref_id;
+                    }
+                    foreach ($upliners as $key => $value) {
+                        $level = $value['level'];
+                        $user_id = $value['user_id'];
+
+                        $commission = Commission::where('status', 1)->first();
+                        if($commission){
+                            $refs = CommissionDetail::where('commission_id', $commission->id )->get();
+                            foreach ($refs as $key => $ref) {
+                                if ($level == $ref->level) {
+                                    $percent = $ref->percent;
+                                    $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
+                                    vipUnilevelCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $booster_id);
+                                }
+                            }
+                        }
+                    }
+                    
+                    // $user_families = UserFamily::where('mem_id', $cron->user_id)->get();
+                    // foreach($user_families as $user_family){
+                    //     if($user_family->plan_id < getPlanWithAmount($cron->user_id, $cron->amount)->plan_id){
+                    //         $user_family->plan_id = getPlanWithAmount($cron->user_id, $cron->amount)->plan_id;
+                    //         $user_family->created_at = Carbon::now();
+                    //         $user_family->save();
+                    //     }
+                    //     checkBlocks($user_family->user_id);
+                    // }
 
                     //UNILEVEL BONUS/REFERRAL
 
-                    $commission = Commission::where('status', 1)->first();
-                    if($commission){
-                        $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
-                        $ref = CommissionDetail::where('commission_id', $commission->id )->where('plan_id', $booster_id)->first();
-                        $percent = $ref->percent;
-                        $limit = $ref->commission_limit;
-                        referralCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $limit, $booster_id);
-                    }
+                    // $commission = Commission::where('status', 1)->first();
+                    // if($commission){
+                    //     $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
+                    //     $ref = CommissionDetail::where('commission_id', $commission->id )->where('plan_id', $booster_id)->first();
+                    //     $percent = $ref->percent;
+                    //     $limit = $ref->commission_limit;
+                    //     referralCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $limit, $booster_id);
+                    // }
                 }
                 if($cron->type == 'new_register'){
                     familyTreeAdjust($cron->user_id);

@@ -22,14 +22,14 @@
                                     <label class="form-label">Referral Username *</label>
                                     <input type="text" name="referral" class="form-control" placeholder="@lang('Enter referral username')" required autofocus>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <label class="form-label">Position *</label>
                                     <select name="position" class="form-select" required>
                                         <option value="">Select Position</option>
                                         <option value="1">Left</option>
                                         <option value="2">Right</option>
                                     </select>
-                                </div>
+                                </div> --}}
                             @else
                                 <div class="col-md-6">
                                     <label class="form-label">Referral Username</label>

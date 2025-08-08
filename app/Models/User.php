@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->hasMany(PurchasedPlan::class)->orderBy('id','desc');
     }
 
+    public function purchasedBooster()
+    {
+        return $this->hasMany(PurchasedBooster::class , 'user_id')->orderBy('id','desc');
+    }
+
     public function epin()
     {
         return $this->hasMany(Epin::class)->orderBy('id','desc');

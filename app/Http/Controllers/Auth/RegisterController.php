@@ -141,7 +141,7 @@ class RegisterController extends Controller
 
             $validate = Validator::make($data, [
                 'referral'      => 'required|string|max:160',
-                'position'      => 'required|integer',
+                // 'position'      => 'required|integer',
                 'firstname'     => 'sometimes|required|regex:/^[A-Za-z]+$/|max:60',
                 'lastname'      => 'sometimes|required|regex:/^[A-Za-z]+$/|max:60',
                 'email'         => 'required|string|email|max:160|unique:users',

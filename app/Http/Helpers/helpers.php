@@ -1393,6 +1393,20 @@ function familyTreeAdjust($user_id = '')
     }
 }
 
+
+function vipUnilevelCommission($user_id, $wallet_id, $percent, $commission_id, $name, $booster_id = ''){
+    $user = User::find($user_id);
+    $booster = Booster::find($booster_id);
+    
+    $refer = User::find($user->ref_id);
+
+    $ref_plan = getUserHigherBooster($refer->id);
+    $amount = ($percent / 100) * $booster->price;
+
+    updateCommissionWithLimit($refer->id, $amount, $wallet_id, $commission_id, $user->username, '', $ref_plan->trx);
+}
+
+
 function referralCommission($user_id, $wallet_id, $percent, $commission_id, $name, $limit, $booster_id = '')
 {
 
@@ -2168,36 +2182,36 @@ function limitRemaining($id = '', $amount = '', $wallet_id = '', $commission_id 
 function updateCommissionWithLimit($id = '', $amount = '', $wallet_id = '', $commission_id = '', $from = '', $network_limit = '', $trx = '' ,$percentROI = '')
 {
     $plan = PurchasedBooster::where('trx', $trx)->firstOrFail();
-    $nl = $network_limit;
+    // $nl = $network_limit;
     if ($amount != 0) {
-        if ($network_limit != 0) {
-            $limit = checkLimit($amount, $network_limit, $plan);
-            if ($limit <= 100) {
-                // $plan->limit_consumed = $limit;
-                // $plan->save();
+        // if ($network_limit != 0) {
+        //     $limit = checkLimit($amount, $network_limit, $plan);
+        //     if ($limit <= 100) {
+        //         // $plan->limit_consumed = $limit;
+        //         // $plan->save();
 
-                //update commission
-                $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;
-                updateWallet($id, getTrx(), $wallet_id, $commission_id, '+', getAmount($amount), $details, 0, str_replace(' ', '_', getCommissionName($commission_id)), $trx , $percentROI);
-            } else {
-                //set limit
-                $remaining_amount = setLimit($amount, $network_limit, $plan);
+        //         //update commission
+        //         $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;
+        //         updateWallet($id, getTrx(), $wallet_id, $commission_id, '+', getAmount($amount), $details, 0, str_replace(' ', '_', getCommissionName($commission_id)), $trx , $percentROI);
+        //     } else {
+        //         //set limit
+        //         $remaining_amount = setLimit($amount, $network_limit, $plan);
 
-                //update commission
-                $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;
-                updateWallet($id, getTrx(), $wallet_id, $commission_id, '+', getAmount($amount - $remaining_amount), $details, 0, str_replace(' ', '_', getCommissionName($commission_id)), $trx, $percentROI);
+        //         //update commission
+        //         $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;
+        //         updateWallet($id, getTrx(), $wallet_id, $commission_id, '+', getAmount($amount - $remaining_amount), $details, 0, str_replace(' ', '_', getCommissionName($commission_id)), $trx, $percentROI);
 
-                while ($remaining_amount != 0) {
-                    $remaining_amount = limitRemaining($id, $remaining_amount, $wallet_id, $commission_id, $from, $network_limit, $plan);
-                }
+        //         while ($remaining_amount != 0) {
+        //             $remaining_amount = limitRemaining($id, $remaining_amount, $wallet_id, $commission_id, $from, $network_limit, $plan);
+        //         }
 
-            }
-            //adjustLimit($id, $nl);
-        } else {
+        //     }
+        //     //adjustLimit($id, $nl);
+        // } else {
             //update commission
             $details = 'Received ' . getCommissionName($commission_id) . ' From ' . $from;
             updateWallet($id, getTrx(), $wallet_id, $commission_id, '+', getAmount($amount), $details, 0, str_replace(' ', '_', getCommissionName($commission_id)), $trx, $percentROI);
-        }
+        // }
     }
 
     return 0;
