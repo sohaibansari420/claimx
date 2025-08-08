@@ -9,8 +9,8 @@
 <div class="swiper mySwiper-counter py-4">
     <div class="swiper-wrapper row g-4">
         @foreach ($wallets as $wallet)
-            @if ($wallet->wallet->display && $wallet->wallet->id != 3)
-                <div class="col-md-6">
+            @if ($wallet->wallet->display)
+                <div class="col-md-4">
                     <div class="wallet-card text-white px-4 py-4 rounded-4 shadow"
                         style="background: linear-gradient(180deg, #6c5ce7, #173875); position: relative; overflow: hidden;">
 
@@ -78,7 +78,7 @@
                             @endif
 
                             {{-- Deposit --}}
-                            @if ($wallet->wallet->deposit)
+                            @if ($wallet->wallet->deposit && $wallet->wallet->id != 3)
                                 <a href="{{ route('user.deposit') }}"
                                 class="btn btn-sm"
                                 style="background: #20c997; color: white; border-radius: 50px;">
