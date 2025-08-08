@@ -31,6 +31,18 @@
                         <span class="nav-text">Boosters</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('user.minning') }}" aria-expanded="false">
+                        <i class="fas fa-server me-2"></i>
+                        <span class="nav-text">Minning</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('user.tokenReport') }}" aria-expanded="false">
+                        <i class="fas fa-chart-pie me-2"></i>
+                        <span class="nav-text">Report</span>
+                    </a>
+                </li>
                 
                 <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <i class="material-icons">table_chart</i>	
