@@ -37,7 +37,7 @@
                     <span class="nav-text">Networking</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('user.my.tree') }}">@lang('Binary Tree')</a></li>
+                    <li><a href="{{ route('user.my.tree') }}">@lang('Unilevel Tree')</a></li>
                     <li><a href="{{ route('user.my.ref') }}">@lang('Direct Team')</a></li>	
                 </ul>
                 </li>
