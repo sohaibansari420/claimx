@@ -1,6 +1,5 @@
 @extends($activeTemplate . 'user.layouts.app')
-
-<style>
+    <style>
         :root {
             --primary-color: #6c5ce7;
             --secondary-color: #a29bfe;
@@ -235,16 +234,13 @@
             }
         }
     </style>
-
 @section('panel')
-
     <header class="mining-header">
         <div class="container text-center">
             <h1><i class="fas fa-digging me-2"></i> Token Mining</h1>
             <p class="lead">Start mining our tokens now and earn rewards automatically</p>
         </div>
     </header>
-
     <!-- Main Content -->
     <div class="container">
         @if(session('success'))
@@ -460,139 +456,134 @@
             </div>
         </div>
     </div>
-
 @endsection
-
-@push('script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('script-lib')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-const miningData = {
-    tap: {{ $data['tap'] }},
-    power: {{ $data['power'] }},
-    tokenMinned: {{ $data['token_minned'] }},
-    stakeAmount: {{ $data['token_minned'] }},
-    startDate: "{{ $startDate }}", // Properly formatted date string
-    duration: {{ $sessionDuration }} // in seconds
-};
+        const miningData = {
+            tap: {{ $data['tap'] }},
+            power: {{ $data['power'] }},
+            tokenMinned: {{ $data['token_minned'] }},
+            stakeAmount: {{ $data['token_minned'] }},
+            startDate: "{{ $startDate }}", // Properly formatted date string
+            duration: {{ $sessionDuration }} // in seconds
+        };
 
-$(document).ready(function () {
-    let isMining = false;
-    let miningInterval;
-    let secondsMined = 0;
-    let tokensEarned = 0;
-    let currentHashrate = 0;
+        $(document).ready(function () {
+            let isMining = false;
+            let miningInterval;
+            let secondsMined = 0;
+            let tokensEarned = 0;
+            let currentHashrate = 0;
 
-    const startBtn = $('#startMiningBtn');
-    const miningTimer = $('#miningTimer');
-    const miningProgress = $('#miningProgress');
-    const hashrateDisplay = $('#hashrate');
-    const tokensMinedDisplay = $('#tokensMined');
-    const miningPowerDisplay = $('#miningPower');
-    const hourlyRewardDisplay = $('#hourlyReward');
-    const dailyRewardDisplay = $('#dailyReward');
-    const weeklyRewardDisplay = $('#weeklyReward');
-    const copyReferralBtn = $('#copyReferralBtn');
+            const startBtn = $('#startMiningBtn');
+            const miningTimer = $('#miningTimer');
+            const miningProgress = $('#miningProgress');
+            const hashrateDisplay = $('#hashrate');
+            const tokensMinedDisplay = $('#tokensMined');
+            const miningPowerDisplay = $('#miningPower');
+            const hourlyRewardDisplay = $('#hourlyReward');
+            const dailyRewardDisplay = $('#dailyReward');
+            const weeklyRewardDisplay = $('#weeklyReward');
+            const copyReferralBtn = $('#copyReferralBtn');
 
-    const sessionSeconds = miningData.duration;
-    const totalReward = miningData.stakeAmount * (miningData.power / 100);
-    currentHashrate = 24 / miningData.tap;
-    tokensEarned = miningData.tokenMinned;
+            const sessionSeconds = miningData.duration;
+            const totalReward = miningData.stakeAmount * (miningData.power / 100);
+            currentHashrate = 24 / miningData.tap;
+            tokensEarned = miningData.tokenMinned;
 
-    function startMiningFrom(secondsElapsed = 0) {
-        isMining = true;
-        startBtn.prop('disabled', true);
-        secondsMined = secondsElapsed;
+            function startMiningFrom(secondsElapsed = 0) {
+                isMining = true;
+                startBtn.prop('disabled', true);
+                secondsMined = secondsElapsed;
 
-        miningInterval = setInterval(() => {
-            secondsMined++;
+                miningInterval = setInterval(() => {
+                    secondsMined++;
 
-            const remaining = sessionSeconds - secondsMined;
-            const h = Math.floor(remaining / 3600);
-            const m = Math.floor((remaining % 3600) / 60);
-            const s = remaining % 60;
+                    const remaining = sessionSeconds - secondsMined;
+                    const h = Math.floor(remaining / 3600);
+                    const m = Math.floor((remaining % 3600) / 60);
+                    const s = remaining % 60;
 
-            miningTimer.text(
-                `Time Left: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
-            );
+                    miningTimer.text(
+                        `Time Left: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+                    );
 
-            const progressPercent = (secondsMined / sessionSeconds) * 100;
-            miningProgress.css('width', `${progressPercent.toFixed(2)}%`);
+                    const progressPercent = (secondsMined / sessionSeconds) * 100;
+                    miningProgress.css('width', `${progressPercent.toFixed(2)}%`);
 
-            if (secondsMined >= sessionSeconds) {
-                clearInterval(miningInterval);
-                tokensEarned += totalReward;
-                tokensMinedDisplay.text(`${tokensEarned.toFixed(4)} TKN`);
-                miningTimer.text("Mining session completed.");
-                startBtn.prop('disabled', false);
-                isMining = false;
+                    if (secondsMined >= sessionSeconds) {
+                        clearInterval(miningInterval);
+                        tokensEarned += totalReward;
+                        tokensMinedDisplay.text(`${tokensEarned.toFixed(4)} TKN`);
+                        miningTimer.text("Mining session completed.");
+                        startBtn.prop('disabled', false);
+                        isMining = false;
+                    }
+                }, 1000);
             }
-        }, 1000);
-    }
 
-    function saveMiningData() {
-        $.ajax({
-            type: "POST",
-            url: "{{ route('user.minningHistory') }}",
-            data: {
-                data: miningData,
-                _token: "{{ csrf_token() }}"
-            },
-            success: function (res) {
-                if (res === 'success') {
-                    console.log('Mining session saved.');
+            function saveMiningData() {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('user.minningHistory') }}",
+                    data: {
+                        data: miningData,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (res) {
+                        if (res === 'success') {
+                            console.log('Mining session saved.');
+                        }
+                    },
+                    error: function (err) {
+                        console.error('Error saving mining session:', err);
+                    }
+                });
+            }
+
+            startBtn.click(function () {
+                if (isMining) return;
+                saveMiningData();
+                startMiningFrom(0);
+            });
+
+            // Resume logic if already started
+            if (miningData.startDate && sessionSeconds > 0) {
+                const startedAt = new Date(miningData.startDate).getTime();
+                const now = Date.now();
+                const elapsed = Math.floor((now - startedAt) / 1000);
+
+                if (elapsed < sessionSeconds) {
+                    startMiningFrom(elapsed);
+                    startBtn.prop('disabled', true);
+                } else {
+                    startBtn.prop('disabled', false);
+                    miningTimer.text("Mining session completed.");
                 }
-            },
-            error: function (err) {
-                console.error('Error saving mining session:', err);
             }
         });
-    }
 
-    startBtn.click(function () {
-        if (isMining) return;
-        saveMiningData();
-        startMiningFrom(0);
-    });
+        const amountInput = document.getElementById('swapAmount');
+        const loader = document.getElementById('loadingEstimate');
+        const estimateOutput = document.getElementById('usdtEstimate');
 
-    // Resume logic if already started
-    if (miningData.startDate && sessionSeconds > 0) {
-        const startedAt = new Date(miningData.startDate).getTime();
-        const now = Date.now();
-        const elapsed = Math.floor((now - startedAt) / 1000);
+        amountInput.addEventListener('input', () => {
+            if (amountInput.value.length === 0) {
+                loader.classList.add('d-none');
+                estimateOutput.value = '';
+                return;
+            }
 
-        if (elapsed < sessionSeconds) {
-            startMiningFrom(elapsed);
-            startBtn.prop('disabled', true);
-        } else {
-            startBtn.prop('disabled', false);
-            miningTimer.text("Mining session completed.");
-        }
-    }
-});
+            loader.classList.remove('d-none');
 
-const amountInput = document.getElementById('swapAmount');
-const loader = document.getElementById('loadingEstimate');
-const estimateOutput = document.getElementById('usdtEstimate');
-
-amountInput.addEventListener('input', () => {
-    if (amountInput.value.length === 0) {
-        loader.classList.add('d-none');
-        estimateOutput.value = '';
-        return;
-    }
-
-    loader.classList.remove('d-none');
-
-    // Fake a delay (simulate API fetch)
-    setTimeout(() => {
-        const rate = 1; // replace this with actual rate dynamically
-        const est = (parseFloat(amountInput.value) * rate).toFixed(2);
-        estimateOutput.value = est;
-        loader.classList.add('d-none');
-    }, 800);
-});
-</script>
-
-
+            // Fake a delay (simulate API fetch)
+            setTimeout(() => {
+                const rate = 1; // replace this with actual rate dynamically
+                const est = (parseFloat(amountInput.value) * rate).toFixed(2);
+                estimateOutput.value = est;
+                loader.classList.add('d-none');
+            }, 800);
+        });
+    </script>
 @endpush
