@@ -70,7 +70,8 @@ class MinningController extends Controller
         
 
         $startDate = optional($mining)->start_date;
-        $sessionDuration = (24/$mining->taps) * 3600; 
+        $miningTaps = $mining->taps ?? '1';
+        $sessionDuration = (24/$miningTaps) * 3600; 
 
         $totalTokenEarned = $miningHistory->sum('token_earned');
 
