@@ -65,7 +65,7 @@ class UserController extends Controller
         $data['db_name']            = Config::get('database.default');
         $data['totalDeposit']       = Deposit::where('user_id', auth()->id())->where('status', 1)->sum('amount');
         $data['totalWithdraw']      = Withdrawal::where('user_id', auth()->id())->where('status', 1)->sum('amount');
-        $data['totalBvCut']         = getAmount(Auth::user()->total_bv);
+        $data['totalBvCut']         = User::where('ref_id',Auth::user()->id)->count();
         $data['user_extras']        = UserExtra::where('user_id', Auth::user()->id)->first();
         $data['plans']              = PurchasedPlan::where(["user_id" => Auth::user()->id])->orderBy('id', 'desc')->get();
         $data['purchased_plans']    = PurchasedPlan::where(["user_id" => Auth::user()->id])->where('type','sponsor')->orderBy('id', 'desc')->get();
