@@ -168,11 +168,15 @@ class CronController extends Controller
                         if (!$currentRefId) break;
 
                         $uplineUser = User::find($currentRefId);
+
+                        $isUnilevel = $uplineUser->purchasedBooster()->count();
+
                         if (!$uplineUser) break;
 
                         $upliners[] = [
                             'level'   => $level,
-                            'user_id' => $uplineUser->id
+                            'user_id' => $uplineUser->id,
+                            'isUnilevel' => ($isUnilevel > 0)? 'yes' : 'no',
                         ];
 
                         $currentRefId = $uplineUser->ref_id;
@@ -180,15 +184,16 @@ class CronController extends Controller
                     foreach ($upliners as $key => $value) {
                         $level = $value['level'];
                         $user_id = $value['user_id'];
-
-                        $commission = Commission::where('status', 1)->first();
-                        if($commission){
-                            $refs = CommissionDetail::where('commission_id', $commission->id )->get();
-                            foreach ($refs as $key => $ref) {
-                                if ($level == $ref->level) {
-                                    $percent = $ref->percent;
-                                    $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
-                                    vipUnilevelCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $booster_id);
+                        if($value['isUnilevel'] == "yes"){
+                            $commission = Commission::where('status', 1)->first();
+                            if($commission){
+                                $refs = CommissionDetail::where('commission_id', $commission->id )->get();
+                                foreach ($refs as $key => $ref) {
+                                    if ($level == $ref->level) {
+                                        $percent = $ref->percent;
+                                        $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
+                                        vipUnilevelCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $booster_id);
+                                    }
                                 }
                             }
                         }
