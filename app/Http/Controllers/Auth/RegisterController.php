@@ -7,10 +7,12 @@ use App\Models\AdminNotification;
 use App\Models\CronUpdate;
 use App\Models\Frontend;
 use App\Models\GeneralSetting;
+use App\Models\StakeToken;
 use App\Models\User;
 use App\Models\UserExtra;
 use App\Models\UserLogin;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -303,9 +305,22 @@ class RegisterController extends Controller
     {
         createWallets($user->id);
 
-        $trx = getTrx();
-        $details = 'Registered Bonus (100CX are added to your token wallet)';
-        updateWallet($user->id, $trx, 3, NULL, '+', '100', $details, 0, 'registered_free_token', NULL,'');
+        // $trx = getTrx();
+        // $details = 'Registered Bonus (100CX are added to your token wallet)';
+        // updateWallet($user->id, $trx, 3, NULL, '+', '100', $details, 0, 'registered_free_token', NULL,'');
+
+        $user_id = $user->id;
+
+        $amount = "100";
+
+        $data = [
+            "user_id"=> $user_id,
+            "stake_amount"=> $amount,
+            "start_date" => Carbon::now(),
+            "status" =>  "1",
+        ];
+
+        StakeToken::create($data);
 
         $ref_id = getReferenceId($user->id);
         $pos = getPosition($ref_id, $user->position);
