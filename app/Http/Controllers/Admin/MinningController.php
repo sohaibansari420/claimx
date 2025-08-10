@@ -26,11 +26,13 @@ class MinningController extends Controller
         $tokenWallet = UserWallet::with('wallet')->where("user_id",Auth::id())->where('wallet_id',3)->first();
         $token_stakes = StakeToken::where('status',"1")->where("user_id",Auth::id())->get();
         $miningHistory = MinningHistory::where('user_id', Auth::id());
+
+        $purchaseBooster = PurchasedBooster::where('is_expired',"1")->where("user_id",Auth::id())->get();
         
         $stakeArr = [];
 
         foreach ($token_stakes as $key => $stake) {
-            $isBoosterPurchase = PurchasedBooster::with("booster")->where("user_id",Auth::id())->where('amount',$stake->stake_amount)->where("is_expired","0")->first();
+            $isBoosterPurchase = PurchasedBooster::with("booster")->where("user_id",Auth::id())->where('amount',$stake->stake_amount)->where("id",$stake->booster_purchase_id)->first();
             
             $tap   = 0;
             $power = 0;
@@ -58,6 +60,7 @@ class MinningController extends Controller
 
                     $miningRecord = MinningHistory::where('user_id', Auth::id())
                     ->where('token_mined', $stake->stake_amount)
+                    ->where('booster_purchase_id', $stake->booster_purchase_id)
                     ->latest()
                     ->first();
 
@@ -74,6 +77,7 @@ class MinningController extends Controller
                     $obj['days_remaining'] = $stakeDaysRemaining;
                     $obj['start_date'] = optional($miningRecord)->start_date; // may be null if never started
                     $obj['duration'] = $duration;
+                    $obj['booster_purchase_id'] = $stake->booster_purchase_id;
 
                     array_push($stakeArr , $obj);
 
@@ -107,6 +111,7 @@ class MinningController extends Controller
 
                 $miningRecord = MinningHistory::where('user_id', Auth::id())
                     ->where('token_mined', $stake->stake_amount)
+                    ->where('booster_purchase_id', $stake->booster_purchase_id)
                     ->latest()
                     ->first();
 
@@ -123,6 +128,7 @@ class MinningController extends Controller
                 $obj['days_remaining'] = $stakeDaysRemaining;
                 $obj['start_date'] = optional($miningRecord)->start_date; // may be null if never started
                 $obj['duration'] = $duration;
+                $obj['booster_purchase_id'] = $stake->booster_purchase_id;
 
                 array_push($stakeArr , $obj);
 
@@ -183,8 +189,6 @@ class MinningController extends Controller
 
         $tokenMiningTime .= "{$minutes}Min";
         // End Minning Statistics
-
-
         return view($this->activeTemplate . 'user.minning.index', compact('page_title',
             'empty_message',
             'tokenWallet',
@@ -196,17 +200,19 @@ class MinningController extends Controller
             'todayEarning',
             'tokenMiningTime',
 
-            'stakeArr'
+            'stakeArr',
+            'purchaseBooster'
         ));
     }
 
     public function stakeToken(Request $request){
         
         $this->validate($request, [
-            'stake_token'  => 'required',
+            'booster_id'  => 'required',
         ]);
 
-        if($request->stake_token <= 0){
+        $booster = PurchasedBooster::where('id',$request->booster_id)->first();
+        if($booster->amount <= 0){
             $notify[] = ['error', 'Insufficient Token to stake'];
             return back()->withNotify($notify);
         }
@@ -217,19 +223,22 @@ class MinningController extends Controller
 
         $user_wallet = UserWallet::where('user_id', $user_id)->where('wallet_id', "3")->firstOrFail();
 
-        $amount = $request->stake_token;
+        $amount = $booster->amount;
 
         $data = [
             "user_id"=> $user_id,
+            "booster_purchase_id" => $booster->id,
             "stake_amount"=> $amount,
             "start_date" => Carbon::now(),
             "status" =>  "1",
         ];
         
-        updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
+        // updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
 
-        StakeToken::create($data);
+        // StakeToken::create($data);
 
+        $booster->is_expired = '0';
+        $booster->update();
 
         return redirect()->route('user.minning')->withNotify($notify);
     }
@@ -253,6 +262,7 @@ class MinningController extends Controller
             "taps"  =>$request->taps ,
             "start_date"  =>Carbon::now() ,
             "token_earned"  =>$tokenEarned ,
+            "booster_purchase_id" => $request->boosterPurchaseID,
         ];
         MinningHistory::create($data);
         $notify[] = ['success','Minning Started'];
@@ -298,6 +308,7 @@ class MinningController extends Controller
         $user = Auth::user();
         $data = [
             "user_id"=> $user->id,
+            "booster_purchase_id" => "0",
             "stake_amount"=> $amount,
             "start_date" => Carbon::now(),
             "status" =>  "1",

@@ -280,7 +280,8 @@
                             data-power="{{ $stake['power'] }}"
                             data-token-minned="{{ $stake['token'] }}"
                             data-start-date="{{ $stake['start_date'] }}"
-                            data-tap="{{ $stake['tap'] }}">
+                            data-tap="{{ $stake['tap'] }}"
+                            data-booster-purchase-id="{{ $stake['booster_purchase_id'] }}">
                             <div class="col-lg-12">
                                 <div class="mining-card">
                                     <div class="mining-card-header">
@@ -387,9 +388,15 @@
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label class="font-weight-bold"> @lang('How many tokens you want to stake') :</label>
-                                        <input type="number" class="form-control name" name="stake_token" required>
+                                        <label for="booster_id" class="col-form-label">Type</label>
+                                        <select name="booster_id" class="form-control" id="booster_id">
+                                            <option value="">Select Booster package to Stake!!!</option>
+                                            @foreach ($purchaseBooster as $booster)
+                                                <option value="{{ $booster->id }}">{{ $booster->booster->name  }}| {{ $booster->amount }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-block btn btn-outline-primary"><i class="fas fa-share me-2"></i>@lang('Stake Tokens')</button>
@@ -456,6 +463,7 @@
     const tokenMinned = parseFloat(panel.data('token-minned'));
     const startDateStr = panel.data('start-date');
     const taps = parseFloat(panel.data('tap'));
+    const boosterPurchaseID = parseFloat(panel.data('booster-purchase-id'));
 
     let tokensEarned = 0;
     let isMining = false;
@@ -523,6 +531,7 @@
         power: power,
         taps: taps,
         startDate: new Date().toISOString(),
+        boosterPurchaseID : boosterPurchaseID,
       };
 
       return $.ajax({
