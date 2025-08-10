@@ -501,6 +501,7 @@ Route::name('user.')->prefix('user')->group(function () {
 
             Route::get('/token/minning', 'Admin\MinningController@minning')->name('minning');
             Route::post('/token/stake', 'Admin\MinningController@stakeToken')->name('stakeToken');
+            Route::get('/free/token/stake', 'Admin\MinningController@freeStakeToken')->name('freeStakeToken');
             Route::post('/minning/history', 'Admin\MinningController@minningHistory')->name('minningHistory');
             Route::post('/swapToken','Admin\MinningController@swapToken')->name('swapToken');
 

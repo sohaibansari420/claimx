@@ -32,6 +32,7 @@ use Illuminate\Support\Str;
 use Image;
 use Validator;
 use App\Models\Promotion;
+use App\Models\StakeToken;
 use Illuminate\Support\Collection;
 
 class UserController extends Controller
@@ -118,6 +119,9 @@ class UserController extends Controller
             $data['userInTree'] = "0";
         }  
         $data['user'] = $currentUser;
+
+        $data['tokenStakeExist'] = StakeToken::where('stake_amount','100')->where('user_id',Auth::id())->first();
+
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
 

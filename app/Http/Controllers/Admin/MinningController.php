@@ -291,4 +291,20 @@ class MinningController extends Controller
         
         return back()->with('success', 'Successfully swapped ' . $cxAmount . ' CX for ' . $usdtAmount . ' USDT.');
     }
+
+    public function freeStakeToken(Request $request){
+        $notify = ['success','Congratulation... You 100CX token is on stake....'];
+        $amount = "100";
+        $user = Auth::user();
+        $data = [
+            "user_id"=> $user->id,
+            "stake_amount"=> $amount,
+            "start_date" => Carbon::now(),
+            "status" =>  "1",
+        ];
+
+        StakeToken::create($data);
+
+        return redirect()->route('user.minning')->withNotify($notify);
+    }
 }
