@@ -250,101 +250,122 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
         <div class="row">
-            <!-- Mining Control Panel -->
             <div class="col-lg-8">
-                <div class="mining-card">
-                    <div class="mining-card-header">
-                        <i class="fas fa-rocket me-2"></i> Mining Control Panel
-                    </div>
-                    <div class="mining-card-body">
-                        <div class="row mining-stats">
-                            <div class="col-md-4">
-                                <div class="mining-stat">
-                                    <div class="mining-stat-value" id="miningPower">{{ $data['power'] }} %</div>
-                                    <div class="mining-stat-label">Mining Power</div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mining-stat">
-                                    <div class="mining-stat-value" id="hashrate">{{ $data['tap'] }} t/d</div>
-                                    <div class="mining-stat-label">Taps/Day</div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mining-stat">
-                                    <div class="mining-stat-value" id="tokensMined">{{ $data['token_minned'] }} CX</div>
-                                    <div class="mining-stat-label">Tokens Mined</div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="mining-timer" id="miningTimer">
-                            Ready to start mining
-                        </div>
-                        
-                        <div class="progress mining-progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                 role="progressbar" id="miningProgress" 
-                                 style="width: 0%; background-color: var(--primary-color)"></div>
-                        </div>
-                        
-                        <div class="text-center mt-4">
-                            <button class="mining-btn" id="startMiningBtn">
-                                <i class="fas fa-play me-2"></i> Start Mining
+                <ul class="nav nav-pills justify-content-center mb-4" id="miningTabs" role="tablist" style="gap: 10px;">
+                    @foreach ($stakeArr as $index => $stake)
+                        <li class="nav-item" role="presentation" style="flex: 1;">
+                            <button class="nav-link {{ $index === 0 ? 'active' : '' }} w-100 text-white fw-bold" 
+                                id="tab_{{$stake['id']}}" 
+                                data-bs-toggle="tab" 
+                                data-bs-target="#panel-{{$stake['id']}}" 
+                                type="button" 
+                                role="tab" 
+                                aria-controls="panel-{{$stake['id']}}" 
+                                aria-selected="{{ $index === 0 ? 'true' : 'false' }}"
+                                style="background-color: #007bff; border-radius: 8px;">
+                                @if ($stake['package'] == "Free")
+                                    🚀 Free Mining
+                                    @else
+                                    💎 $10 Mining
+                                @endif    
                             </button>
-                            {{-- <button class="mining-btn ms-3" id="stopMiningBtn" disabled>
-                                <i class="fas fa-stop me-2"></i> Stop Mining
-                            </button> --}}
-                        </div>
-                        
-                        <div class="mining-rewards">
-                            <h5><i class="fas fa-award me-2"></i>Estimated Rewards </h5>
-                            <div class="mining-reward-item">
-                                <span class="mining-reward-label">Token Minned:</span>
-                                <span class="mining-reward-value" id="hourlyReward">{{ $data['token_minned'] *  ($data['power'] / 100) }} CX</span>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="tab-content" id="miningTabsContent">
+                    @foreach ($stakeArr as $index => $stake)
+                        <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="panel-{{$stake['id']}}" role="tabpanel" aria-labelledby="tab_{{$stake['id']}}"
+                            data-duration="{{ $stake['duration'] }}"
+                            data-stake-amount="{{ $stake['token'] }}"
+                            data-power="{{ $stake['power'] }}"
+                            data-token-minned="{{ $stake['token'] }}"
+                            data-start-date="{{ $stake['start_date'] }}"
+                            data-tap="{{ $stake['tap'] }}">
+                            <div class="col-lg-12">
+                                <div class="mining-card">
+                                    <div class="mining-card-header">
+                                        <i class="fas fa-rocket me-2"></i> Mining Control Panel
+                                    </div>
+                                    <div class="mining-card-body">
+                                        <div class="row mining-stats">
+                                            <div class="col-md-4">
+                                                <div class="mining-stat">
+                                                    <div class="mining-stat-value" id="miningPower_free">{{ $stake['power'] }} %</div>
+                                                    <div class="mining-stat-label">Mining Power</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mining-stat">
+                                                    <div class="mining-stat-value" id="hashrate_free">{{ $stake['tap'] }} t/d</div>
+                                                    <div class="mining-stat-label">Taps/Day</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mining-stat">
+                                                    <div class="mining-stat-value" id="tokensMined_free">{{ $stake['token'] }} CX</div>
+                                                    <div class="mining-stat-label">Tokens Mined</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mining-timer_{{$stake['id']}} mining-timer" id="miningTimer_{{$stake['id']}}">
+                                            Ready to start mining
+                                        </div>
+
+                                        <div class="progress mining-progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                role="progressbar" id="miningProgress_{{$stake['id']}}" 
+                                                style="width: 0%; background-color: var(--primary-color)"></div>
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                            <button class="mining-btn" id="startMiningBtn_{{ $stake['id'] }}">
+                                                <i class="fas fa-play me-2"></i> Start Mining
+                                            </button>
+                                        </div>
+
+                                        <div class="mining-rewards">
+                                            <h5><i class="fas fa-award me-2"></i>Estimated Rewards </h5>
+                                            <div class="mining-reward-item">
+                                                <span class="mining-reward-label">Token Minned:</span>
+                                                <span class="mining-reward-value" id="hourlyReward_free">{{ $stake['token'] *  ($stake['power'] / 100) }} CX</span>
+                                            </div>
+                                            <div class="mining-reward-item">
+                                                <span class="mining-reward-label">Mining Power:</span>
+                                                <span class="mining-reward-value" id="dailyReward_free">{{ $stake['power'] }} %</span>
+                                            </div>
+                                            <div class="mining-reward-item">
+                                                <span class="mining-reward-label">Days Remaining:</span>
+                                                <span class="mining-reward-value" id="weeklyReward_free">{{ $stake['days_remaining'] }} Days</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mining-card mt-4">
+                                    <div class="mining-card-header">
+                                        <i class="fas fa-chart-line me-2"></i> Mining Statistics
+                                    </div>
+                                    <div class="mining-card-body">
+                                        <div class="mining-reward-item">
+                                            <span class="mining-reward-label">Total Mined:</span>
+                                            <span class="mining-reward-value">{{ $totalTokenEarned ?? '' }} CX</span>
+                                        </div>
+                                        <div class="mining-reward-item">
+                                            <span class="mining-reward-label">Today's Earnings:</span>
+                                            <span class="mining-reward-value">{{ $todayEarning ?? '0' }} CX</span>
+                                        </div>
+                                        <div class="mining-reward-item">
+                                            <span class="mining-reward-label">Mining Time:</span>
+                                            <span class="mining-reward-value">{{ $tokenMiningTime ?? '' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mining-reward-item">
-                                <span class="mining-reward-label">Mining Power:</span>
-                                <span class="mining-reward-value" id="dailyReward">{{ $data['power'] }} %</span>
-                            </div>
-                            <div class="mining-reward-item">
-                                <span class="mining-reward-label">Days Remaining:</span>
-                                <span class="mining-reward-value" id="weeklyReward">{{ $data['stakeDaysRemaining'] }} Days</span>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Mining Devices -->
-                <div class="mining-card mt-4">
-                    <div class="mining-card-header">
-                        <i class="fas fa-chart-line me-2"></i> Mining Statistics
-                    </div>
-                    <div class="mining-card-body">
-                        <div class="mining-reward-item">
-                            <span class="mining-reward-label">Total Mined:</span>
-                            <span class="mining-reward-value">{{ $totalTokenEarned }} TKN</span>
-                        </div>
-                        <div class="mining-reward-item">
-                            <span class="mining-reward-label">Today's Earnings:</span>
-                            <span class="mining-reward-value">{{ $todayEarning->token_earned ?? '0' }} CX</span>
-                        </div>
-                        <div class="mining-reward-item">
-                            <span class="mining-reward-label">Mining Time:</span>
-                            <span class="mining-reward-value">{{ $tokenMiningTime }}</span>
-                        </div>
-                        <div class="mining-reward-item">
-                            <span class="mining-reward-label">Referral Earnings:</span>
-                            <span class="mining-reward-value">0.00 TKN</span>
-                        </div>
-                        
-                        <div class="text-center mt-3">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-            
             <!-- Mining Stats & Referral -->
             <div class="col-lg-4">
                 <!-- Mining Stats -->
@@ -361,29 +382,24 @@
                                 <h2 class="font-w600 mb-0">{{ getAmount($tokenWallet->balance) }} <small>{{ $tokenWallet->wallet->currency }}</small></h2>
                             </div>
                         </div>
-                        
-                    <div class="text-center">
-                        <form method="post" action="{{ route('user.stakeToken') }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="font-weight-bold"> @lang('How many tokens you want to stake') :</label>
-                                    <input type="number" class="form-control name" name="stake_token" required>
+                        <div class="text-center">
+                            <form method="post" action="{{ route('user.stakeToken') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> @lang('How many tokens you want to stake') :</label>
+                                        <input type="number" class="form-control name" name="stake_token" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-block btn btn-outline-primary"><i class="fas fa-share me-2"></i>@lang('Stake Tokens')</button>
-                            </div>
-                        </form>
-                    </div>
-
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-block btn btn-outline-primary"><i class="fas fa-share me-2"></i>@lang('Stake Tokens')</button>
+                                </div>
+                            </form>
+                        </div>
                         <div class="text-center mt-3">
                             <a href="{{ route('user.stakingHistory') }}" class="btn btn-success">
                                 <i class="fas fa-history me-2"></i> View History
                             </a>
-                            {{-- <button class="btn btn-outline-success ms-2">
-                                <i class="fas fa-wallet me-2"></i> Withdraw
-                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -395,64 +411,23 @@
                         <strong>Swap Token to USDT</strong>
                     </div>
                     <div class="card-body p-4">
-
                         <form method="POST" action="{{ route('user.swapToken') }}" id="swapForm">
                             @csrf
-
-                            <!-- Token Info (Optional) -->
-                            {{-- <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <small class="text-muted">Your CX Balance:</small><br>
-                                    <strong>1,234.5678 CX</strong> <!-- Replace with dynamic -->
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">Current Rate:</small><br>
-                                    <strong>1 CX = 0.75 USDT</strong> <!-- Replace with dynamic -->
-                                </div>
-                            </div> --}}
-
-                            <!-- Input -->
                             <div class="form-floating mb-3">
                                 <input type="number" step="0.0001" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
                                 <label for="swapAmount">Amount to Swap (CX)</label>
                             </div>
-
-                            <!-- Estimated Output -->
                             <div class="form-floating mb-3 position-relative">
                                 <input type="text" id="usdtEstimate" class="form-control bg-light" placeholder="USDT estimate" readonly>
                                 <label for="usdtEstimate">You will receive (estimated USDT)</label>
                                 <div id="loadingEstimate" class="spinner-border spinner-border-sm text-primary position-absolute end-0 top-50 translate-middle-y me-3 d-none" role="status"></div>
                             </div>
-
-                            <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center">
                                 <i class="fas fa-sync-alt me-2"></i> Swap Now
                             </button>
                         </form>
                     </div>
                 </div>
-
-
-                
-                <!-- Referral Program -->
-                {{-- <div class="mining-card mt-4">
-                    <div class="mining-card-header">
-                        <i class="fas fa-user-friends me-2"></i> Referral Program
-                    </div>
-                    <div class="mining-card-body">
-                        <p>Invite friends and earn 10% of their mining rewards!</p>
-                        
-                        <div class="mining-referral">
-                            <h5><i class="fas fa-link me-2"></i>Your Referral Link</h5>
-                            <div class="mining-referral-code">
-                                https://tokenminer.com/ref/user123
-                            </div>
-                            <button class="btn btn-primary w-100" id="copyReferralBtn">
-                                <i class="fas fa-copy me-2"></i> Copy Link
-                            </button>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -460,130 +435,145 @@
 @push('script-lib')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const miningData = {
-            tap: {{ $data['tap'] }},
-            power: {{ $data['power'] }},
-            tokenMinned: {{ $data['token_minned'] }},
-            stakeAmount: {{ $data['token_minned'] }},
-            startDate: "{{ $startDate }}", // Properly formatted date string
-            duration: {{ $sessionDuration }} // in seconds
-        };
-
         $(document).ready(function () {
-            let isMining = false;
-            let miningInterval;
-            let secondsMined = 0;
-            let tokensEarned = 0;
-            let currentHashrate = 0;
+  // Store intervals by tabId
+  const miningIntervals = {};
 
-            const startBtn = $('#startMiningBtn');
-            const miningTimer = $('#miningTimer');
-            const miningProgress = $('#miningProgress');
-            const hashrateDisplay = $('#hashrate');
-            const tokensMinedDisplay = $('#tokensMined');
-            const miningPowerDisplay = $('#miningPower');
-            const hourlyRewardDisplay = $('#hourlyReward');
-            const dailyRewardDisplay = $('#dailyReward');
-            const weeklyRewardDisplay = $('#weeklyReward');
-            const copyReferralBtn = $('#copyReferralBtn');
+  // For each tab (panel)
+  $('.tab-pane').each(function () {
+    const panel = $(this);
+    const tabId = panel.attr('id').replace('panel-', '');
 
-            const sessionSeconds = miningData.duration;
-            const totalReward = miningData.stakeAmount * (miningData.power / 100);
-            currentHashrate = 24 / miningData.tap;
-            tokensEarned = miningData.tokenMinned;
+    const startBtn = $('#startMiningBtn_' + tabId);
+    const miningTimer = $('#miningTimer_' + tabId);
+    const miningProgress = $('#miningProgress_' + tabId);
+    const tokensMinedDisplay = $('#tokensMined_' + tabId);
 
-            function startMiningFrom(secondsElapsed = 0) {
-                isMining = true;
-                startBtn.prop('disabled', true);
-                secondsMined = secondsElapsed;
+    // Read data attributes
+    const duration = parseInt(panel.data('duration')); // total session seconds
+    const stakeAmount = parseFloat(panel.data('stake-amount'));
+    const power = parseFloat(panel.data('power'));
+    const tokenMinned = parseFloat(panel.data('token-minned'));
+    const startDateStr = panel.data('start-date');
+    const taps = parseFloat(panel.data('tap'));
 
-                miningInterval = setInterval(() => {
-                    secondsMined++;
+    let tokensEarned = 0;
+    let isMining = false;
+    let secondsMined = 0;
 
-                    const remaining = sessionSeconds - secondsMined;
-                    const h = Math.floor(remaining / 3600);
-                    const m = Math.floor((remaining % 3600) / 60);
-                    const s = remaining % 60;
+    // Calculate total reward for session
+    const totalReward = stakeAmount * (power / 100);
 
-                    miningTimer.text(
-                        `Time Left: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
-                    );
+    // Function to update UI timer & progress bar
+    function updateTimerUI(remainingSeconds) {
+      if (remainingSeconds < 0) remainingSeconds = 0;
+      const h = Math.floor(remainingSeconds / 3600);
+      const m = Math.floor((remainingSeconds % 3600) / 60);
+      const s = remainingSeconds % 60;
 
-                    const progressPercent = (secondsMined / sessionSeconds) * 100;
-                    miningProgress.css('width', `${progressPercent.toFixed(2)}%`);
+      miningTimer.text(
+        `Time Left: ${h.toString().padStart(2, '0')}:` +
+        `${m.toString().padStart(2, '0')}:` +
+        `${s.toString().padStart(2, '0')}`
+      );
 
-                    if (secondsMined >= sessionSeconds) {
-                        clearInterval(miningInterval);
-                        tokensEarned += totalReward;
-                        tokensMinedDisplay.text(`${tokensEarned.toFixed(4)} TKN`);
-                        miningTimer.text("Mining session completed.");
-                        startBtn.prop('disabled', false);
-                        isMining = false;
-                    }
-                }, 1000);
-            }
+      const progressPercent = ((duration - remainingSeconds) / duration) * 100;
+      miningProgress.css('width', progressPercent.toFixed(2) + '%');
+    }
 
-            function saveMiningData() {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('user.minningHistory') }}",
-                    data: {
-                        data: miningData,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function (res) {
-                        if (res === 'success') {
-                            console.log('Mining session saved.');
-                        }
-                    },
-                    error: function (err) {
-                        console.error('Error saving mining session:', err);
-                    }
-                });
-            }
+    // Start mining timer from elapsed seconds
+    function startMiningFrom(elapsedSeconds) {
+      if (isMining) return;
 
-            startBtn.click(function () {
-                if (isMining) return;
-                saveMiningData();
-                startMiningFrom(0);
-            });
+      isMining = true;
+      secondsMined = elapsedSeconds;
+      tokensEarned = (totalReward * (elapsedSeconds / duration));
 
-            // Resume logic if already started
-            if (miningData.startDate && sessionSeconds > 0) {
-                const startedAt = new Date(miningData.startDate).getTime();
-                const now = Date.now();
-                const elapsed = Math.floor((now - startedAt) / 1000);
+      startBtn.prop('disabled', true);
 
-                if (elapsed < sessionSeconds) {
-                    startMiningFrom(elapsed);
-                    startBtn.prop('disabled', true);
-                } else {
-                    startBtn.prop('disabled', false);
-                    miningTimer.text("Mining session completed.");
-                }
-            }
+      updateTimerUI(duration - secondsMined);
+      tokensMinedDisplay.text(tokensEarned.toFixed(4) + ' CX');
+
+      miningIntervals[tabId] = setInterval(() => {
+        secondsMined++;
+        if (secondsMined >= duration) {
+          clearInterval(miningIntervals[tabId]);
+          miningTimer.text('Mining session completed.');
+          miningProgress.css('width', '100%');
+          tokensMinedDisplay.text(totalReward.toFixed(4) + ' CX');
+          startBtn.prop('disabled', false);
+          isMining = false;
+          return;
+        }
+
+        const remaining = duration - secondsMined;
+        tokensEarned = totalReward * (secondsMined / duration);
+
+        updateTimerUI(remaining);
+        tokensMinedDisplay.text(tokensEarned.toFixed(4) + ' CX');
+      }, 1000);
+    }
+
+    // Save mining start session to server
+    function saveMiningStart() {
+      const payload = {
+        tabId: tabId,
+        package: panel.data('package') || '', // if you send this from backend
+        tokenMinned: tokenMinned,
+        power: power,
+        taps: taps,
+        startDate: new Date().toISOString(),
+      };
+
+      return $.ajax({
+        type: 'POST',
+        url: '{{ route("user.minningHistory") }}',
+        data: JSON.stringify(payload),
+        contentType: 'application/json',
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+      });
+    }
+
+    // On click of start button
+    startBtn.off('click').on('click', function () {
+      if (isMining) return;
+
+      saveMiningStart()
+        .done(function (res) {
+          if (res === 'success') {
+            startMiningFrom(0);
+          } else {
+            alert('Failed to start mining. Please try again.');
+          }
+        })
+        .fail(function () {
+          alert('Error starting mining. Please try again.');
         });
+    });
 
-        const amountInput = document.getElementById('swapAmount');
-        const loader = document.getElementById('loadingEstimate');
-        const estimateOutput = document.getElementById('usdtEstimate');
+    // On page load, check if mining was started previously (startDateStr)
+    if (startDateStr) {
+      const startedAt = new Date(startDateStr).getTime();
+      const now = Date.now();
+      const elapsedSeconds = Math.floor((now - startedAt) / 1000);
 
-        amountInput.addEventListener('input', () => {
-            if (amountInput.value.length === 0) {
-                loader.classList.add('d-none');
-                estimateOutput.value = '';
-                return;
-            }
+      if (elapsedSeconds < duration) {
+        startMiningFrom(elapsedSeconds);
+      } else {
+        miningTimer.text('Mining session completed.');
+        miningProgress.css('width', '100%');
+        tokensMinedDisplay.text(totalReward.toFixed(4) + ' CX');
+        startBtn.prop('disabled', false);
+      }
+    } else {
+      miningTimer.text('Ready to start mining');
+      miningProgress.css('width', '0%');
+      startBtn.prop('disabled', false);
+    }
+  });
+});
 
-            loader.classList.remove('d-none');
-
-            // Fake a delay (simulate API fetch)
-            setTimeout(() => {
-                const rate = 1; // replace this with actual rate dynamically
-                const est = (parseFloat(amountInput.value) * rate).toFixed(2);
-                estimateOutput.value = est;
-                loader.classList.add('d-none');
-            }, 800);
-        });
     </script>
 @endpush

@@ -24,46 +24,127 @@ class MinningController extends Controller
         $page_title = 'Token Minning Station';
         $empty_message = 'No Page found';
         $tokenWallet = UserWallet::with('wallet')->where("user_id",Auth::id())->where('wallet_id',3)->first();
-        $token_stake = StakeToken::where('status',"1")->where("user_id",Auth::id())->first();
+        $token_stakes = StakeToken::where('status',"1")->where("user_id",Auth::id())->get();
+        $miningHistory = MinningHistory::where('user_id', Auth::id());
+        
+        $stakeArr = [];
 
-        $isBoosterPurchase = PurchasedBooster::with("booster")->where("user_id",Auth::id())->where("is_expired","0")->get();
-
-        $tap   = 0;
-        $power = 0;
-        $days  = 0 ;
-        if(count($isBoosterPurchase) > 0){
-            $tap = 0;
+        foreach ($token_stakes as $key => $stake) {
+            $isBoosterPurchase = PurchasedBooster::with("booster")->where("user_id",Auth::id())->where('amount',$stake->stake_amount)->where("is_expired","0")->first();
+            
+            $tap   = 0;
             $power = 0;
-            foreach ($isBoosterPurchase as $key => $value) {
-                $booster_Check = $value->booster;
-
-                if($booster_Check->title == "Speed"){
+            $days  = 0 ;
+            if(isset($isBoosterPurchase)){
+                $tap = 0;
+                $power = 0;
+                    $booster_Check = $isBoosterPurchase->booster;
                     $features = unserialize($booster_Check->features);
-
+                    $features =  unserialize($features[0]);
                     $tap = "1";
-
                     preg_match('/([\d\.]+)%/', $features[0], $matchPower);
                     preg_match('/\d+/', $features[2], $matchDays);
                     $power = isset($matchPower[1]) ? floatval($matchPower[1]) : 0.0;
                     $days = isset($matchDays[0]) ? floatval($matchDays[0]) : 0.0;
-                }
-            }
-        }
-        else{
-            $tap   = "1";
-            $power = "0.5";
-            $days  = "500" ;
-        }
-        if (isset($token_stake->start_date)) {
-            $startDate = Carbon::parse($token_stake->start_date);
-            $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
-        }
-        else{
-            $stakeDaysPassed = "0";
-        }
-        $stakeDaysRemaining = $days - $stakeDaysPassed ; 
 
-        $miningHistory = MinningHistory::where('user_id', Auth::id());
+                    if (isset($token_stake->start_date)) {
+                        $startDate = Carbon::parse($token_stake->start_date);
+                        $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
+                    }
+                    else{
+                        $stakeDaysPassed = "0";
+                    }
+                    $stakeDaysRemaining = $days - $stakeDaysPassed ;
+
+                    $miningRecord = MinningHistory::where('user_id', Auth::id())
+                    ->where('token_mined', $stake->stake_amount)
+                    ->latest()
+                    ->first();
+
+                    $tap = $tap ?? 1; // fallback
+                    $duration = (24 / $tap) * 3600;
+
+                    $obj = [];
+                    $obj['id'] = $stake->id; 
+                    $obj['tap'] = $tap;
+                    $obj['power'] = $power;
+                    $obj['days'] = $days;
+                    $obj['package'] = $booster_Check->name;
+                    $obj['token'] = $stake->stake_amount;
+                    $obj['days_remaining'] = $stakeDaysRemaining;
+                    $obj['start_date'] = optional($miningRecord)->start_date; // may be null if never started
+                    $obj['duration'] = $duration;
+
+                    array_push($stakeArr , $obj);
+
+                    if($stakeDaysRemaining == 0){
+                        $user = Auth::user();
+                        $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+                        
+                        $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                        
+                        $trx = getTrx();
+                        
+                        $details = 'Token minning id completed...';
+                        updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+
+                        StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
+                    }
+            }
+            else{
+                $tap   = "1";
+                $power = "0.5";
+                $days  = "500" ;
+
+                if (isset($token_stake->start_date)) {
+                    $startDate = Carbon::parse($token_stake->start_date);
+                    $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
+                }
+                else{
+                    $stakeDaysPassed = "0";
+                }
+                $stakeDaysRemaining = $days - $stakeDaysPassed ;
+
+                $miningRecord = MinningHistory::where('user_id', Auth::id())
+                    ->where('token_mined', $stake->stake_amount)
+                    ->latest()
+                    ->first();
+
+                $tap = $tap ?? 1; // fallback
+                $duration = (24 / $tap) * 3600; 
+
+                $obj = [];
+                $obj['id'] = $stake->id;
+                $obj['tap'] = $tap;
+                $obj['power'] = $power;
+                $obj['days'] = $days;
+                $obj['package'] = "Free";
+                $obj['token'] = $stake->stake_amount;
+                $obj['days_remaining'] = $stakeDaysRemaining;
+                $obj['start_date'] = optional($miningRecord)->start_date; // may be null if never started
+                $obj['duration'] = $duration;
+
+                array_push($stakeArr , $obj);
+
+                if($stakeDaysRemaining == 0){
+                    $user = Auth::user();
+                    $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+                    
+                    $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                    
+                    $trx = getTrx();
+                    
+                    $details = 'Token minning id completed...';
+                    updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+
+                    StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
+                }
+                
+            }
+            
+        }
+        // Minning Statistics
+        
         $histories = $miningHistory->get();
         
         $mining = $miningHistory->latest()->first();
@@ -74,8 +155,7 @@ class MinningController extends Controller
         $sessionDuration = (24/$miningTaps) * 3600; 
 
         $totalTokenEarned = $miningHistory->sum('token_earned');
-
-        $todayEarning = $miningHistory->where('start_date',Carbon::today())->first();
+        $todayEarning = $miningHistory->where('start_date',Carbon::today())->sum('token_earned');
 
          $totalSeconds = 0;
         foreach ($histories as $history) {
@@ -102,40 +182,21 @@ class MinningController extends Controller
         }
 
         $tokenMiningTime .= "{$minutes}Min";
+        // End Minning Statistics
 
-        if($stakeDaysRemaining == 0){
-            $user = Auth::user();
-            $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
-             
-            $cxAmount = $totalTokenEarned;
-            
-            $trx = getTrx();
-            
-            $details = 'Token minning id completed...';
-            updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
 
-            StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
-        }
-
-        
-        $data = [
-            "tap" => $tap,
-            "power" => $power,
-            "days" => $days,
-            "token_minned" => $token_stake->stake_amount ?? 0,
-            "stakeDaysRemaining" => $stakeDaysRemaining,
-        ];
         return view($this->activeTemplate . 'user.minning.index', compact('page_title',
             'empty_message',
             'tokenWallet',
-            'token_stake' ,
-            'data',
             'startDate',
             'sessionDuration',
             'mining',
+            
             'totalTokenEarned',
             'todayEarning',
-            'tokenMiningTime'
+            'tokenMiningTime',
+
+            'stakeArr'
         ));
     }
 
@@ -183,20 +244,19 @@ class MinningController extends Controller
     }
 
     public function minningHistory(Request $request){
-
-        $tokenEarned = $request->data['tokenMinned'] * ($request->data['power'] / 100);
+        $tokenEarned = $request->tokenMinned * ($request->power / 100);
         $user_id = Auth::id();
         $data = [
             "user_id"  =>$user_id ,
-            "token_mined"  =>$request->data['tokenMinned'] ,
-            "power"  =>$request->data['power'] ,
-            "taps"  =>$request->data['tap'] ,
+            "token_mined"  =>$request->tokenMinned ,
+            "power"  =>$request->power ,
+            "taps"  =>$request->taps ,
             "start_date"  =>Carbon::now() ,
             "token_earned"  =>$tokenEarned ,
         ];
         MinningHistory::create($data);
         $notify[] = ['success','Minning Started'];
-        return redirect()->route('user.minning')->withNotify($notify);
+        return response()->json('success');
     }
 
     public function stakingHistory(){
