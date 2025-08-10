@@ -149,7 +149,7 @@
                 $('.rpaid').text($(this).data('rpaid'));
                 $('.lfree').text($(this).data('lfree'));
                 $('.rfree').text($(this).data('rfree'));
-                $('#exampleModalCenter').modal('show');
+                // $('#exampleModalCenter').modal('show');
             });
         })(jQuery);
     </script>
