@@ -388,7 +388,7 @@
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="booster_id" class="col-form-label">Type</label>
+                                        <label for="booster_id" class="col-form-label">Select Booster To Stake:</label>
                                         <select name="booster_id" class="form-control" id="booster_id">
                                             <option value="">Select Booster package to Stake!!!</option>
                                             @foreach ($purchaseBooster as $booster)
