@@ -123,7 +123,7 @@
                                                     <div class="comment-thumb">
                                                         <a class="h-100">
                                                             <img class="h-100"
-                                                                 src="{{getImage('assets/images/logoIcon/favicon.png')}}"
+                                                                 src="{{getImage('assets/images/logoIcon/favicon.jpg')}}"
                                                                  alt="*">
                                                         </a>
                                                     </div>

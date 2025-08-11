@@ -93,7 +93,7 @@ class GeneralSettingController extends Controller
                     mkdir($path, 0755, true);
                 }
                 $size = explode('x', imagePath()['favicon']['size']);
-                Image::make($request->favicon)->resize($size[0], $size[1])->save($path . '/favicon.png');
+                Image::make($request->favicon)->resize($size[0], $size[1])->save($path . '/favicon.jpg');
             } catch (\Exception $exp) {
                 $notify[] = ['error', 'Favicon could not be uploaded.'];
                 return back()->withNotify($notify);

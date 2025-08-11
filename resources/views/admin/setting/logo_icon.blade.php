@@ -58,14 +58,14 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="profilePicPreview logoPicPrev iconPrev"
-                                                        style="background-image: url({{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png', '?' . time()) }})">
+                                                        style="background-image: url({{ getImage(imagePath()['logoIcon']['path'] . '/favicon.jpg', '?' . time()) }})">
                                                         <button type="button" class="remove-image"><i
                                                                 class="fa fa-times"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 mt-sm-0 mt-4">
                                                     <div class="profilePicPreview logoPicPrev iconPrev bg--dark"
-                                                        style="background-image: url({{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png', '?' . time()) }})">
+                                                        style="background-image: url({{ getImage(imagePath()['logoIcon']['path'] . '/favicon.jpg', '?' . time()) }})">
                                                         <button type="button" class="remove-image"><i
                                                                 class="fa fa-times"></i></button>
                                                     </div>
