@@ -22,27 +22,10 @@
                                     <label class="form-label">Referral Username *</label>
                                     <input type="text" name="referral" class="form-control" placeholder="@lang('Enter referral username')" required autofocus>
                                 </div>
-                                {{-- <div class="col-md-6">
-                                    <label class="form-label">Position *</label>
-                                    <select name="position" class="form-select" required>
-                                        <option value="">Select Position</option>
-                                        <option value="1">Left</option>
-                                        <option value="2">Right</option>
-                                    </select>
-                                </div> --}}
                             @else
                                 <div class="col-md-6">
                                     <label class="form-label">Referral Username</label>
                                     <input type="text" name="referral" class="form-control" value="{{ $ref_user->username }}" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Position</label>
-                                    <select class="form-select" disabled>
-                                        @foreach (mlmPositions() as $k => $v)
-                                            <option value="{{ $k }}" @if ($position == $k) selected @endif>{{ $v }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="hidden" name="position" value="{{ $position }}">
                                 </div>
                             @endif
 
