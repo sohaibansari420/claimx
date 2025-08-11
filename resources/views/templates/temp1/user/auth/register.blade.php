@@ -134,8 +134,15 @@
 @endpush
 
 @push('script')
+<!-- jQuery (must be before Select2 JS) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     (function ($) {
         "use strict";
@@ -161,13 +168,11 @@
         function verifyCaptcha() {
             document.getElementById('g-recaptcha-error').innerHTML = '';
         }
+        $('.select2').select2({
+            placeholder: "Search country code",
+            allowClear: false,
+            minimumResultsForSearch: 0
+        });
     })(jQuery);
-</script>
-<script>
-    $('.select2').select2({
-        placeholder: "Select code",
-        allowClear: false,
-        minimumResultsForSearch: 0 // Always show search box
-    });
 </script>
 @endpush
