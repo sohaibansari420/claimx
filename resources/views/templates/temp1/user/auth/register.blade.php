@@ -139,7 +139,7 @@
         "use strict";
 
         @if (@$country_code)
-        $(`option[data-code={{ $country_code }}]`).attr('selected', '');
+            $(`option[data-code={{ $country_code }}]`).attr('selected', '');
         @endif
 
         $('select[name=country_code]').change(function () {
@@ -159,7 +159,8 @@
         function verifyCaptcha() {
             document.getElementById('g-recaptcha-error').innerHTML = '';
         }
-        $('#select2').select2({
+
+        $('.select2').select2({
             placeholder: "Search country code",
             allowClear: false,
             minimumResultsForSearch: 0
