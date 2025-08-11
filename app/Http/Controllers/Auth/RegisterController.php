@@ -215,7 +215,7 @@ class RegisterController extends Controller
         //User Create
         $user = new User();
         $user->ref_id       = $userCheck->id;
-        $user->position     = $data['position'];
+        $user->position     = 0;//$data['position'];
         $user->firstname    = isset($data['firstname']) ? $data['firstname'] : null;
         $user->lastname     = isset($data['lastname']) ? $data['lastname'] : null;
         $user->email        = strtolower(trim($data['email']));
