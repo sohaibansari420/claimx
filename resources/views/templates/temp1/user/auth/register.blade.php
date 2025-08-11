@@ -159,12 +159,15 @@
         function verifyCaptcha() {
             document.getElementById('g-recaptcha-error').innerHTML = '';
         }
-
-        $('.select2').select2({
-            placeholder: "Search country code",
-            allowClear: false,
-            minimumResultsForSearch: 0
-        });
     })(jQuery);
+</script>
+<script>
+    $(document).ready(function () {
+    $('.select2').select2({
+        placeholder: "Search country code",
+        allowClear: false,
+        minimumResultsForSearch: 0
+    });
+    });
 </script>
 @endpush
