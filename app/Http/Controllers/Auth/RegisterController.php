@@ -66,7 +66,7 @@ class RegisterController extends Controller
         if ($info['code'] == null) {
             $notify[] = ['error', 'Please wait a while.'];
             if ($request->ref) {
-                return redirect()->route('user.register' , ['ref'=>$request->ref , 'position'=> $request->position])->withNotify($notify);
+                return redirect()->route('user.register' , ['ref'=>$request->ref ])->withNotify($notify);
             }
             else{
                 return redirect()->route('user.register')->withNotify($notify);
