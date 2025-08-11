@@ -64,7 +64,7 @@ class MinningController extends Controller
                     ->latest()
                     ->first();
 
-                    $tap = $tap ?? 1; // fallback
+                    $tap = $tap ?? "1"; // fallback
                     $duration = (24 / $tap) * 3600;
 
                     $obj = [];
