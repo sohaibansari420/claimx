@@ -62,18 +62,18 @@
         .select2-container--default .select2-selection--single {
             background-color: rgba(255, 255, 255, 0.15);
             border: none;
-            color: white;
+            color: rgba(255, 255, 255, 0.15);
         }
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             color: white;
         }
         .select2-container--default .select2-results > .select2-results__options {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
+            background-color: white;
+            color: black;
         }
         .select2-container--default .select2-results__option--highlighted[aria-selected] {
             background-color: rgba(255, 255, 255, 0.2);
-            color: white;
+            color: black;
         }
     </style>
 </head>
