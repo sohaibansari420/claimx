@@ -42,7 +42,7 @@
                             <div class="col-md-12">
                                 <label class="form-label">Mobile Number *</label>
                                 <div class="input-group">
-                                    <select name="country_code" class="form-select select2" style="max-width: 100px;">
+                                    <select name="country_code" class="form-select select2" id="select2" style="max-width: 100px;">
                                         @include('partials.country_code')
                                     </select>
                                     <input type="text" name="mobile" class="form-control" value="{{ old('mobile') }}" placeholder="Your mobile number" required>
@@ -134,13 +134,7 @@
 @endpush
 
 @push('script')
-<!-- jQuery (must be before Select2 JS) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
@@ -168,7 +162,7 @@
         function verifyCaptcha() {
             document.getElementById('g-recaptcha-error').innerHTML = '';
         }
-        $('.select2').select2({
+        $('#select2').select2({
             placeholder: "Search country code",
             allowClear: false,
             minimumResultsForSearch: 0
