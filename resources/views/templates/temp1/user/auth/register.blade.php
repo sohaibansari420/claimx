@@ -164,8 +164,10 @@
     })(jQuery);
 </script>
 <script>
-    $(document).ready(function() {
-        $('.select2').select2();
+    $('.select2').select2({
+        placeholder: "Select code",
+        allowClear: false,
+        minimumResultsForSearch: 0 // Always show search box
     });
 </script>
 @endpush
