@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <h5 class="mb-20 text-muted">@lang('Deposit Via') {{ __(@$deposit->gateway->name) }}</h5>
                     <div class="p-3 bg--white">
-                        <img src="{{ $deposit->gateway_currency()->methodImage() }}" alt="@lang('Profile Image')" class="b-radius--10 deposit-imgView">
+                        <img src="{{ '' }}" alt="@lang('Profile Image')" class="b-radius--10 deposit-imgView">
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -55,7 +55,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             @lang('Rate')
                             <span class="font-weight-bold">1 {{__($general->cur_text)}}
-                                = {{ getAmount($deposit->rate) }} {{__($deposit->baseCurrency())}}</span>
+                                = {{ getAmount($deposit->rate) }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             @lang('Payable')
