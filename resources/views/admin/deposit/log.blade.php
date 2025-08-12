@@ -7,16 +7,16 @@
             request()->routeIs('admin.users.deposits') ||
             request()->routeIs('admin.deposit.dateSearch') ||
             request()->routeIs('admin.users.deposits.method'))
-            <div class="col-md-4 col-sm-6 mb-30">
+            <div class="col-md-12 col-sm-6 mb-30">
                 <div class="widget-two box--shadow2 b-radius--5 bg--success">
                     <div class="widget-two__content">
-                        <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($successfullDeposit,2) }}
+                        <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($pendingDeposit,2) }}
                         </h2>
                         <p class="text-white">@lang('Successful Deposit')</p>
                     </div>
                 </div><!-- widget-two end -->
             </div>
-            <div class="col-md-4 col-sm-6 mb-30">
+            {{-- <div class="col-md-4 col-sm-6 mb-30">
                 <div class="widget-two box--shadow2 b-radius--5 bg--6">
                     <div class="widget-two__content">
                         <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($pendingDeposit,2) }}
@@ -33,7 +33,7 @@
                         <p class="text-white">@lang('Rejected Deposit')</p>
                     </div>
                 </div><!-- widget-two end -->
-            </div>
+            </div> --}}
         @endif
         <div class="col-md-12">
             <div class="card b-radius--10">
@@ -69,13 +69,7 @@
                                             </td>
                                         @endif
                                         <td data-label="@lang('Method')">
-                                            @if (request()->routeIs('admin.users.deposits') || request()->routeIs('admin.users.deposits.method'))
-                                                <a
-                                                    href="{{ route('admin.users.deposits.method', [$deposit->gateway->alias, @$type ? $type : 'all', $userId]) }}">{{ __($deposit->gateway->name) }}</a>
-                                            @else
-                                                <a
-                                                    href="{{ route('admin.deposit.method', [$deposit->gateway->alias, @$type ? $type : 'all']) }}">{{ __($deposit->gateway->name) }}</a>
-                                            @endif
+                                           
                                         </td>
                                         <td data-label="@lang('Amount')" class="font-weight-bold">
                                             {{ getAmount($deposit->amount) }} {{ __($general->cur_text) }}</td>
