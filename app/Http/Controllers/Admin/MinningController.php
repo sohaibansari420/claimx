@@ -233,9 +233,9 @@ class MinningController extends Controller
             "status" =>  "1",
         ];
         
-        // updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
+        updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
 
-        // StakeToken::create($data);
+        StakeToken::create($data);
 
         $booster->is_expired = '0';
         $booster->update();
