@@ -23,20 +23,20 @@ Route::get('/bitcoin-price', function () {
 */
 
 Route::get('/test-mail', function() {
-    // $general = \App\Models\GeneralSetting::first();
+    $general = \App\Models\GeneralSetting::first();
 
-    // $email_template = \App\Models\EmailTemplate::where('act', "PASS_RESET_DONE")->where('email_status', 1)->first();
+    $email_template = \App\Models\EmailTemplate::where('act', "EVER_CODE")->where('email_status', 1)->first();
 
-    // $html = shortCodeReplacer("{{name}}", "Ryan", $general->email_template);
-    // $html = shortCodeReplacer("{{message}}", $email_template->email_body, $html);
+    $html = shortCodeReplacer("{{name}}", "Sohaib", $general->email_template);
+    $html = shortCodeReplacer("{{message}}", $email_template->email_body, $html);
     
-    // if (empty($html)) {
-    //     $html = $email_template->email_body;
-    // }
+    if (empty($html)) {
+        $html = $email_template->email_body;
+    }
     $html = "hello Claim X";
     \Illuminate\Support\Facades\Mail::html($html, function ($message) {
         $message->to('sohaibfaheem44@gmail.com')
-            ->from(config('mail.mailers.smtp.username'), "Millionare")
+            ->from(config('mail.mailers.smtp.username'), "CLAIMX")
             ->subject('Test');
     });
     return 1;
