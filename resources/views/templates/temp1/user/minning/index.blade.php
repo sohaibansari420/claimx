@@ -266,7 +266,7 @@
                                 @if ($stake['package'] == "Free")
                                     🚀 Free Mining
                                     @else
-                                    💎 ${{ $stake->stake_amount }} Mining
+                                    💎 ${{ $stake['token'] }} Mining
                                 @endif    
                             </button>
                         </li>
