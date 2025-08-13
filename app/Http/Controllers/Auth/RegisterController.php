@@ -233,7 +233,7 @@ class RegisterController extends Controller
             'city' => ''
         ];
         $user->status = 1;
-        $user->ev = $gnl->ev ? 0 : 1;
+        $user->ev = 1 ; //$gnl->ev ? 0 : 1;
         $user->sv = $gnl->sv ? 0 : 1;
         $user->ts = 0;
         $user->tv = 1;
