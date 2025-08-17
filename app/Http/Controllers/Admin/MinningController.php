@@ -49,8 +49,8 @@ class MinningController extends Controller
                     $power = isset($matchPower[1]) ? floatval($matchPower[1]) : 0.0;
                     $days = isset($matchDays[0]) ? floatval($matchDays[0]) : 0.0;
 
-                    if (isset($token_stake->start_date)) {
-                        $startDate = Carbon::parse($token_stake->start_date);
+                    if (isset($stake->start_date)) {
+                        $startDate = Carbon::parse($stake->start_date);
                         $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
                     }
                     else{
@@ -100,8 +100,8 @@ class MinningController extends Controller
                 $power = "0.5";
                 $days  = "500" ;
 
-                if (isset($token_stake->start_date)) {
-                    $startDate = Carbon::parse($token_stake->start_date);
+                if (isset($stake->start_date)) {
+                    $startDate = Carbon::parse($stake->start_date);
                     $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
                 }
                 else{
