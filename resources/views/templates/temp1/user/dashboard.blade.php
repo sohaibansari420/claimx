@@ -50,46 +50,16 @@
                                 $isSaturday = \Carbon\Carbon::now()->dayOfWeek === \Carbon\Carbon::SATURDAY;
                                 $isWeekend = in_array(\Carbon\Carbon::now()->dayOfWeek, [\Carbon\Carbon::SATURDAY, \Carbon\Carbon::SUNDAY]);
                             @endphp
-
-                            {{-- Withdraw or Transfer --}}
-                            @if ($userInTree == "1" || $user->withdrawal == 1)
-                                @if ($wallet->wallet->withdraw)
-                                    @if ($wallet->wallet->id == 3 && $isSaturday)
-                                        <a href="{{ route('user.withdraw') }}?walletID={{ $wallet->wallet->id }}"
-                                        class="btn btn-sm"
-                                        style="background: #344d91; color: white; border-radius: 50px;">
-                                        Withdraw
-                                        </a>
-                                    @elseif ($wallet->wallet->id != 3)
-                                        <a href="{{ route('user.withdraw') }}?walletID={{ $wallet->wallet->id }}"
-                                        class="btn btn-sm"
-                                        style="background: #344d91; color: white; border-radius: 50px;">
-                                        Withdraw
-                                        </a>
-                                    @endif
-                                @endif
-                            @elseif ($wallet->wallet->withdraw && $user->transfer == 1)
-                                @if ($wallet->wallet->id == 3 && $isWeekend)
-                                    <a href="{{ route('user.balance.transfer') }}?walletID={{ $wallet->wallet->id }}"
-                                    class="btn btn-sm"
-                                    style="background: #344d91; color: white; border-radius: 50px;">
-                                    {{ $wallet->wallet->id == 1 ? 'Withdraw' : 'Transfer' }}
-                                    </a>
-                                @elseif ($wallet->wallet->id != 3)
-                                    <a href="{{ route('user.balance.transfer') }}?walletID={{ $wallet->wallet->id }}"
-                                    class="btn btn-sm"
-                                    style="background: #344d91; color: white; border-radius: 50px;">
-                                    {{ $wallet->wallet->id == 1 ? 'Withdraw' : 'Transfer' }}
-                                    </a>
-                                @endif
+                            @if ($wallet->wallet->withdraw && $withdrawStatus == 1)
+                                <a href="{{ route('user.withdraw') }}?walletID={{ $wallet->wallet->id }}" class="btn btn-sm" style="background: #344d91; color: white; border-radius: 50px;">
+                                    Withdraw
+                                </a>
                             @endif
 
                             {{-- Deposit --}}
-                            @if ($wallet->wallet->deposit && $wallet->wallet->id != 3)
-                                <a href="{{ route('user.deposit') }}"
-                                class="btn btn-sm"
-                                style="background: #20c997; color: white; border-radius: 50px;">
-                                Deposit
+                            @if ($wallet->wallet->deposit)
+                                <a href="{{ route('user.deposit') }}" class="btn btn-sm" style="background: #20c997; color: white; border-radius: 50px;">
+                                    Deposit
                                 </a>
                             @endif
                         </div>

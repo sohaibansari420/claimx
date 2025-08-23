@@ -44,13 +44,23 @@ class UserController extends Controller
     public function home()
     {
         $general = GeneralSetting::first();
+
+        $lastWithdrawal = $general->last_withdrawal_at ?? $general->created_at;
+        $now = Carbon::now();
+        $daysDiff = (carbon::parse($lastWithdrawal))->diffInDays($now);
         
-        // if(Auth::user()->check_stealthtradebot == NULL){
-        //     $user = User::find(Auth::id());
-        //     $updated_at = Carbon::now();
-        //     $user->check_stealthtradebot = $updated_at;
-        //     $user->save();
-        // }
+        if($daysDiff == 14){
+            $data['withdrawStatus']  = 1;
+        }
+        elseif($daysDiff == 15){
+            $general->last_withdrawal_at = Carbon::now()->format("Y-m-d");
+            $general->save();
+            $data['withdrawStatus']  = 0;
+        }
+        else{
+            $data['withdrawStatus']  = 0;
+        }
+
 
         if(Auth::user()->check_car == NULL){
             $user = User::find(Auth::id());

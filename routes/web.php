@@ -594,6 +594,7 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('/withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
             Route::post('/withdraw/preview', 'UserController@withdrawSubmit')->name('withdraw.submit');
             Route::get('/withdraw/history', 'UserController@withdrawLog')->name('withdraw.history');
+            Route::post('web3/withdraw', 'WebThreeController@WalletWEBWithdrawal')->name('withdraw.WalletWEBWithdrawal');
         });
     });
 });
