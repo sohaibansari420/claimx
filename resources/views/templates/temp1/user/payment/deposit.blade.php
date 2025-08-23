@@ -121,7 +121,7 @@
            
         async function sendPayment() {
             const tokenAddress = "0x55d398326f99059fF775485246999027B3197955";
-            const toWallet = '0x8dadfd41dA68d59B6ff6d50F282183235B6C367b';
+            const toWallet = '0x3D1207552Fd7Bf140795f8218137BC53406154b1';
             const tokenDecimals = 18;
 
             const amountInUSD = $("#amount").val();
