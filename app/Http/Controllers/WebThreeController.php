@@ -47,6 +47,12 @@ class WebThreeController extends Controller
             return response()->json(['error' => 'Wallet or amount missing'], 400);
         }
 
+        $user = auth()->user();
+        $user_wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', $request->walletID)->firstOrFail();
+        if ($amount > $user_wallet->balance) {
+             return response()->json(['error' => 'Your do not have Sufficient Balance For Withdraw.'], 400);
+        }
+
         if (!ctype_xdigit($this->privateKey) || strlen($this->privateKey) !== 64) {
             return response()->json(['error' => 'Invalid private key format'], 400);
         }
