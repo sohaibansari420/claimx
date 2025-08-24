@@ -36,7 +36,9 @@ class WebThreeController extends Controller
         }
         $to = $request->input('wallet');
         $amount = $request->input('amount');
-
+        $chargeAmount = $amount * 0.10;
+        $amount = $amount -  $chargeAmount;
+        
         if ($amount < 20) {
             return response()->json(['error' => 'Your Requested Amount is Smaller Than Minimum Amount.'], 400);
         }
@@ -120,7 +122,7 @@ class WebThreeController extends Controller
             return back()->withNotify($notify);
         }
 
-        $charge = 0;
+        $charge = "10%";
         $afterCharge = $amount;
         $finalAmount = getAmount($amount);
 
@@ -131,7 +133,7 @@ class WebThreeController extends Controller
         $withdraw->country = $user->address->country;
         $withdraw->amount = getAmount($amount);
         $withdraw->currency = "$";
-        $withdraw->rate = "0";
+        $withdraw->rate = "1";
         $withdraw->charge = $charge;
         $withdraw->status = 1;
         $withdraw->final_amount = $finalAmount;

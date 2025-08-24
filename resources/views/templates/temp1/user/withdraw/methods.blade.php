@@ -35,7 +35,7 @@
                                                 : {{ getAmount($data->min_limit) }}
                                                 - {{ getAmount($data->max_limit) }} {{ $general->cur_text }}</li>
                                             <li class="list-group-item "> @lang('Charges')
-                                                - {{ getAmount($data->percent_charge) }}%
+                                                - 10%
                                             </li>
                                             <li class="list-group-item">@lang('Processing Time')
                                                 - {{ $data->delay }}</li>
