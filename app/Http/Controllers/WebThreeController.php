@@ -39,7 +39,7 @@ class WebThreeController extends Controller
         $chargeAmount = $amount * 0.10;
         $amount = $amount -  $chargeAmount;
         
-        if ($amount < 20) {
+        if ($amount >= 20) {
             return response()->json(['error' => 'Your Requested Amount is Smaller Than Minimum Amount.'], 400);
         }
 
