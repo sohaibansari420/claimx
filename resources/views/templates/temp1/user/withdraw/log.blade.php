@@ -19,7 +19,6 @@
                             <thead>
                                 <tr>
                                     <th scope="col">@lang('Transaction ID')</th>
-                                    <th scope="col">@lang('Gateway')</th>
                                     <th scope="col">@lang('Wallet')</th>
                                     <th scope="col">@lang('Amount')</th>
                                     <th scope="col">@lang('Charge')</th>
@@ -34,7 +33,6 @@
                                 @forelse($withdraws as $k=>$data)
                                     <tr>
                                         <td data-label="#@lang('Trx')">{{ $data->trx }}</td>
-                                        <td data-label="@lang('Gateway')">{{ $data->method->name }}</td>
                                         <td data-label="@lang('Wallet')">{{ $data->wallet->name }}</td>
                                         <td data-label="@lang('Amount')">
                                             <strong>{{ getAmount($data->amount) }} {{ $general->cur_text }}</strong>
