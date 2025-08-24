@@ -139,6 +139,7 @@
         }
     </script> --}}
   <script>
+    const walletID = {{ $wallet_id }}
 $('#withdrawBtn').click(async function() {
     var amount = $('#amount').val();
 
@@ -165,7 +166,7 @@ $('#withdrawBtn').click(async function() {
             data: {
                 _token: '{{ csrf_token() }}',
                 amount: amount,
-                walletID : 1,
+                walletID : walletID,
                 wallet: userAccount
             },
             success: function(res) {

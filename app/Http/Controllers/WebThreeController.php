@@ -37,6 +37,10 @@ class WebThreeController extends Controller
         $to = $request->input('wallet');
         $amount = $request->input('amount');
 
+        if ($amount < 20) {
+            return response()->json(['error' => 'Your Requested Amount is Smaller Than Minimum Amount.'], 400);
+        }
+
         if (!$to || !$amount) {
             return response()->json(['error' => 'Wallet or amount missing'], 400);
         }
