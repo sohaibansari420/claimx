@@ -71,7 +71,7 @@ class PlanController extends Controller
         $notify[] = updateWallet($user->id, $trx, 1, NULL, '-', getAmount($package->price), $details, 0, 'purchased_booster', NULL,'');
 
         $detail_tok = $user->username . ' Subscribed to ' . $package->name . ' booster and get 100 CX.';
-        updateWallet($user->id, $trx, 3, NULL, '+', getAmount($package->price), $detail_tok, 0, 'purchased_tokens', NULL,'');
+        // updateWallet($user->id, $trx, 3, NULL, '+', getAmount($package->price), $detail_tok, 0, 'purchased_tokens', NULL,'');
         
         $oldPlan = $user->plan_purchased;
         $user->plan_purchased = 1;
