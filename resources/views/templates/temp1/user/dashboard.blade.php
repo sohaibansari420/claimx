@@ -99,7 +99,7 @@
                             <div class="mining-referral">
                             <h5><i class="fas fa-link me-2"></i>Your Referral Link</h5>
                             <div class="mining-referral-code text-dark">
-                                http://www.claimxnetwork.com/register?ref=ClaimX
+                                http://www.claimxnetwork.com/register?ref={{ auth()->user()->username }}
                             </div>
                         </div>
                         </div>
