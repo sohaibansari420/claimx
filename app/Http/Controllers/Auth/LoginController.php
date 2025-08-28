@@ -157,18 +157,18 @@ class LoginController extends Controller
         $exist = UserLogin::where('user_ip',$ip)->first();
         $userLogin = new UserLogin();
         if ($exist) {
-            $userLogin->longitude =  $exist->longitude;
-            $userLogin->latitude =  $exist->latitude;
-            $userLogin->location =  $exist->location;
-            $userLogin->country_code = $exist->country_code;
-            $userLogin->country =  $exist->country;
+            $userLogin->longitude =  $exist->longitude ?? '';
+            $userLogin->latitude =  $exist->latitude ?? '';
+            $userLogin->location =  $exist->location ?? '';
+            $userLogin->country_code = $exist->country_code ?? '';
+            $userLogin->country =  $exist->country ?? '';
         }else{
             $info = json_decode(json_encode(getIpInfo()), true);
-            $userLogin->longitude =  @implode(',',$info['long']);
-            $userLogin->latitude =  @implode(',',$info['lat']);
+            $userLogin->longitude =  @implode(',',$info['long']) ?? '';
+            $userLogin->latitude =  @implode(',',$info['lat']) ?? '';
             $userLogin->location =  @implode(',',$info['city']) . (" - ". @implode(',',$info['area']) ."- ") . @implode(',',$info['country']) . (" - ". @implode(',',$info['code']) . " ");
-            $userLogin->country_code = @implode(',',$info['code']);
-            $userLogin->country =  @implode(',', $info['country']);
+            $userLogin->country_code = @implode(',',$info['code']) ?? '';
+            $userLogin->country =  @implode(',', $info['country']) ?? '';
         }
 
         $userAgent = osBrowser();
