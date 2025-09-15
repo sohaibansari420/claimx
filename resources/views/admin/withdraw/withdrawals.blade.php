@@ -41,7 +41,7 @@
                                 @if(!request()->routeIs('admin.users.withdrawals') && !request()->routeIs('admin.users.withdrawals.method'))
                                 <th scope="col">@lang('Username')</th>
                                 @endif
-                                <th scope="col">@lang('Method')</th>
+                                {{-- <th scope="col">@lang('Method')</th> --}}
                                 <th scope="col">@lang('Amount')</th>
                                 <th scope="col">@lang('Charge')</th>
                                 <th scope="col">@lang('After Charge')</th>
@@ -73,11 +73,11 @@
                                     </td>
                                     @endif
                                     <td data-label="@lang('Method')">
-                                        @if(request()->routeIs('admin.users.withdrawals') || request()->routeIs('admin.users.withdrawals'))
+                                        {{-- @if(request()->routeIs('admin.users.withdrawals') || request()->routeIs('admin.users.withdrawals'))
                                        <a href="{{ route('admin.users.withdrawals.method',[$withdraw->method->id,@$type?$type:'all',$userId]) }}"> {{ __(@$withdraw->method->name) }}</a>
                                        @else
                                        <a href="{{ route('admin.withdraw.method',[$withdraw->method->id,@$type]) }}"> {{ __(@$withdraw->method->name) }}</a>
-                                       @endif
+                                       @endif --}}
                                     </td>
                                     <td data-label="@lang('Amount')" class="budget font-weight-bold">{{ getAmount($withdraw->amount) }} {{__($general->cur_text)}}</td>
                                     <td data-label="@lang('Charge')" class="budget text-danger">{{ getAmount($withdraw->charge) }} {{__($general->cur_text)}}</td>

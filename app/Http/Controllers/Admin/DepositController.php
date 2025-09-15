@@ -6,6 +6,7 @@ use App\Models\Deposit;
 use App\Models\Gateway;
 use App\Models\GeneralSetting;
 use App\Http\Controllers\Controller;
+use App\Models\PurchasedBooster;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -65,8 +66,21 @@ class DepositController extends Controller
         $page_title = 'Deposit History';
         $empty_message = 'No deposit history available.';
         $deposits = Deposit::with(['user', 'gateway'])->latest()->paginate(getPaginate());
+        $depositsAmount = Deposit::get();
+        foreach ($depositsAmount as $key => $deposit) {
+            $amount = number_format($deposit->amount, 0);
+            $boosterPurchased = PurchasedBooster::where('user_id',$deposit->user_id)->where('amount',$amount)->first();
+            if (isset($boosterPurchased)) {
+                $deposit->status = '1';
+                $deposit->save(); 
+            }
+            else{
+                $deposit->status = '2';
+                $deposit->save(); 
+            }
+        }
         $successfullDeposit = Deposit::where('status', 1)->sum('amount');
-        $pendingDeposit = Deposit::where('status', 0)->sum('amount');
+        $pendingDeposit = Deposit::where('status', 2)->sum('amount');
         $rejectedDeposit = Deposit::where('status', 3)->sum('amount');
         return view('admin.deposit.log', compact('page_title', 'empty_message', 'deposits','successfullDeposit','pendingDeposit','rejectedDeposit'));
     }

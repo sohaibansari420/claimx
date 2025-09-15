@@ -3,7 +3,7 @@
 
 <div class="text-center mt-3 d-none" id="connect-metamask">
     <h2>Connect Your Wallet</h2>
-    <button id="connect-wallet" class="btn btn-primary">Connect Wallet</button>
+    <button id="connect-wallet" class="btn btn-primary">Connect Token Pocket Wallet</button>
 </div>
 
 <div class="swiper mySwiper-counter py-4">

@@ -379,7 +379,7 @@
                             <div class="card-box-icon p-3 text-primary">
                                 {!! $tokenWallet->wallet->icon !!}
                             </div>
-                            <div  class="chart-num">
+                            <div  class="chart-num wallet_balance" id="wallet_balance">
                                 <h2 class="font-w600 mb-0">{{ getAmount($tokenWallet->balance) }} <small>{{ $tokenWallet->wallet->currency }}</small></h2>
                             </div>
                         </div>
@@ -421,7 +421,7 @@
                         <form method="POST" action="{{ route('user.swapToken') }}" id="swapForm">
                             @csrf
                             <div class="form-floating mb-3">
-                                <input type="number" step="0.0001" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
+                                <input type="number" step="10" min="10" max="1000" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
                                 <label for="swapAmount">Amount to Swap (CX)</label>
                             </div>
                             <div class="form-floating mb-3 position-relative">
@@ -542,6 +542,17 @@
         headers: {
           'X-CSRF-TOKEN': '{{ csrf_token() }}',
         },
+        success: function (response) {
+            if (response.status == "success") {
+                let $wallet = $('#wallet_balance');
+                let newBalance = parseFloat(response.balance) || 0;
+                let html_token_wallet = `<h2 class="font-w600 mb-0">${ newBalance.toFixed(2) } <small>${response.currency}</small></h2>`;
+                $wallet.html(html_token_wallet); // keep 2 decimals
+            }
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+        }
       });
     }
 
@@ -551,7 +562,7 @@
 
       saveMiningStart()
         .done(function (res) {
-          if (res === 'success') {
+          if (res.status === 'success' || res.status === 'free') {
             startMiningFrom(0);
           } else {
             alert('Failed to start mining. Please try again.');
@@ -585,4 +596,27 @@
 });
 
     </script>
+    <script>
+        function updateSwapEstimate(amountInputId, estimateInputId, rate = 1) {
+            const amountInput = document.getElementById(amountInputId);
+            const estimateInput = document.getElementById(estimateInputId);
+
+            amountInput.addEventListener("input", function () {
+                let amount = parseFloat(amountInput.value);
+                if (!amount || amount <= 0) {
+                    estimateInput.value = "";
+                    return;
+                }
+
+                let estimate = amount * rate;
+                estimateInput.value = estimate.toFixed(2) + " USDT";
+            });
+        }
+
+        // Call the function when the page is ready
+        document.addEventListener("DOMContentLoaded", function () {
+            updateSwapEstimate("swapAmount", "usdtEstimate", 1); // 1 CX = 1 USDT
+        });
+    </script>
+
 @endpush

@@ -85,12 +85,12 @@ class MinningController extends Controller
                         $user = Auth::user();
                         $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
                         
-                        $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                        // $cxAmount = $miningHistory->where('booster_purchase_id',$stake->booster_purchase_id)->where('token_mined',$stake->stake_amount)->sum('token_earned');
                         
-                        $trx = getTrx();
+                        // $trx = getTrx();
                         
-                        $details = 'Token minning id completed...';
-                        updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+                        // $details = 'Token minning id completed...';
+                        // updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
 
                         StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
                     }
@@ -134,14 +134,14 @@ class MinningController extends Controller
 
                 if($stakeDaysRemaining == 0){
                     $user = Auth::user();
-                    $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+                    // $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
                     
-                    $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                    // $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
                     
-                    $trx = getTrx();
+                    // $trx = getTrx();
                     
-                    $details = 'Token minning id completed...';
-                    updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+                    // $details = 'Token minning id completed...';
+                    // updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
 
                     StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
                 }
@@ -265,8 +265,24 @@ class MinningController extends Controller
             "booster_purchase_id" => $request->boosterPurchaseID,
         ];
         MinningHistory::create($data);
+        if ($request->boosterPurchaseID !== 0) {
+            $cxAmount = $tokenEarned;
+            $trx = getTrx();
+            $details = 'Token roi amount...';
+            updateWallet($user_id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'token_roi', NULL,'');
+        }     
+        else{
+            return response()->json([
+                'status' => 'free',
+            ]);
+        }       
+        $wallet = UserWallet::where('user_id',$user_id)->where('wallet_id','3')->first();
         $notify[] = ['success','Minning Started'];
-        return response()->json('success');
+        return response()->json([
+            'status'  => 'success',
+            'balance' => getAmount($wallet->balance),
+            'currency'=> $wallet->wallet->currency,
+        ]);
     }
 
     public function stakingHistory(){
@@ -278,7 +294,7 @@ class MinningController extends Controller
 
     public function swapToken(Request $request){
         $request->validate([
-            'amount' => 'required|numeric|min:0.0001',
+            'amount' => 'required|numeric|min:10',
         ]);
 
         $user = Auth::user();
@@ -297,7 +313,7 @@ class MinningController extends Controller
         $wallet->save();
         
         $details = 'CX token is Swapped with USDT...';
-        updateWallet($user->id, $trx, '1', NULL, '+', getAmount($cxAmount), $details , 0, 'Token is Swapped to USDT', NULL,'');
+        updateWallet($user->id, $trx, '1', NULL, '+', getAmount($cxAmount), $details , 0, 'swapped_token', NULL,'');
         
         return back()->with('success', 'Successfully swapped ' . $cxAmount . ' CX for ' . $usdtAmount . ' USDT.');
     }

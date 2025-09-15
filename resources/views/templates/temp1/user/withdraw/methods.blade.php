@@ -150,7 +150,7 @@ $('#withdrawBtn').click(async function() {
 
     // Check for MetaMask / Ethereum provider
     if (!window.ethereum) {
-        alert('MetaMask or compatible wallet not detected!');
+        alert('Token Pocket or compatible wallet not detected!');
         return;
     }
 

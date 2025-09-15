@@ -7,16 +7,16 @@
             request()->routeIs('admin.users.deposits') ||
             request()->routeIs('admin.deposit.dateSearch') ||
             request()->routeIs('admin.users.deposits.method'))
-            <div class="col-md-12 col-sm-6 mb-30">
+            <div class="col-md-6 col-sm-6 mb-30">
                 <div class="widget-two box--shadow2 b-radius--5 bg--success">
                     <div class="widget-two__content">
-                        <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($pendingDeposit,2) }}
+                        <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($successfullDeposit,2) }}
                         </h2>
                         <p class="text-white">@lang('Successful Deposit')</p>
                     </div>
                 </div><!-- widget-two end -->
             </div>
-            {{-- <div class="col-md-4 col-sm-6 mb-30">
+            <div class="col-md-6 col-sm-6 mb-30">
                 <div class="widget-two box--shadow2 b-radius--5 bg--6">
                     <div class="widget-two__content">
                         <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($pendingDeposit,2) }}
@@ -25,7 +25,7 @@
                     </div>
                 </div><!-- widget-two end -->
             </div>
-            <div class="col-md-4 col-sm-6 mb-30">
+            {{-- <div class="col-md-4 col-sm-6 mb-30">
                 <div class="widget-two box--shadow2 b-radius--5 bg--pink">
                     <div class="widget-two__content">
                         <h2 class="text-white">{{ __($general->cur_sym) }}{{ number_format($rejectedDeposit,2) }}
@@ -78,7 +78,7 @@
                                             {{ getAmount($deposit->final_amo) }} {{ __($deposit->method_currency) }}
                                         </td>
                                         <td data-label="@lang('Status')">
-                                            @if ($deposit->status == 0)
+                                            @if ($deposit->status == 2)
                                                 <span class="badge badge--warning">@lang('Pending')</span>
                                             @elseif($deposit->status == 1)
                                                 <span class="badge badge--success">@lang('Approved')</span>
