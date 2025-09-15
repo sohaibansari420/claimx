@@ -560,6 +560,7 @@
     startBtn.off('click').on('click', function () {
       if (isMining) return;
 
+      startBtn.prop('disabled', true);
       saveMiningStart()
         .done(function (res) {
           if (res.status === 'success' || res.status === 'free') {
