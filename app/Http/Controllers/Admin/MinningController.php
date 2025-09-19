@@ -97,8 +97,8 @@ class MinningController extends Controller
             }
             else{
                 $tap   = "1";
-                $power = "0.5";
-                $days  = "500" ;
+                $power = "1";
+                $days  = "300" ;
 
                 if (isset($stake->start_date)) {
                     $startDate = Carbon::parse($stake->start_date);
