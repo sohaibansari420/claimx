@@ -80,17 +80,16 @@ class MinningController extends Controller
                     $obj['booster_purchase_id'] = $stake->booster_purchase_id;
 
                     array_push($stakeArr , $obj);
-
                     if($stakeDaysRemaining == 0){
                         $user = Auth::user();
                         $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
                         
                         // $cxAmount = $miningHistory->where('booster_purchase_id',$stake->booster_purchase_id)->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                        $cxAmount = $stake->stake_amount;
+                        $trx = getTrx();
                         
-                        // $trx = getTrx();
-                        
-                        // $details = 'Token minning id completed...';
-                        // updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+                        $details = 'Token minning id completed...';
+                        updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
 
                         StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
                     }
@@ -134,14 +133,14 @@ class MinningController extends Controller
 
                 if($stakeDaysRemaining == 0){
                     $user = Auth::user();
-                    // $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
+                    $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
                     
                     // $cxAmount = $miningHistory->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                    $cxAmount = $stake->stake_amount;
+                    $trx = getTrx();
                     
-                    // $trx = getTrx();
-                    
-                    // $details = 'Token minning id completed...';
-                    // updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
+                    $details = 'Token minning id completed...';
+                    updateWallet($user->id, $trx, '3', NULL, '+', getAmount($cxAmount), $details , 0, 'minning_completed', NULL,'');
 
                     StakeToken::where('status',"1")->where("user_id",Auth::id())->update(['status'=>'0']);
                 }
@@ -265,7 +264,8 @@ class MinningController extends Controller
             "booster_purchase_id" => $request->boosterPurchaseID,
         ];
         MinningHistory::create($data);
-        if ($request->boosterPurchaseID !== 0) {
+        $isPromo = PurchasedBooster::where('id', $request->boosterPurchaseID)->where('user_id',$user_id)->first();
+        if ($request->boosterPurchaseID !== 0 && $isPromo->is_promotional == 0) {
             $cxAmount = $tokenEarned;
             $trx = getTrx();
             $details = 'Token roi amount...';

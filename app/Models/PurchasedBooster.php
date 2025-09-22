@@ -17,6 +17,8 @@ class PurchasedBooster extends Model
         'trx',
         'amount',
         'is_expired',
+        'is_promotional',
+        'x_term'
     ];
     public function booster()
     {

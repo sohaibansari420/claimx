@@ -419,14 +419,10 @@
                         {{ method_field('put') }}
 
                         <div class="form-row">
-                            <div class="col-md-4">
-                                <input type="hidden" name="res" value="0">
-                            </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     @php
-                                        $plans = \App\Models\Plan::where('status', 1)->get();
+                                        $plans = \App\Models\Booster::where('status', 1)->get();
                                     @endphp
                                     <label class="col-md-12"><strong>Select Plan</strong></label>
                                     <div class="col-md-12">
@@ -442,29 +438,35 @@
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-check">
+                                <div class="form-group">
+                                    <label class="col-md-12"><strong></strong></label>
+                                    <div class="col-md-12">
+                                        <select class="form-control form-control-inverse btn-square pay" name="plan_limit">
+                                            <option selected value="">Select Plan Limit</option>
+                                            <option value="1">1X</option>
+                                            <option value="2">2X</option>
+                                            <option value="3">3X</option>
+                                            <option value="4">4X</option>
+                                            <option value="5">5X</option>
+                                            <option value="6">6X</option>
+                                            <option value="7">7X</option>
+                                            <option value="8">8X</option>
+                                            <option value="9">9X</option>
+                                            <option value="10">10X</option>
+                                        </select>
+                                     </div>
+                                </div>
+                                {{-- <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="send_bv">
                                     <label class="form-check-label" for="exampleCheck1">With Points</label>
                                 </div>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="exampleCheck2" name="send_roi">
                                     <label class="form-check-label" for="exampleCheck1">With Daily</label>
-                                </div>
-                                <div class="col-md-6 p-0 mb-2">
-                                    <select class="form-control form-control-inverse btn-square pay" name="plan_limit">
-                                        <option selected value="">Select Plan Limit</option>
-                                        <option value="1">1X</option>
-                                        <option value="2">2X</option>
-                                        <option value="3">3X</option>
-                                        <option value="4">4X</option>
-                                        <option value="5">5X</option>
-                                        <option value="6">6X</option>
-                                        <option value="7">7X</option>
-                                        <option value="8">8X</option>
-                                        <option value="9">9X</option>
-                                        <option value="10">10X</option>
-                                    </select>
-                                </div>
+                                </div> --}}
+                                {{-- <div class="col-md-6 p-0 mb-2">
+                                    
+                                </div> --}}
                             </div>
 
 

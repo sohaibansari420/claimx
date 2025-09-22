@@ -6,6 +6,7 @@ use App\Models\BvLog;
 use App\Models\Gateway;
 use App\Models\GeneralSetting;
 use App\Http\Controllers\Controller;
+use App\Models\Booster;
 use App\Models\Commission;
 use App\Models\CronUpdate;
 use App\Models\Invoice;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Founder;
-
+use App\Models\PurchasedBooster;
 
 class ManageUsersController extends Controller
 {
@@ -729,78 +730,19 @@ class ManageUsersController extends Controller
     {
         $this->validate($request, [
             'plan' => 'required',
-            'res' => 'required'
         ]);
+        $booster_id = $request->plan;
+        $booster = Booster::where('id' , $booster_id)->first();
 
-        $plan = $request->plan;
-        $send_bv = $request->send_bv;
-        $send_roi = $request->send_roi;
-        $res = $request->res;
-        $user = User::find($id);
-        $ref_id = getReferenceId($id);
-        $trx = getTrx();
-        
-        $roi_status = 0;
-        $point_status = 0;
-        $plan_limit = 0;
-
-        $package = Plan::where('id', $plan)->where('status', 1)->firstOrFail();
-        $gnl = GeneralSetting::first();
-
-
-        $oldPlan = $user->plan_purchased;
-        $user->plan_purchased = 1;
-        $user->save();
-
-        $details = $user->username . ' Subscribed to ' . $package->name . ' plan';
-
-        $notify[] = updateWallet($user->id, $trx, 7, NULL, '+', getAmount($package->price), $details, 0, 'purchased_plan', NULL,'');
-
-
-        if ($oldPlan == 0){
-            updatePaidCount($user->id);
-        }
-
-        if ($send_roi == 'on') {
-            $roi_status = 1;
-        }
-
-        if ($send_bv == 'on'){
-            $point_status = 1;
-        }
-
-        if ($request->plan_limit != ""){
-            $plan_limit = $request->plan_limit;
-        }
-
-        PurchasedPlan::create([
-            'user_id' => $id,
-            'plan_id' => $package->id,
-            'type' => 'sponsor',
-            'trx' => getTrx(),
-            'amount' => $package->price,
-            'compounding' => 0,
-            'roi_limit' => 0,
-            'limit_consumed' => 0,
-            'roi_return' => 0,
-            'is_roi' => $roi_status,
-            'with_point' => $point_status,
-            'plan_limit' => $plan_limit,
+        PurchasedBooster::create([
+            'user_id'        => $id,
+            'booster_id'     => $booster->id,
+            'trx'            => getTrx(),
+            'amount'         => $booster->price,
+            'x_term'         => $request->plan_limit,
+            'is_promotional' => "1",
         ]);
-
-        if ($send_bv == 'on'){
-            CronUpdate::create([
-                'user_id' => $user->id,
-                'type' => 'purchased_plan',
-                'amount' => $package->price,
-                'details' => $details,
-                'status' => 0,
-            ]);
-        }
-        else{
-            updateNoBV($user->id, $package->bv , $details);
-        }
-
+        $notify = ["detail" => "Promotional Plan is activated"];
         return redirect()->back()->withNotify($notify);
     }
     
