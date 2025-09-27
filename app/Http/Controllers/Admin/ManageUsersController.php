@@ -430,8 +430,9 @@ class ManageUsersController extends Controller
         $user_extras        = UserExtra::where('user_id', $user->id)->first();
         $user_wallets       = UserWallet::where('user_id', $user->id)->get();
         $commissions        = Commission::where('status', 1)->get();
+        $promoBoosters       = PurchasedBooster::where('is_promotional',1)->where('user_id', $user->id)->get();
         return view('admin.users.detail', compact('page_title','ref_id','user','totalDeposit',
-            'totalWithdraw','totalTransaction',  'rank', 'user_extras', 'user_wallets', 'commissions'));
+            'totalWithdraw','totalTransaction',  'rank', 'user_extras', 'user_wallets', 'commissions','promoBoosters'));
     }
 
 

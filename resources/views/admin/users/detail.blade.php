@@ -49,20 +49,15 @@
                                 @endif
                             </span>
                         </li>
-                        @php
-                            $user_plans = \App\Models\PurchasedPlan::where('user_id', $user->id)
-                                ->orderBy('id', 'desc')
-                                ->get();
-                        @endphp
-                        @forelse($user_plans as $user_plan)
+                        @forelse($promoBoosters as $promo)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Plan')
+                                @lang('Promo Booster')
                                 <span class="font-weight-bold">
-                                    {{ @$user_plan->plan->name }}({{ @getAmount($user_plan->plan->price) }})</span>
+                                    {{ @$promo->booster->name }}({{ @getAmount($promo->booster->price) }})</span>
                             </li>
                         @empty
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Plan')
+                                @lang('Promo Booster')
                                 <span class="font-weight-bold">Not Purchased</span>
                             </li>
                         @endforelse

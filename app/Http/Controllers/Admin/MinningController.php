@@ -49,6 +49,10 @@ class MinningController extends Controller
                     $power = isset($matchPower[1]) ? floatval($matchPower[1]) : 0.0;
                     $days = isset($matchDays[0]) ? floatval($matchDays[0]) : 0.0;
 
+                    $isPromotional = $isBoosterPurchase->x_term;
+                    if ($isPromotional > 1) {
+                        $days = $days * $isPromotional;
+                    }
                     if (isset($stake->start_date)) {
                         $startDate = Carbon::parse($stake->start_date);
                         $stakeDaysPassed = $startDate->diffInDays(Carbon::now());
@@ -63,7 +67,7 @@ class MinningController extends Controller
                     ->where('booster_purchase_id', $stake->booster_purchase_id)
                     ->latest()
                     ->first();
-
+                    
                     $tap = $tap ?? "1"; // fallback
                     $duration = (24 / $tap) * 3600;
 
@@ -84,8 +88,14 @@ class MinningController extends Controller
                         $user = Auth::user();
                         $wallet = UserWallet::where('user_id', $user->id)->where('wallet_id', "3")->firstOrFail(); // adjust based on your model relationship
                         
-                        // $cxAmount = $miningHistory->where('booster_purchase_id',$stake->booster_purchase_id)->where('token_mined',$stake->stake_amount)->sum('token_earned');
-                        $cxAmount = $stake->stake_amount;
+                        $isPromotional = $isBoosterPurchase->is_promotional;
+                        if ($isPromotional == 1) {
+                            $cxAmount = $miningHistory->where('booster_purchase_id',$stake->booster_purchase_id)->where('token_mined',$stake->stake_amount)->sum('token_earned');
+                        }
+                        else {
+                            $cxAmount = $stake->stake_amount;
+                        }
+
                         $trx = getTrx();
                         
                         $details = 'Token minning id completed...';
