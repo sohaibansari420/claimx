@@ -38,13 +38,13 @@
                             style="background: #344d91; color: white; border-radius: 50px;">
                                 Logs
                             </a>
-                            @if ($wallet->wallet->id == 3 && !isset($tokenStakeExist) )
+                            {{-- @if ($wallet->wallet->id == 3 && !isset($tokenStakeExist) ) --}}
                                 <a href="{{ route('user.freeStakeToken') }}"
                                 class="btn btn-sm"
                                 style="background: #344d91; color: white; border-radius: 50px;">
                                     Activate Free Token Staking
                                 </a>
-                            @endif
+                            {{-- @endif --}}
 
                             @php
                                 $isSaturday = \Carbon\Carbon::now()->dayOfWeek === \Carbon\Carbon::SATURDAY;

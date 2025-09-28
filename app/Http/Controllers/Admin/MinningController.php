@@ -273,6 +273,12 @@ class MinningController extends Controller
             "token_earned"  =>$tokenEarned ,
             "booster_purchase_id" => $request->boosterPurchaseID,
         ];
+        $todayHistory = MinningHistory::whereDate('start_date', Carbon::today())->where("user_id" , $user_id)->where("booster_purchase_id" , $request->boosterPurchaseID)->first();
+        if($todayHistory){
+            return response()->json([
+                'status' => 'done',
+            ]);
+        }
         MinningHistory::create($data);
         $isPromo = PurchasedBooster::where('id', $request->boosterPurchaseID)->where('user_id',$user_id)->first();
         if ($request->boosterPurchaseID !== 0 && $isPromo->is_promotional == 0) {
@@ -339,9 +345,10 @@ class MinningController extends Controller
             "start_date" => Carbon::now(),
             "status" =>  "1",
         ];
-
-        StakeToken::create($data);
-
+        $isFreePackage =StakeToken::where('booster_purchase_id' , 0)->where('user_id',$user->id)->first();
+        if (!$isFreePackage) {
+            StakeToken::create($data);
+        }
         return redirect()->route('user.minning')->withNotify($notify);
     }
 }
