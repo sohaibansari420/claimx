@@ -77,9 +77,9 @@ class PlanController extends Controller
         $user->plan_purchased = 1;
         $user->save();
             
-        if ($oldPlan == 0){
-            updatePaidCount($user->id);
-        }
+        // if ($oldPlan == 0){
+        //     updatePaidCount($user->id);
+        // }
 
 
         PurchasedBooster::create([
