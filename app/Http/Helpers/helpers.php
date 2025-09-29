@@ -1399,13 +1399,10 @@ function familyTreeAdjust($user_id = '')
 function vipUnilevelCommission($user_id, $wallet_id, $percent, $commission_id, $name, $booster_id = ''){
     $user = User::find($user_id);
     $booster = Booster::find($booster_id);
-    
-    $refer = User::find($user->ref_id);
-
-    $ref_plan = getUserHigherBooster($refer->id);
+    $ref_plan = getUserHigherBooster($user->id);
     $amount = ($percent / 100) * $booster->price;
 
-    updateCommissionWithLimit($refer->id, $amount, $wallet_id, $commission_id, $user->username, '', $ref_plan->trx);
+    updateCommissionWithLimit($user->id, $amount, $wallet_id, $commission_id, $user->username, '', $ref_plan->trx);
 }
 
 
@@ -1657,7 +1654,7 @@ function getUserHigherPlan($user_id)
 
 function getUserHigherBooster($user_id)
 {
-    return PurchasedBooster::where('user_id', $user_id)->where('is_expired', 0)->orderBy('booster_id', 'desc')->first();
+    return PurchasedBooster::where('user_id', $user_id)->where('is_expired', '0')->orderBy('booster_id', 'desc')->first();
 }
 
 function getPlanWithAmount($user_id, $amount)

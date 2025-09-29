@@ -192,7 +192,7 @@ class CronController extends Controller
                                     if ($level == $ref->level) {
                                         $percent = $ref->percent;
                                         $booster_id = getBoosterWithAmount($cron->user_id, $cron->amount)->booster_id;
-                                        vipUnilevelCommission($cron->user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $booster_id);
+                                        vipUnilevelCommission($user_id, $commission->wallet_id, $percent, $commission->id, $commission->name, $booster_id);
                                     }
                                 }
                             }
