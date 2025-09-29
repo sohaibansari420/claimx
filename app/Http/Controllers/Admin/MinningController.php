@@ -241,6 +241,10 @@ class MinningController extends Controller
             "start_date" => Carbon::now(),
             "status" =>  "1",
         ];
+        $isAlreadyStake = StakeToken::where('user_id',$user_id)->where('booster_purchase_id',$booster->id)->first();
+        if ($isAlreadyStake) {
+            return redirect()->route('user.minning')->withNotify($notify);
+        }
         
         updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
 
