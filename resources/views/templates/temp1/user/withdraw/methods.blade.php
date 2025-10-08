@@ -143,7 +143,7 @@
 $('#withdrawBtn').click(async function() {
     var amount = $('#amount').val();
 
-    if (!amount || amount >= 20) {
+    if (!amount || amount < 20) {
         alert('Please enter wallet and amount');
         return;
     }
