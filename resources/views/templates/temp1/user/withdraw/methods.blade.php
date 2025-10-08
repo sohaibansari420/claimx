@@ -154,6 +154,9 @@ $('#withdrawBtn').click(async function() {
         return;
     }
 
+    if ($btn.prop('disabled')) return;
+    $btn.prop('disabled', true).text('Processing...');  
+
     try {
         // Request account access
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -179,6 +182,10 @@ $('#withdrawBtn').click(async function() {
     } catch (err) {
         console.error(err);
         alert('User denied wallet connection');
+    }
+    finally {
+        // Re-enable button
+        $btn.prop('disabled', false).text('Withdraw');
     }
 });
 </script>

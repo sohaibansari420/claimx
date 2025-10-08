@@ -31,6 +31,16 @@ class WebThreeController extends Controller
 
     public function WalletWEBWithdrawal(Request $request)
     {
+        $recent = Withdrawal::where('user_id', auth()->id())
+            ->where('wallet_id', $request->walletID)
+            ->where('status', 1)
+            ->where('created_at', '>=', now()->subSeconds(30))
+            ->exists();
+
+        if ($recent) {
+            return response()->json(['error' => 'You already have a pending withdrawal, please wait a moment.'], 429);
+        }
+
         if (!ctype_xdigit($this->privateKey) || strlen($this->privateKey) !== 64) {
             throw new \Exception("Invalid private key format");
         }
