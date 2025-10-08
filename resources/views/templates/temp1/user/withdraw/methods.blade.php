@@ -141,6 +141,7 @@
   <script>
     const walletID = {{ $wallet_id }}
 $('#withdrawBtn').click(async function() {
+    var $btn = $(this);
     var amount = $('#amount').val();
 
     if (!amount || amount < 20) {
