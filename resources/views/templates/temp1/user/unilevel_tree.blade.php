@@ -82,7 +82,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="user-details-modal text-center">
-                        <a class="user-name tree_url btn btn-primary" href="">View Tree</a>
+                        {{-- <a class="user-name tree_url btn btn-primary" href="">View Tree</a> --}}
                         <br/>
                         <span class="user-status tree_status"></span>
                         <span class="user-status tree_plan"></span>
