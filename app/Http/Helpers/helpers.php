@@ -1677,9 +1677,9 @@ function getUserLowerPlan($user_id)
 ===============TREEE===============
 */
 
-function getPositionUser($id, $position)
+function getPositionUser($id)
 {
-    return User::where('pos_id', $id)->where('position', $position)->first();
+    return User::where('ref_id', $id)->first();
 }
 
 function showTreePage($id)
@@ -1731,16 +1731,16 @@ function buildTree($userId)
     ];
 
     // Get left child (position 1)
-    $leftUser = getPositionUser($user->id, 1);
+    $leftUser = getPositionUser($user->id);
     if ($leftUser) {
         $node['children'][] = buildTree($leftUser->id);
     }
 
-    // Get right child (position 2)
-    $rightUser = getPositionUser($user->id, 2);
-    if ($rightUser) {
-        $node['children'][] = buildTree($rightUser->id);
-    }
+    // // Get right child (position 2)
+    // $rightUser = getPositionUser($user->id, 2);
+    // if ($rightUser) {
+    //     $node['children'][] = buildTree($rightUser->id);
+    // }
 
     return $node;
 }

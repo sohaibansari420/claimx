@@ -1,11 +1,79 @@
 @extends($activeTemplate . 'user.layouts.app')
+@push('style')
+<style>
+    .deposit-card {
+        background: linear-gradient(180deg, #6c5ce7, #173875);
+    }
+    .deposit-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    .withdrawal-card {
+        background: linear-gradient(180deg, #6c5ce7, #173875);
+    }
+    .withdrawal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    .icon-wrapper i {
+        font-size: 1.2rem;
+    }
+
+    .card-footer {
+        font-size: 0.8rem;
+        background: rgba(232, 230, 230, 0.1);
+        text-align: center;
+    }
+</style>
+@endpush
 @section('panel')
 
 <div class="text-center mt-3 d-none" id="connect-metamask">
     <h2>Connect Your Wallet</h2>
     <button id="connect-wallet" class="btn btn-primary">Connect Token Pocket Wallet</button>
 </div>
+<div class="swiper mySwiper-counter py-4">
+    <div class="swiper-wrapper row g-4">
+        {{-- Total Deposit --}}
+         {{-- Total Deposit --}}
+    <div class="col-md-6">
+        <div class="wallet-card deposit-card shadow-lg" style="border-radius: 20px; overflow: hidden; cursor: pointer; transition: transform 0.3s;">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1 text-white" style="color: white !important;">Total Deposit</h6>
+                    <h2 class="fw-bold mb-0 text-white" style="color: white !important;">${{ number_format($totalDeposit, 2) }}</h2>
+                </div>
+                <div class="icon-wrapper bg-white text-success rounded-circle d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                    <i class="fas fa-arrow-down fa-lg"></i>
+                </div>
+            </div>
+            <div class="card-footer text-white-50">
+                <small>All deposits completed successfully</small>
+            </div>
+        </div>
+    </div>
 
+    {{-- Total Withdrawal --}}
+    <div class="col-md-6">
+        <div class="wallet-card withdrawal-card shadow-lg" style="border-radius: 20px; overflow: hidden; cursor: pointer; transition: transform 0.3s;">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1 text-white" style="color: white !important;">Total Withdrawal</h6>
+                    <h2 class="fw-bold mb-0 text-white" style="color: white !important;">${{ number_format($totalWithdraw, 2) }}</h2>
+                </div>
+                <div class="icon-wrapper bg-white text-danger rounded-circle d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                    <i class="fas fa-arrow-up fa-lg"></i>
+                </div>
+            </div>
+            <div class="card-footer text-white-50">
+                <small>All withdrawals completed successfully</small>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
 <div class="swiper mySwiper-counter py-4">
     <div class="swiper-wrapper row g-4">
         @foreach ($wallets as $wallet)
