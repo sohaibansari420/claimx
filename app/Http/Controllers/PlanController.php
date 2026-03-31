@@ -10,6 +10,7 @@ use App\Models\GeneralSetting;
 use App\Models\Media;
 use App\Models\Booster;
 use App\Models\PurchasedBooster;
+use App\Models\StakeToken;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserExtra;
@@ -49,7 +50,6 @@ class PlanController extends Controller
 
     function boosterStore(Request $request)
     {
-
         $this->validate($request, ['booster_id' => 'required|integer']);
         
         $package = Booster::where('id', $request->booster_id)->where('status', 1)->firstOrFail();
@@ -75,20 +75,21 @@ class PlanController extends Controller
         
         $oldPlan = $user->plan_purchased;
         $user->plan_purchased = 1;
-        $user->save();
+        // $user->save();
             
         // if ($oldPlan == 0){
         //     updatePaidCount($user->id);
         // }
 
-
-        PurchasedBooster::create([
+        $purchaseBooster = PurchasedBooster::create([
             'user_id' => $user->id,
             'booster_id' => $package->id,
             'trx' => $trx,
             'amount' => $package->price,
         ]);
 
+        $purchaseBoosterId = $purchaseBooster->id;
+        
         CronUpdate::create([
             'user_id' => $user->id,
             'type' => 'purchased_booster',
@@ -97,7 +98,40 @@ class PlanController extends Controller
             'status' => 0,
         ]);
 
-        return redirect()->route('user.home')->withNotify($notify);
+        $booster = PurchasedBooster::where('id',$purchaseBoosterId)->first();
+        if($booster->amount <= 0){
+            $notify[] = ['error', 'Insufficient Token to stake'];
+            return back()->withNotify($notify);
+        }
+        $notify[] = ['success','CX token is on stake'];
+        $details = 'CX token is on stake';
+        $user_id = Auth::id();
+        $trx = getTrx();
+
+        $user_wallet = UserWallet::where('user_id', $user_id)->where('wallet_id', "3")->firstOrFail();
+
+        $amount = $booster->amount;
+
+        $data = [
+            "user_id"=> $user_id,
+            "booster_purchase_id" => $booster->id,
+            "stake_amount"=> $amount,
+            "start_date" => Carbon::now(),
+            "status" =>  "1",
+        ];
+        $isAlreadyStake = StakeToken::where('user_id',$user_id)->where('booster_purchase_id',$booster->id)->first();
+        if ($isAlreadyStake) {
+            return redirect()->route('user.minning')->withNotify($notify);
+        }
+        
+        updateWallet($user_id, $trx, $user_wallet->wallet_id, NULL, '-', getAmount($amount), $details , 0, 'user_staking', NULL,'');
+
+        StakeToken::create($data);
+
+        $booster->is_expired = '0';
+        $booster->update();
+
+        return redirect()->route('user.minning')->withNotify($notify);
     }
     function planUpgrade(Request $request){
         $upgrade_id=0;

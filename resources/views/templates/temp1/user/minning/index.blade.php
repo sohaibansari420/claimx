@@ -397,7 +397,7 @@
                                 <h2 class="font-w600 mb-0">{{ getAmount($tokenWallet->balance) }} <small>{{ $tokenWallet->wallet->currency }}</small></h2>
                             </div>
                         </div>
-                        <div class="text-center">
+                        {{-- <div class="text-center">
                             <form method="post" action="{{ route('user.stakeToken') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
@@ -416,7 +416,7 @@
                                     <button type="submit" class="btn btn-block btn btn-outline-primary"><i class="fas fa-share me-2"></i>@lang('Stake Tokens')</button>
                                 </div>
                             </form>
-                        </div>
+                        </div> --}}
                         <div class="text-center mt-3">
                             <a href="{{ route('user.stakingHistory') }}" class="btn btn-success">
                                 <i class="fas fa-history me-2"></i> View History
