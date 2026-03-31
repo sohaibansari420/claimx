@@ -41,6 +41,13 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         
+        .spinner-border {
+            pointer-events: none;
+        }
+        select.form-control {
+            position: relative;
+            z-index: 10;
+        }
         .mining-card-header {
             background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
             border-bottom: none;
@@ -48,7 +55,9 @@
             font-weight: 600;
             color: var(--dark-color);
         }
-        
+        .text-center {
+            position: relative;
+        }
         .mining-card-body {
             padding: 1.5rem;
         }
@@ -232,6 +241,9 @@
             .mining-card-body {
                 padding: 1rem;
             }
+            .mining-card:hover {
+                transform: none;
+            }
         }
     </style>
 @section('panel')
@@ -391,7 +403,7 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="booster_id" class="col-form-label">Select Booster To Stake:</label>
-                                        <select name="booster_id" class="form-control" id="booster_id">
+                                        <select name="booster_id" class="form-select" id="booster_id">
                                             <option value="">Select Booster package to Stake!!!</option>
                                             @foreach ($purchaseBooster as $booster)
                                                 <option value="{{ $booster->id }}">{{ $booster->booster->name  }}| {{ $booster->amount }}</option>
