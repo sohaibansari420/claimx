@@ -15,7 +15,7 @@
 
         echo '<div class="mgt-item '.$rootClass.'">';
         echo '<div class="mgt-item-parent">';
-        echo showSingleUserinTreeUser($node['user']);
+        echo showSingleUserinTreeUser($node['user']); // your existing helper to show a user
         echo '</div>';
 
         if (!empty($node['children'])) {
@@ -43,6 +43,7 @@
                 </div>
 
                 <div class="card-body">
+                    <!-- Search Form -->
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <form action="{{ route('user.other.tree.search') }}" method="GET" class="form-inline float-right bg--white">
@@ -56,9 +57,10 @@
                         </div>
                     </div>
 
+                    <!-- Scrollable Tree -->
                     <div class="col-md-12 mt-4">
                         <section class="management-tree">
-                            <div class="mgt-container">
+                            <div class="mgt-container-scroll">
                                 <div class="mgt-wrapper">
                                     @php renderUnilevelTree($tree, true); @endphp
                                 </div>
@@ -92,22 +94,18 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th>&nbsp;</th>
-                                <th>@lang('LEFT')</th>
-                                <th>@lang('RIGHT')</th>
+                                <th>@lang('Direct Team')</th>
                             </tr>
                             <tr>
                                 <td>@lang('Current BV')</td>
-                                <td><span class="lbv"></span></td>
                                 <td><span class="rbv"></span></td>
                             </tr>
                             <tr>
                                 <td>@lang('Free Member')</td>
-                                <td><span class="lfree"></span></td>
                                 <td><span class="rfree"></span></td>
                             </tr>
                             <tr>
                                 <td>@lang('Paid Member')</td>
-                                <td><span class="lpaid"></span></td>
                                 <td><span class="rpaid"></span></td>
                             </tr>
                         </table>
@@ -118,11 +116,32 @@
     </div>
 @endsection
 
+@push('style-lib')
+<!-- Tree CSS -->
+<link href="{{ asset($activeTemplateTrue . 'dashboard/css/tree.css') }}" rel="stylesheet" />
+<style>
+/* Scrollable Tree */
+.mgt-container-scroll {
+    width: 100%;
+    max-height: 600px; /* Adjust height */
+    overflow: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Minimum width to allow horizontal scrolling for wide trees */
+.mgt-wrapper {
+    min-width: 1200px;
+}
+</style>
+@endpush
+
 @push('script')
 <script>
 "use strict";
 (function($) {
-    $('.showDetails').on('click', function() {
+    // Show user details in modal
+    $(document).on('click', '.showDetails', function() {
         var modal = $('#exampleModalCenter');
 
         $('.tree_name').text($(this).data('name'));
@@ -143,9 +162,4 @@
     });
 })(jQuery);
 </script>
-@endpush
-
-@push('style-lib')
-<!-- Tree CSS -->
-<link href="{{ asset($activeTemplateTrue . 'dashboard/css/tree.css') }}" rel="stylesheet" />
 @endpush
