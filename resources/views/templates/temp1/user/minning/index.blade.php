@@ -421,7 +421,7 @@
                         <form method="POST" action="{{ route('user.swapToken') }}" id="swapForm">
                             @csrf
                             <div class="form-floating mb-3">
-                                <input type="number" step="10" min="10" max="1000" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
+                                <input type="number" step="0.01" min="1" max="1000" name="amount" class="form-control" id="swapAmount" placeholder="Enter amount" required>
                                 <label for="swapAmount">Amount to Swap (CX)</label>
                             </div>
                             <div class="form-floating mb-3 position-relative">

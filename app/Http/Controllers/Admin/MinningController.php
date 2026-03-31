@@ -314,7 +314,7 @@ class MinningController extends Controller
 
     public function swapToken(Request $request){
         $request->validate([
-            'amount' => 'required|numeric|min:10',
+            'amount' => 'required|numeric|min:1',
         ]);
 
         $user = Auth::user();

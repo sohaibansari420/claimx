@@ -50,7 +50,7 @@
                                 $isSaturday = \Carbon\Carbon::now()->dayOfWeek === \Carbon\Carbon::SATURDAY;
                                 $isWeekend = in_array(\Carbon\Carbon::now()->dayOfWeek, [\Carbon\Carbon::SATURDAY, \Carbon\Carbon::SUNDAY]);
                             @endphp
-                            @if ($wallet->wallet->withdraw && $withdrawStatus == 1)
+                            @if ($wallet->wallet->withdraw && $isSaturday)
                                 <a href="{{ route('user.withdraw') }}?walletID={{ $wallet->wallet->id }}" class="btn btn-sm" style="background: #344d91; color: white; border-radius: 50px;">
                                     Withdraw
                                 </a>
