@@ -253,6 +253,7 @@
             <div class="col-lg-8">
                 <ul class="nav nav-pills justify-content-center mb-4" id="miningTabs" role="tablist" style="gap: 10px;">
                     @foreach ($stakeArr as $index => $stake)
+                        @if($stake['days_remaining'] >= 0 )
                         <li class="nav-item" role="presentation" style="flex: 1;">
                             <button class="nav-link {{ $index === 0 ? 'active' : '' }} w-100 text-white fw-bold" 
                                 id="tab_{{$stake['id']}}" 
@@ -270,6 +271,7 @@
                                 @endif    
                             </button>
                         </li>
+                        @endif
                     @endforeach
                 </ul>
                 <div class="tab-content" id="miningTabsContent">

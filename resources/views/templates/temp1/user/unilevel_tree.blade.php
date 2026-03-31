@@ -122,16 +122,17 @@
 <style>
 /* Scrollable Tree */
 .mgt-container-scroll {
-    width: 100%;
-    max-height: 600px; /* Adjust height */
-    overflow: auto;
-    border: 1px solid #ddd;
+     width: 100%;
+    max-height: 600px; /* adjust as needed */
+    overflow-y: auto;  /* vertical scroll only */
+    overflow-x: hidden; /* hide horizontal scroll */
+    border: 1px solid #ddd; /* optional visual boundary */
     padding: 10px;
 }
 
 /* Minimum width to allow horizontal scrolling for wide trees */
 .mgt-wrapper {
-    min-width: 1200px;
+    width: 100%;
 }
 </style>
 @endpush
